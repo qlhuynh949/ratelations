@@ -35,8 +35,8 @@ const BottomNavBar = (props) => {
     >
       <BottomNavigationAction label="Search" icon={<SearchIcon />} onClick={props.searchOpen}/>
       <BottomNavigationAction label="Home" icon={<HomeIcon />} onClick={props.homeOpen}/>
-      <BottomNavigationAction label="Add" icon={<AddCircleIcon />} onClick={props.addOpen}/>
-      <BottomNavigationAction label="Past" icon={<HistoryIcon onClick={props.historyOpen}/>} />
+      <BottomNavigationAction label="Add Realtionship" icon={<AddCircleIcon />} onClick={props.addOpen}/>
+      <BottomNavigationAction label="Connections" icon={<HistoryIcon onClick={props.historyOpen}/>} />
 
     </BottomNavigation>
 

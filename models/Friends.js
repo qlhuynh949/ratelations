@@ -6,7 +6,7 @@ const friendsSchema = new Schema({
     enums: [
       0,    //'add friend',
       1,    //'requested',
-      2,    //'pending',
+      2,    //'pending', //state of pending request
       3,    //'friends'
     ]
   }
