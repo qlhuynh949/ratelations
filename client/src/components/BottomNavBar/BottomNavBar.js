@@ -9,15 +9,20 @@ import SearchIcon from '@material-ui/icons/Search';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import HistoryIcon from '@material-ui/icons/History';
 
+
 const useStyles = makeStyles({
   root: {
     width: 500,
-  },
+  }
 });
 
+
 const BottomNavBar = (props) => {
+
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+
+
   return (
 
     <BottomNavigation
@@ -28,7 +33,7 @@ const BottomNavBar = (props) => {
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction label="Search" icon={<SearchIcon />} />
+      <BottomNavigationAction label="Search" icon={<SearchIcon />} onClick={props.searchOpen}/>
       <BottomNavigationAction label="Home" icon={<HomeIcon />} />
       <BottomNavigationAction label="Add" icon={<AddCircleIcon />} />
       <BottomNavigationAction label="Past" icon={<HistoryIcon />} />
