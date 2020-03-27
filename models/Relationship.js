@@ -2,6 +2,7 @@ const { model, Schema } = require('mongoose')
 
 module.exports = model('relationship', new Schema({
   partner: { type: Schema.Types.ObjectId, ref: 'Users' },
+  isActive: Boolean,
   status: {
     type: Number,
     enums: [
@@ -12,5 +13,5 @@ module.exports = model('relationship', new Schema({
       4,    //'married'
     ]
   }
-, { timestamps: true }}
+  , { timestamps: true }}
 ))

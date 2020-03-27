@@ -5,10 +5,9 @@ module.exports = model('chart', new Schema({
     type: Date,
     required: true
   },
-  Score: {
-    type: Number,
-    required: true,
-    default: 0
+  Text: {
+    type: String,
+    required: true
   },
   isActive: {
     type: Boolean,
