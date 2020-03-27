@@ -104,8 +104,12 @@ const App = () => {
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
               Person1Name='Jack'
               Person1Data = {Person1Data}
+              Person1xValueFormatString="MMM YYYY"
+              Person1yValueFormatString="#,##0.##"
               Person2Name='Jane'
               Person2Data = {Person2Data}
+              Person2xValueFormatString="MMM YYYY"
+              Person2yValueFormatString="#,##0.##"
               />
             </Route>
           </Switch>

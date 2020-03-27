@@ -15,7 +15,7 @@ const Chart = (props) => {
     }],
     axisY: {
       includeZero: false,
-      prefix: "₹"
+      prefix: ""
     },
     toolTip: {
       shared: true
@@ -25,16 +25,16 @@ const Chart = (props) => {
         type: "area",
         name: `${props.Person1Name}`,
         showInLegend: true,
-        xValueFormatString: "MMM YYYY",
-        yValueFormatString: "₹#,##0.##",
+        xValueFormatString: `${props.Person1xValueFormatString}`,
+        yValueFormatString: `${props.Person2yValueFormatString}`,
         dataPoints: props.Person1Data
       },
       {
         type: "area",
         name: `${props.Person2Name}`,
         showInLegend: true,
-        xValueFormatString: "MMM YYYY",
-        yValueFormatString: "₹#,##0.##",
+        xValueFormatString: `${props.Person2xValueFormatString}`,
+        yValueFormatString: `${props.Person2yValueFormatString}`,
         dataPoints: props.Person2Data
       }
     ]
@@ -42,7 +42,7 @@ const Chart = (props) => {
 
   return (
     <>
-    <h1>React Multi Series Area Chart</h1>
+    
     <CanvasJSChart options={options}
     /* onRef={ref => this.chart = ref} */
     />
