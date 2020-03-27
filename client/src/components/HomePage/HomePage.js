@@ -1,5 +1,6 @@
 import React from 'react'
 import PostInput from '../PostInput'
+import CommentInput from '../CommentInput'
 import Container from '@material-ui/core/Container'
 
 const HomePage = () => {
@@ -9,6 +10,7 @@ const HomePage = () => {
     
     
       <PostInput />
+      <CommentInput />
     </Container>
 
   )
