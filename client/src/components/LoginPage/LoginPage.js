@@ -51,10 +51,10 @@ return(
           margin="normal"
           required
           fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
+          id="UserName"
+          label="Username"
+          name="UserName"
+          autoComplete="UserName"
           autoFocus
         />
         <TextField
