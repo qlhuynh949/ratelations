@@ -99,8 +99,7 @@ const App = () => {
             <Route exact path="/">
               <LoginPage />
             </Route>
-            <Route path="/homepage">
-            <HomePage />
+            <Route path="/homepage">            
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
               Person1Name='Jack'
               Person1Data = {Person1Data}
@@ -111,6 +110,7 @@ const App = () => {
               Person2xValueFormatString="MMM YYYY"
               Person2yValueFormatString="#,##0.##"
               />
+              <HomePage />
             </Route>
           </Switch>
           <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
