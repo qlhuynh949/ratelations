@@ -10,16 +10,17 @@ module.exports = model('item', new Schema({
     required: true,
     default: false
   },
-  audience: {
-    type: JSON,
-    required: false,
-    default: 0
-  },
-  typeId:{
+  audience: [{
+    type: Schema.Types.ObjectId,
+    ref: 'user'
+  }],
+  typeId: {
     type: Number,
     required: true,
-    default: 0
+    default: 0 // 0=Good comment
+    // 1=Bad comment
   },
+  Relationship: { type: Schema.Types.ObjectId, ref: 'Relationship' },
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'user'
