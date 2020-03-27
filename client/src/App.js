@@ -1,10 +1,37 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import './App.css'
+import LoginPage from './components/LoginPage'
+import BottomNavBar from './components/BottomNavBar'
+import TopNavBar from './components/TopNavBar'
+import HomePage from './components/HomePage'
 
-function App() {
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom'
+
+
+const App = () => {
   return (
     <>
-    <h1>Welcome to Ratelations</h1>
+      <Router>
+        <div>
+          <TopNavBar />
+          <Switch>
+            <Route exact path="/">
+              <LoginPage />
+            </Route>
+            <Route path="/homepage">
+            <HomePage />
+            </Route>
+          </Switch>
+          <BottomNavBar />
+
+        </div>
+      </Router>
+
+
     </>
   );
 }
