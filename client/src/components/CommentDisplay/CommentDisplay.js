@@ -25,38 +25,25 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
-
 const CommentDisplay = () => {
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
       <Typography variant="h6" component="h2">
-        Friend Comments
+        Friend 
           </Typography>
       <div >
         <List >
-          {generate(
             <ListItem>
               <Card className={classes.root}>
                 <CardContent>
-                  <Typography component="h2" gutterBottom>
-                    user name
-                  </Typography>
                   <Typography variant="body2" component="h4">
                     well meaning and kindly.
                   </Typography>
                 </CardContent>
               </Card>
             </ListItem>,
-          )}
         </List>
       </div>
 
