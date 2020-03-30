@@ -1,17 +1,17 @@
 const { model, Schema } = require('mongoose')
 
-module.exports = model('relationship', new Schema({
+
+const relationshipSchema = new Schema({
   partner: { type: Schema.Types.ObjectId, ref: 'Users' },
   isActive: Boolean,
-  status: {
+   status: {
     type: Number,
     enums: [
-      0,    //'over',
-      1,    //'casual',
-      2,    //'dating',
-      3,    //'working it out',
-      4,    //'married'
+      0,    //'add friend',
+      1,    //'requested',
+      2,    //'pending', //state of pending request
+      3,    //'friends'
     ]
   }
-  , { timestamps: true }}
-))
+}, { timestamps: true })
+module.exports = model('relationship', relationshipSchema)

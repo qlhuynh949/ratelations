@@ -5,8 +5,8 @@ const UserSchema = new Schema({
   email: String,
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  friends: [{ type: Schema.Types.ObjectId, ref: 'Friends' }]
-  relationship: { type: Schema.Types.ObjectId, ref: 'Relationship' }
+  friends: [{ type: Schema.Types.ObjectId, ref: 'Friends' }],
+  relationship: { type: Schema.Types.ObjectId, ref: 'Relationship' },
   items: [{
     type: Schema.Types.ObjectId,
     ref: 'item'
