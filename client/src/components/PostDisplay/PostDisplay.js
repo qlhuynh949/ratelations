@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
@@ -12,6 +13,11 @@ import ButtonGroup from '@material-ui/core/ButtonGroup'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 // for Gridlist
+import Modal from '@material-ui/core/Modal'
+// for comment modal
+import CommentDisplay from '../CommentDisplay'
+
+
 import postData from '../postData'
 // could be removed when we have the router and database set up
 
@@ -47,14 +53,48 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
     },
+  }, 
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
 }));
 
 
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+// for modal
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+// for modal
 
 const PostDisplay = () => {
   const classes = useStyles()
   const bull = <span className={classes.bullet}>•</span>
+
+  const [modalStyle] = React.useState(getModalStyle)
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => {
+    setOpen(true);
+  }
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+
 
   return (
 <>
@@ -88,9 +128,19 @@ const PostDisplay = () => {
                     <Typography>
                       <div className={classes.button}>
                         <ButtonGroup variant="text"aria-label="text primary button group">
-                          <Button> map user name </Button>
-                          <Button> map user name </Button>
+                          <Button type="button" onClick={handleOpen}> map user name </Button>
+                          <Button>will be delet after map</Button>
                         </ButtonGroup>
+                        <Modal
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="simple-modal-title"
+                          aria-describedby="simple-modal-description"
+                        >
+            
+                          <CommentDisplay />
+
+                        </Modal>
                       </div>
                     </Typography>
                   </ExpansionPanelDetails>
