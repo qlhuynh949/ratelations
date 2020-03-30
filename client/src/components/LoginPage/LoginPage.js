@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import red from '@material-ui/core/colors/red';
 
 
 
@@ -18,10 +19,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+   
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: red[900],
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -30,7 +32,17 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  bar: {
+    backgroundColor: red[900] 
+  },
+      palette:{
+        primary:red,
+        secondary: {
+          main: red[900]
+        }
+      }
 }));
+  
 
 const LoginPage = () => {
   const classes = useStyles()
@@ -79,8 +91,9 @@ return(
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
+          color="secondary"
           className={classes.submit}
+          className={classes.bar}
         >
           Sign In
           </Button>
@@ -88,8 +101,9 @@ return(
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
+          color="secondary"
           className={classes.submit}
+          className={classes.bar}
         >
           register
           </Button>

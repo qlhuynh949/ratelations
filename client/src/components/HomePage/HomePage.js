@@ -2,6 +2,7 @@ import React from 'react'
 
 import Container from '@material-ui/core/Container'
 
+
 const HomePage = () => {
 
   return (
@@ -12,5 +13,6 @@ const HomePage = () => {
 
   )
 }
+
 
 export default HomePage
