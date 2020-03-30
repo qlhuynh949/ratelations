@@ -7,6 +7,7 @@ import HomePage from './components/HomePage'
 import SearchModal from './components/SearchModal'
 import Chart from './components/Chart'
 import RegisterPage from './components/Register'
+import ForgotPassword from './components/ForgotPassword'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -114,6 +115,9 @@ const App = () => {
             </Route>
             <Route path="/register">
               <RegisterPage handleInputChange={handleInputChange} />
+            </Route>
+            <Route path="/forgotpassword">
+              <ForgotPassword handleInputChange={handleInputChange} />
             </Route>
             <Route path="/homepage">            
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
