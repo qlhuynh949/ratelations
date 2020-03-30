@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import LoginPage from './components/LoginPage'
 import BottomNavBar from './components/BottomNavBar'
@@ -6,6 +6,7 @@ import TopNavBar from './components/TopNavBar'
 import HomePage from './components/HomePage'
 import SearchModal from './components/SearchModal'
 import Chart from './components/Chart'
+import RegisterPage from './components/Register'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -46,6 +47,14 @@ const useStyles = makeStyles(theme => ({
 
 const App = () => {
 
+  const [itemState, setItemState] = useState({
+    items: [],
+    searchText: '',
+    searchDisplayItems: [],
+    itemSnackBar: false
+  })
+
+
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -58,6 +67,10 @@ const App = () => {
   const handleCloseSearchModal = () => {
     setOpenSearchModal(false);
   };
+
+  const handleInputChange = ({ target }) => {
+    setItemState({ ...itemState, [target.name]: target.value })
+  }
 
   //Sample Person Data
   let Person1Data = [
@@ -98,6 +111,9 @@ const App = () => {
           <Switch>
             <Route exact path="/">
               <LoginPage />
+            </Route>
+            <Route path="/register">
+              <RegisterPage handleInputChange={handleInputChange} />
             </Route>
             <Route path="/homepage">            
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
