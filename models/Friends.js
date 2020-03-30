@@ -1,3 +1,5 @@
+const { model, Schema } = require('mongoose')
+
 const friendsSchema = new Schema({
   requester: { type: Schema.Types.ObjectId, ref: 'Users' },
   recipient: { type: Schema.Types.ObjectId, ref: 'Users' },
@@ -11,4 +13,4 @@ const friendsSchema = new Schema({
     ]
   }
 }, { timestamps: true })
-module.exports = mongoose.model('Friends', friendsSchema)
+module.exports = model('Friends', friendsSchema)

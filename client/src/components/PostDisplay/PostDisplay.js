@@ -2,18 +2,12 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItemText from '@material-ui/core/ListItemText'
 import IconButton from '@material-ui/core/IconButton'
-import FormGroup from '@material-ui/core/FormGroup'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
+
 import Typography from '@material-ui/core/Typography'
-import FolderIcon from '@material-ui/icons/Folder'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 
 const useStyles = makeStyles(theme => ({
@@ -26,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     margin: theme.spacing(4, 0, 2),
+    fontSize: 14
   },
   inline: {
     display: 'inline',
@@ -35,9 +30,7 @@ const useStyles = makeStyles(theme => ({
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
-  title: {
-    fontSize: 14,
-  },
+
   pos: {
     marginBottom: 12,
   },

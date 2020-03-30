@@ -1,6 +1,6 @@
 const { model, Schema } = require('mongoose')
 
-module.exports = model('chart', new Schema({
+module.exports = model('comments', new Schema({
   Day: {
     type: Date,
     required: true

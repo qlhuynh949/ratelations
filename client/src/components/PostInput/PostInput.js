@@ -4,8 +4,6 @@ import TextField from '@material-ui/core/TextField'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Rating from '@material-ui/lab/Rating'
-import StarBorderIcon from '@material-ui/icons/StarBorder'
-import FavoriteIcon from '@material-ui/icons/Favorite'
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied'
 import SentimentDissatisfiedIcon from '@material-ui/icons/SentimentDissatisfied'
 import SentimentSatisfiedIcon from '@material-ui/icons/SentimentSatisfied'
@@ -16,14 +14,6 @@ import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 
 
-const StyledRating = withStyles({
-  iconFilled: {
-    color: '#ff6d75',
-  },
-  iconHover: {
-    color: '#ff3d47',
-  },
-})(Rating)
 
 const customIcons = {
   1: {
