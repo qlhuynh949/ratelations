@@ -1,98 +1,111 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import IconButton from '@material-ui/core/IconButton'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
-import DeleteIcon from '@material-ui/icons/Delete'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CommentDisplay from '../CommentDisplay'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+// for expansionPanel
+import Button from '@material-ui/core/Button'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+// for button
+import GridList from '@material-ui/core/GridList'
+import GridListTile from '@material-ui/core/GridListTile'
+// for Gridlist
+import postData from '../postData'
+// could be removed when we have the router and database set up
 
-const useStyles = makeStyles(theme => ({
+
+const useStyles = makeStyles((theme) => ({
+  expansionPanel: {
+    width: '100%',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  }, 
   root: {
-    flexGrow: 1,
-    maxWidth: 752,
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
-  title: {
-    margin: theme.spacing(4, 0, 2),
-    fontSize: 14
+  gridList: {
+    width: 500,
+    height: 400,
   },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
-  title: {
-    fontSize: 14,
+  button:{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
   },
-  card:{
-    display: 'block',
-  },
-  cardcontent:{
-    float:'right'
-  }
-}))
+}));
 
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
+
 
 const PostDisplay = () => {
   const classes = useStyles()
   const bull = <span className={classes.bullet}>•</span>
-  return (
-    <div className={classes.root}>
-      <Typography variant="h6" component="h2">
-        Daily Post
-          </Typography>
-      <div>
-        <List >
-          {generate(
-            <ListItem className={classes.card}>
-              <Card >
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    post date
-                  </Typography>
-                  <Typography variant="h5" component="h2">
-                    Good things{bull}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    well meaning and kindly.gfgaddfgafgagaga
-                    <br />
-                    {'"a benevolent smile"'}
-                  </Typography>
-                    <br />
-                  <Typography variant="h5" component="h2">
-                    Bad things{bull}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    well meaning and kindly.hetehetthjtrhehetethehe
-                    <br />
-                    {'"a benevolent smile"'}
-                  </Typography>
-                </CardContent>
-                <CardContent className={classes.cardcontent}>
-                   <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon />
-                   </IconButton>
-                </CardContent>
-              </Card>
-              <Card >
-                <CommentDisplay />
-              </Card>
-            </ListItem>
-          )}
-        </List>
-      </div>
-    </div>
 
+  return (
+<>
+      <div className={classes.root}>
+        <GridList cellHeight={'auto'} className={classes.gridList} cols={1}>
+          {postData.map((post) => (
+            <GridListTile key={post.date} >
+              <Typography variant="h6" component="h2">
+               {post.date}
+              </Typography>
+              <Typography variant="h5" component="h2">
+                Good things{bull}
+              </Typography>
+              <Typography>{post.good}</Typography>
+              <br></br>
+              <Typography variant="h5" component="h2">
+                Bad things{bull}
+              </Typography>
+              <Typography>{post.bad}</Typography>
+
+              <div className={classes.expansionPanel}>
+                <ExpansionPanel>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography className={classes.heading}>Friend comments</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Typography>
+                      <div className={classes.button}>
+                        <ButtonGroup variant="text"aria-label="text primary button group">
+                          <Button> map user name </Button>
+                          <Button> map user name </Button>
+                        </ButtonGroup>
+                      </div>
+                    </Typography>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </div>
+
+            </GridListTile>
+          ))}
+        </GridList>
+      </div>
+
+
+
+    
+    </>
   )
 }
 
