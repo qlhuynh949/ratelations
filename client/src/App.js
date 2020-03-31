@@ -9,6 +9,8 @@ import Chart from './components/Chart'
 import RegisterPage from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
 import User from './utils/User'
+import Paper from '@material-ui/core/Paper';
+
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -44,6 +46,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  registerPage: { maxHeight: 500, overflow: 'auto' }
 }))
 
 
@@ -132,9 +135,11 @@ const App = () => {
               <LoginPage />
             </Route>
             <Route path="/register">
+              <Paper className={classes.registerPage}>
               <RegisterPage handleInputChange={handleInputChangeUser} 
                 CreateAccount={handleCreateAccount}
               />
+              </Paper>
             </Route>
             <Route path="/forgotpassword">
               <ForgotPassword handleInputChange={handleInputChangeUser} />
