@@ -95,7 +95,6 @@ return(
           fullWidth
           variant="contained"
           color="secondary"
-          className={classes.submit}
           className={classes.bar}
         >
           Sign In
@@ -106,8 +105,7 @@ return(
           fullWidth
           variant="contained"
           color="secondary"
-          className={classes.submit}
-          className={classes.bar}
+          className={classes.bar}          
         >
           register
           </Button>

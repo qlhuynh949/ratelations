@@ -18,7 +18,7 @@ passport.deserializeUser(User.deserializeUser())
 
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'hotdog'
+  secretOrKey: process.env.SecretKey
 }, (jwtPayload, cb) => User.findById(jwtPayload.id)
   .then(user => cb(null, user))
   .catch(err => cb(err))

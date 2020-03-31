@@ -3,8 +3,6 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
-import Link from '@material-ui/core/Link'
-import Grid from '@material-ui/core/Grid'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -60,10 +58,10 @@ const RegisterPage = (props) => {
             margin="normal"
             required
             fullWidth
-            id="UserName"
+            id="username"
             label="Username"
-            name="UserName"
-            autoComplete="UserName"
+            name="username"
+            autoComplete="username"
             onChange={props.handleInputChange}
             autoFocus
           />
@@ -72,10 +70,34 @@ const RegisterPage = (props) => {
             margin="normal"
             required
             fullWidth
-            id="Email"
+            id="firstname"
+            label="First name"
+            name="firstname"
+            autoComplete="firstname"
+            onChange={props.handleInputChange}
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="lastname"
+            label="Last name"
+            name="lastname"
+            autoComplete="lastname"
+            onChange={props.handleInputChange}
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
             label="Email"
-            name="Email"
-            autoComplete="Email"
+            name="email"
+            autoComplete="email"
             onChange={props.handleInputChange}
             autoFocus
           />
