@@ -123,7 +123,8 @@ const RegisterPage = (props) => {
           >
             Create Account
           </Button>
-
+          <br/>
+          <br />
         </form>
       </div>
 
