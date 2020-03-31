@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import './App.css'
 import LoginPage from './components/LoginPage'
 import BottomNavBar from './components/BottomNavBar'
@@ -55,23 +55,25 @@ const App = () => {
 
   const [userState, setUserState] = useState({
     users: [],
-    username:'',
-    password:'',
-    email:'',
-    firstName:'',
-    lastName:'',
+    username: '',
+    password: '',
+    email: '',
+    firstName: '',
+    lastName: '',
     userSnackBar: false,
-    token:'',
-    currentUser:'',
-    isLoggedIn:false,
-    headers:null
+    token: '',
+    currentUser: '',
+    isLoggedIn: false,
+    headers: null
   })
 
+
+  
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [openSearchModal, setOpenSearchModal] = React.useState(false);
-
+  
   const handleOpenSearchModal = () => {
     setOpenSearchModal(true);
   };
@@ -123,6 +125,17 @@ const App = () => {
 
         }
       })
+  }
+
+  const handleSignOut = (event)=>
+  {
+    event.preventDefault()
+    setUserState({ ...userState, token: ''
+      , currentUser: ''
+      , isLoggedIn: false
+      , headers: null })
+
+      
   }
 
   const handleCreateAccount = (event)=>{
@@ -179,15 +192,17 @@ const App = () => {
       <Router>
         
         <div>
-          <TopNavBar />
+          <TopNavBar userState={userState}
+            handleSignOut = {handleSignOut}
+          />
           <Switch>
             <Route exact path="/">
               {userState.isLoggedIn ? <Redirect to="/homepage" /> : 
               <LoginPage handleLogin={handleLogin} 
                 handleInputChange={handleInputChangeUser}
-  /> }
+            /> }
             </Route>
-            <Route path="/register">
+            <Route path="/register">              
               <Paper className={classes.height500Page}>
               <RegisterPage handleInputChange={handleInputChangeUser} 
               CreateAccount={handleCreateAccount}
@@ -199,7 +214,31 @@ const App = () => {
             <Route path="/forgotpassword">
               <ForgotPassword handleInputChange={handleInputChangeUser} />
             </Route>
+            <Route path="/internal">
+              <>
+                <Paper className={classes.height500Page}>
+                  <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane'
+                    Person1Name='Jack'
+                    Person1Data={Person1Data}
+                    Person1xValueFormatString="MMM YYYY"
+                    Person1yValueFormatString="#,##0.##"
+                    Person2Name='Jane'
+                    Person2Data={Person2Data}
+                    Person2xValueFormatString="MMM YYYY"
+                    Person2yValueFormatString="#,##0.##"
+                  />
+                  <HomePage />
+                </Paper>
+                <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
+                  modalStyle={modalStyle}
+                />
+                <BottomNavBar searchOpen={handleOpenSearchModal} />
+              </>
+            </Route>
             <Route path="/homepage">
+              {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin} 
+                handleInputChange={handleInputChangeUser} /> :
+                <>              
               <Paper className={classes.height500Page}>
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
               Person1Name='Jack'
@@ -217,7 +256,9 @@ const App = () => {
                 modalStyle={modalStyle}
               />
               <BottomNavBar searchOpen={handleOpenSearchModal} />
-
+              </>
+              }
+              
             </Route>
           </Switch>
 
