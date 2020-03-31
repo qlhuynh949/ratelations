@@ -7,8 +7,13 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import red from '@material-ui/core/colors/red';
+import red from '@material-ui/core/colors/red'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -124,6 +129,11 @@ const RegisterPage = (props) => {
             Create Account
           </Button>
           <br/>
+          <Snackbar open={props.userState.userSnackBar} autoHideDuration={6000} onClose={props.handleCloseSnackbar}>
+            <Alert onClose={props.handleCloseSnackbar} severity="success">
+              User is registered!
+            </Alert>
+          </Snackbar>
           <br />
         </form>
       </div>
