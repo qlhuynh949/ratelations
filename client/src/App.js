@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  registerPage: { maxHeight: 500, overflow: 'auto' }
+  height500Page: { maxHeight: 480, overflow: 'auto' }
 }))
 
 
@@ -132,10 +132,11 @@ const App = () => {
           <TopNavBar />
           <Switch>
             <Route exact path="/">
+
               <LoginPage />
             </Route>
             <Route path="/register">
-              <Paper className={classes.registerPage}>
+              <Paper className={classes.height500Page}>
               <RegisterPage handleInputChange={handleInputChangeUser} 
                 CreateAccount={handleCreateAccount}
               />
@@ -144,7 +145,8 @@ const App = () => {
             <Route path="/forgotpassword">
               <ForgotPassword handleInputChange={handleInputChangeUser} />
             </Route>
-            <Route path="/homepage">            
+            <Route path="/homepage">
+              <Paper className={classes.height500Page}>
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
               Person1Name='Jack'
               Person1Data = {Person1Data}
@@ -156,6 +158,7 @@ const App = () => {
               Person2yValueFormatString="#,##0.##"
               />
               <HomePage />
+              </Paper>
             </Route>
           </Switch>
           <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
