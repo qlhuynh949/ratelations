@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  height500Page: { maxHeight: 480, overflow: 'auto' }
+  height500Page: { height:'auto', overflow: 'auto', marginBottom:70 }
 }))
 
 
