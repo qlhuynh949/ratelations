@@ -52,14 +52,14 @@ const useStyles = makeStyles(theme => ({
 
 const App = () => {
 
-
   const [userState, setUserState] = useState({
     users: [],
     username:'',
     password:'',
     email:'',
     firstName:'',
-    lastName:''
+    lastName:'',
+    userSnackBar: false
   })
 
   const classes = useStyles();
@@ -75,6 +75,15 @@ const App = () => {
     setOpenSearchModal(false);
   };
 
+  const handleCloseUserSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setUserState({ ...userState, userSnackBar: false })
+  };
+
+
   const handleInputChangeUser = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
   }
@@ -89,9 +98,12 @@ const App = () => {
       password:userState.password
     }
     User.register(curUser)
-      .then((data) => {
-      console.log(data)
-      })
+      .then((response) => {
+      if (response.status === 200)
+      {
+        setUserState({ ...userState, userSnackBar: true })
+      }
+    })
   }
 
   //Sample Person Data
@@ -132,13 +144,14 @@ const App = () => {
           <TopNavBar />
           <Switch>
             <Route exact path="/">
-
               <LoginPage />
             </Route>
             <Route path="/register">
               <Paper className={classes.height500Page}>
               <RegisterPage handleInputChange={handleInputChangeUser} 
-                CreateAccount={handleCreateAccount}
+              CreateAccount={handleCreateAccount}
+              handleCloseSnackbar={handleCloseUserSnackbar}
+              userState={userState}
               />
               </Paper>
             </Route>
