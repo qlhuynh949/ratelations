@@ -118,7 +118,6 @@ const RegisterPage = (props) => {
             fullWidth
             variant="contained"
             color="secondary"
-            className={classes.submit}
             className={classes.bar}
             onClick={props.CreateAccount}
           >

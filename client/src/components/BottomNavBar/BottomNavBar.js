@@ -8,7 +8,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import HistoryIcon from '@material-ui/icons/History';
-import { positions } from '@material-ui/system';
 
 
 const useStyles = makeStyles(theme => ({
@@ -16,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     width: '100 %',
     // height: 80,
     position: 'fixed',
-    bottom:0,
+    bottom: 0,
     // display: 'flex',
     backgroundColor: 'red',
   },
@@ -27,46 +26,42 @@ const useStyles = makeStyles(theme => ({
     width: '100 %',
     // // height: 80,
     // display: 'flex',
-    position:'fixed',
-    bottom:'0',
+    position: 'fixed',
+    bottom: '0',
     // alignItems: 'center',
     // justifyContent: 'center',
     backgroundColor: 'red',
   },
+  stickToBottom: {
+    width: '100%',
+    position: 'fixed',
+    bottom: 0,
+
+  }
 }))
 
-const styles = {
-  stickToBottom: {
-    width:'100%',
-    position:'fixed',
-    bottom:0,
-
-},
-}
 
 const BottomNavBar = (props) => {
 
   const classes = useStyles();
-  
+
   const [value, setValue] = React.useState(0);
 
 
   return (
 
     <BottomNavigation
+      className={classes.stickToBottom}
       value={value}
       onChange={(event, newValue) => {
         setValue(newValue);
       }}
       showLabels
-      className={classes.root}
-  
     >
-            <BottomNavigation className = {classes.stickToBottom} position = "fixed" />
-      <BottomNavigationAction label="Search" icon={<SearchIcon />} onClick={props.searchOpen}/>
-      <BottomNavigationAction label="Home" icon={<HomeIcon />} onClick={props.homeOpen}/>
-      <BottomNavigationAction label="Add Realtionship" icon={<AddCircleIcon />} onClick={props.addOpen}/>
-      <BottomNavigationAction label="Connections" icon={<HistoryIcon onClick={props.historyOpen}/>} />
+      <BottomNavigationAction label="Search" icon={<SearchIcon />} onClick={props.searchOpen} />
+      <BottomNavigationAction label="Home" icon={<HomeIcon />} onClick={props.homeOpen} />
+      <BottomNavigationAction label="Add Realtionship" icon={<AddCircleIcon />} onClick={props.addOpen} />
+      <BottomNavigationAction label="Connections" icon={<HistoryIcon onClick={props.historyOpen} />} />
 
     </BottomNavigation>
 
