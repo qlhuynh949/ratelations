@@ -66,11 +66,12 @@ return(
           margin="normal"
           required
           fullWidth
-          id="UserName"
+          id="username"
           label="Username"
-          name="UserName"
-          autoComplete="UserName"
+          name="username"
+          autoComplete="username"
           autoFocus
+          onChange={props.handleInputChange}
         />
         <TextField
           variant="outlined"
@@ -82,6 +83,7 @@ return(
           type="password"
           id="password"
           autoComplete="current-password"
+          onChange={props.handleInputChange}
         />
         <Grid container>
           <Grid item xs>
@@ -96,6 +98,7 @@ return(
           variant="contained"
           color="secondary"
           className={classes.bar}
+          onClick={props.handleLogin}
         >
           Sign In
           </Button>

@@ -18,6 +18,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom'
 
 
@@ -59,7 +60,11 @@ const App = () => {
     email:'',
     firstName:'',
     lastName:'',
-    userSnackBar: false
+    userSnackBar: false,
+    token:'',
+    currentUser:'',
+    isLoggedIn:false,
+    headers:null
   })
 
   const classes = useStyles();
@@ -75,6 +80,7 @@ const App = () => {
     setOpenSearchModal(false);
   };
 
+
   const handleCloseUserSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -86,6 +92,37 @@ const App = () => {
 
   const handleInputChangeUser = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
+  }
+
+  const handleLogin = (event) => {
+    event.preventDefault()
+    let curUser = {
+      username: userState.username,
+      password: userState.password
+    }
+    User.login(curUser)
+      .then((response) => {
+        console.log(response)
+        if (response.status === 200) {
+
+          localStorage.setItem("token", response.data.token)
+          localStorage.setItem("currentUser",response.data.user)
+          localStorage.setItem("isLoggedIn", response.data.isLoggedIn)
+
+          let headers
+            headers = {
+              "Content-Type": "application/json",
+              "x-auth-token": response.data.token
+            }
+            setUserState({ ...userState, token: response.data.token
+              , currentUser: response.data.user
+              , isLoggedIn: response.data.isLoggedIn
+              , headers: headers })
+          
+          //Cookies.remove("x-auth-cookie"); //delete just that cookie
+
+        }
+      })
   }
 
   const handleCreateAccount = (event)=>{
@@ -140,11 +177,15 @@ const App = () => {
   return (
     <>
       <Router>
+        
         <div>
           <TopNavBar />
           <Switch>
             <Route exact path="/">
-              <LoginPage />
+              {userState.isLoggedIn ? <Redirect to="/homepage" /> : 
+              <LoginPage handleLogin={handleLogin} 
+                handleInputChange={handleInputChangeUser}
+  /> }
             </Route>
             <Route path="/register">
               <Paper className={classes.height500Page}>
@@ -172,12 +213,13 @@ const App = () => {
               />
               <HomePage />
               </Paper>
+              <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
+                modalStyle={modalStyle}
+              />
+              <BottomNavBar searchOpen={handleOpenSearchModal} />
+
             </Route>
           </Switch>
-          <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
-            modalStyle={modalStyle}
-          />
-          <BottomNavBar searchOpen={handleOpenSearchModal} />
 
         </div>
       </Router>
