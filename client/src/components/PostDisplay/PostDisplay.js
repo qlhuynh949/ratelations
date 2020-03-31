@@ -133,6 +133,7 @@ const PostDisplay = () => {
                         </ButtonGroup>
                         <Modal
                           open={open}
+                          className={modalStyle}
                           onClose={handleClose}
                           aria-labelledby="simple-modal-title"
                           aria-describedby="simple-modal-description"

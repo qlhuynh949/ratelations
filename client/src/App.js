@@ -8,6 +8,7 @@ import SearchModal from './components/SearchModal'
 import Chart from './components/Chart'
 import RegisterPage from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
+import User from './utils/User'
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -48,13 +49,15 @@ const useStyles = makeStyles(theme => ({
 
 const App = () => {
 
-  const [itemState, setItemState] = useState({
-    items: [],
-    searchText: '',
-    searchDisplayItems: [],
-    itemSnackBar: false
-  })
 
+  const [userState, setUserState] = useState({
+    users: [],
+    username:'',
+    password:'',
+    email:'',
+    firstName:'',
+    lastName:''
+  })
 
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -69,8 +72,23 @@ const App = () => {
     setOpenSearchModal(false);
   };
 
-  const handleInputChange = ({ target }) => {
-    setItemState({ ...itemState, [target.name]: target.value })
+  const handleInputChangeUser = ({ target }) => {
+    setUserState({ ...userState, [target.name]: target.value })
+  }
+
+  const handleCreateAccount = (event)=>{
+    event.preventDefault()
+    let curUser = {
+      username:userState.username,
+      firstName:userState.firstname,
+      lastName:userState.lastname,
+      email:userState.email,
+      password:userState.password
+    }
+    User.register(curUser)
+      .then((data) => {
+      console.log(data)
+      })
   }
 
   //Sample Person Data
@@ -114,10 +132,12 @@ const App = () => {
               <LoginPage />
             </Route>
             <Route path="/register">
-              <RegisterPage handleInputChange={handleInputChange} />
+              <RegisterPage handleInputChange={handleInputChangeUser} 
+                CreateAccount={handleCreateAccount}
+              />
             </Route>
             <Route path="/forgotpassword">
-              <ForgotPassword handleInputChange={handleInputChange} />
+              <ForgotPassword handleInputChange={handleInputChangeUser} />
             </Route>
             <Route path="/homepage">            
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 

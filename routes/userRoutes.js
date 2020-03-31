@@ -9,15 +9,18 @@ router.post('/users/login', (req, res) => {
       isLoggedIn: !!user,
       items: user.items,
       user: user.username,
-      token: jwt.sign({ id: user._id }, 'hotdog')
+      token: jwt.sign({ id: user._id }, process.env.SecretKey)
     })
   })
 })
 
 router.post('/users/register', (req, res) => {
+  console.log(req.body)
   User.register(new User({
     username: req.body.username,
-    email: req.body.email
+    email: req.body.email,
+    firstName:req.body.firstName,
+    lastName:req.body.lastName
   }), req.body.password, err => {
     if (err) throw err
     res.sendStatus(200)
