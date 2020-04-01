@@ -84,6 +84,7 @@ const PostInput = (props) => {
           variant="outlined"
           color="secondary"
           onChange={props.handleInputChange}
+          value={props.goodText}
         />
         <TextField
           id="badtext"
@@ -95,6 +96,7 @@ const PostInput = (props) => {
           variant="outlined"
           color="secondary"
           onChange={props.handleInputChange}
+          value={props.badText}
         />
         <br></br>
         <Button 

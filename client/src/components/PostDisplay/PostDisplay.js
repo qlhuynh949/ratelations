@@ -16,10 +16,9 @@ import GridListTile from '@material-ui/core/GridListTile'
 import Modal from '@material-ui/core/Modal'
 // for comment modal
 import CommentDisplay from '../CommentDisplay'
+import moment from 'moment'
+// import format from 'date-format'
 
-
-import postData from '../postData'
-// could be removed when we have the router and database set up
 
 
 const useStyles = makeStyles((theme) => ({
@@ -81,7 +80,7 @@ function getModalStyle() {
 }
 // for modal
 
-const PostDisplay = () => {
+const PostDisplay = (props) => {
   const classes = useStyles()
   const bull = <span className={classes.bullet}>•</span>
 
@@ -94,26 +93,28 @@ const PostDisplay = () => {
     setOpen(false);
   }
 
-
+ 
 
   return (
 <>
       <div className={classes.root}>
         <GridList cellHeight={'auto'} className={classes.gridList} cols={1}>
-          {postData.map((post) => (
-            <GridListTile key={post.date} >
+          { props.items.length > 0 ? props.items.map((item,i) => (
+            <GridListTile key={i} >
               <Typography variant="h6" component="h2">
-               {post.date}
+                {moment(item.created_at.$date).format('dddd, MMM Do, YYYY')}
+                {/* {format.asString('mm/dd/yy', new Date(item.created_at.$date))}
+               {(Date(item.created_at.$date))} */}
               </Typography>
               <Typography variant="h5" component="h2">
                 Good things{bull}
               </Typography>
-              <Typography>{post.good}</Typography>
+              <Typography>{item.goodtext}</Typography>
               <br></br>
               <Typography variant="h5" component="h2">
                 Bad things{bull}
               </Typography>
-              <Typography>{post.bad}</Typography>
+              <Typography>{item.badtext}</Typography>
 
               <div className={classes.expansionPanel}>
                 <ExpansionPanel>
@@ -149,7 +150,7 @@ const PostDisplay = () => {
               </div>
 
             </GridListTile>
-          ))}
+          )) : null}
         </GridList>
       </div>
 
