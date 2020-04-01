@@ -10,7 +10,6 @@ import RegisterPage from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
 import User from './utils/User'
 import Paper from '@material-ui/core/Paper'
-import Item from '../src/utils/Item'
 
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -190,34 +189,7 @@ const App = () => {
   ]
   
 
-  const [itemState, setItemState] = useState({
-    items: [],
-    score: '',
-    goodtext: '',
-    badtext: '',
-    isActive: true,
-    Ralationship: '',
-  })
-  const handleInputChange = ({ target }) => {
-    setItemState({ ...itemState, [target.name]: target.value })
-    console.log(target.value)
-  }
-  const handleCreateItem = (event) => {
-    event.preventDefault()
-    console.log('ping')
-    Item.create({
-      score: itemState.score,
-      goodtext: itemState.goodtext,
-      badtext: itemState.badtext,
-      isActive: true
-    })
-      .then(({ data: item }) => {
-        let items = JSON.parse(JSON.stringify(itemState.items))
-        items.push(item)
-        setItemState({ ...itemState, items, score: '', goodtext: '', badtext: '' })
-      })
-  }
-
+  
 
 
 
@@ -284,8 +256,7 @@ const App = () => {
               Person2xValueFormatString="MMM YYYY"
               Person2yValueFormatString="#,##0.##"
               />
-              <HomePage handleInputChange={handleInputChange} 
-              handleCreateItem={handleCreateItem}
+              <HomePage 
               />
               </Paper>
               <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
