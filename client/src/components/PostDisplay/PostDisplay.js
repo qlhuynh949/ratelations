@@ -129,7 +129,7 @@ const PostDisplay = () => {
                       <div className={classes.button}>
                         <ButtonGroup variant="text"aria-label="text primary button group">
                           <Button type="button" onClick={handleOpen}> map user name </Button>
-                          <Button>will be delet after map</Button>
+                          <Button>will be deleted after map</Button>
                         </ButtonGroup>
                         <Modal
                           open={open}
