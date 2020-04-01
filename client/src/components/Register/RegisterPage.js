@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container'
 import red from '@material-ui/core/colors/red'
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import pink from '@material-ui/core/colors/pink';
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -25,11 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: red[900],
+    backgroundColor: pink[500],
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
+    borderColor: pink[500]
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -42,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
     secondary: {
       main: red[900]
     }
-  }
-}));
+}}));
 
 const RegisterPage = (props) => {
   const classes = useStyles()
@@ -60,6 +61,7 @@ const RegisterPage = (props) => {
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
+            color = "secondary"
             margin="normal"
             required
             fullWidth
@@ -72,6 +74,7 @@ const RegisterPage = (props) => {
           />
           <TextField
             variant="outlined"
+            color = "secondary"
             margin="normal"
             required
             fullWidth
@@ -84,6 +87,7 @@ const RegisterPage = (props) => {
           />
           <TextField
             variant="outlined"
+            color = "secondary"
             margin="normal"
             required
             fullWidth
@@ -96,6 +100,7 @@ const RegisterPage = (props) => {
           />
           <TextField
             variant="outlined"
+            color = "secondary"
             margin="normal"
             required
             fullWidth
@@ -108,6 +113,7 @@ const RegisterPage = (props) => {
           />
           <TextField
             variant="outlined"
+            color = "secondary"
             margin="normal"
             required
             fullWidth

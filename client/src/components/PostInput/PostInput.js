@@ -11,6 +11,7 @@ import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfie
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
+import pink from '@material-ui/core/colors/pink'
 
 
 
@@ -18,6 +19,7 @@ const customIcons = {
   1: {
     icon: <SentimentVeryDissatisfiedIcon />,
     label: 'Very Dissatisfied',
+    
   },
   2: {
     icon: <SentimentDissatisfiedIcon />,
@@ -34,6 +36,7 @@ const customIcons = {
   5: {
     icon: <SentimentVerySatisfiedIcon />,
     label: 'Very Satisfied',
+
   },
 }
 
@@ -65,7 +68,7 @@ const PostInput = () => {
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <div>
-        <Box component="fieldset" mb={3} borderColor="transparent">
+        <Box component="fieldset" mb={3} borderColor="secondary">
           <Typography component="legend">How do you feel today?</Typography>
           <Rating
             name="customized-icons"
@@ -81,6 +84,7 @@ const PostInput = () => {
           rows="4"
           placeholder="Placeholder"
           variant="outlined"
+          color = "secondary"
         />
         <TextField
           id="badInput"
@@ -89,9 +93,10 @@ const PostInput = () => {
           rows="4"
           placeholder="Placeholder"
           variant="outlined"
+          color = "secondary"
         />
         <br></br>
-        <Button variant="outlined" color="primary">
+        <Button variant="outlined" color="secondary">
           Submit
         </Button>
 
