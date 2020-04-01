@@ -25,9 +25,10 @@ const CommentInput = () => {
         rows="4"
         placeholder="Placeholder"
         variant="outlined"
+        color = "secondary"
       />
       <br></br>
-      <Button variant="outlined" color="primary">
+      <Button variant="outlined" color="secondary">
         Submit
       </Button>
     </form>

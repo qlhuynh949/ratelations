@@ -8,35 +8,41 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import HistoryIcon from '@material-ui/icons/History';
-
+import pink from '@material-ui/core/colors/pink';
 
 const useStyles = makeStyles(theme => ({
   marginAutoContainer: {
     width: '100 %',
     // height: 80,
     position: 'fixed',
+    height: 80,
     bottom: 0,
-    // display: 'flex',
-    backgroundColor: 'red',
+    display: 'flex',
+    backgroundColor: 'red'
   },
   marginAutoItem: {
     margin: 'auto'
   },
   alignItemsAndJustifyContent: {
     width: '100 %',
-    // // height: 80,
-    // display: 'flex',
+    height: 80,
+    display: 'flex',
     position: 'fixed',
     bottom: '0',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'red'
   },
   stickToBottom: {
     width: '100%',
     position: 'fixed',
-    bottom: 0,
-
+    bottom: 0
+  },
+  palette: {
+    primary: pink,
+    secondary: {
+      main: pink[500]
+    }
   }
 }))
 
@@ -54,13 +60,13 @@ const BottomNavBar = (props) => {
       className={classes.stickToBottom}
       value={value}
       onChange={(event, newValue) => {
-        setValue(newValue);
+        setValue(newValue)
       }}
       showLabels
     >
       <BottomNavigationAction label="Search" icon={<SearchIcon />} onClick={props.searchOpen} />
       <BottomNavigationAction label="Home" icon={<HomeIcon />} onClick={props.homeOpen} />
-      <BottomNavigationAction label="Add Realtionship" icon={<AddCircleIcon />} onClick={props.addOpen} />
+      <BottomNavigationAction label="Add Relationship" icon={<AddCircleIcon />} onClick={props.addOpen} />
       <BottomNavigationAction label="Connections" icon={<HistoryIcon onClick={props.historyOpen} />} />
 
     </BottomNavigation>
