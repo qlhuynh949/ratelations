@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import LoginPage from './components/LoginPage'
 import BottomNavBar from './components/BottomNavBar'
@@ -6,6 +6,11 @@ import TopNavBar from './components/TopNavBar'
 import HomePage from './components/HomePage'
 import SearchModal from './components/SearchModal'
 import Chart from './components/Chart'
+import RegisterPage from './components/Register'
+import ForgotPassword from './components/ForgotPassword'
+import User from './utils/User'
+import Paper from '@material-ui/core/Paper';
+
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -13,6 +18,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom'
 
 
@@ -41,10 +47,25 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  height500Page: { maxHeight: 480, overflow: 'auto' }
 }))
 
 
 const App = () => {
+
+  const [userState, setUserState] = useState({
+    users: [],
+    username:'',
+    password:'',
+    email:'',
+    firstName:'',
+    lastName:'',
+    userSnackBar: false,
+    token:'',
+    currentUser:'',
+    isLoggedIn:false,
+    headers:null
+  })
 
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -58,6 +79,69 @@ const App = () => {
   const handleCloseSearchModal = () => {
     setOpenSearchModal(false);
   };
+
+
+  const handleCloseUserSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setUserState({ ...userState, userSnackBar: false })
+  };
+
+
+  const handleInputChangeUser = ({ target }) => {
+    setUserState({ ...userState, [target.name]: target.value })
+  }
+
+  const handleLogin = (event) => {
+    event.preventDefault()
+    let curUser = {
+      username: userState.username,
+      password: userState.password
+    }
+    User.login(curUser)
+      .then((response) => {
+        console.log(response)
+        if (response.status === 200) {
+
+          localStorage.setItem("token", response.data.token)
+          localStorage.setItem("currentUser",response.data.user)
+          localStorage.setItem("isLoggedIn", response.data.isLoggedIn)
+
+          let headers
+            headers = {
+              "Content-Type": "application/json",
+              "x-auth-token": response.data.token
+            }
+            setUserState({ ...userState, token: response.data.token
+              , currentUser: response.data.user
+              , isLoggedIn: response.data.isLoggedIn
+              , headers: headers })
+          
+          //Cookies.remove("x-auth-cookie"); //delete just that cookie
+
+        }
+      })
+  }
+
+  const handleCreateAccount = (event)=>{
+    event.preventDefault()
+    let curUser = {
+      username:userState.username,
+      firstName:userState.firstname,
+      lastName:userState.lastname,
+      email:userState.email,
+      password:userState.password
+    }
+    User.register(curUser)
+      .then((response) => {
+      if (response.status === 200)
+      {
+        setUserState({ ...userState, userSnackBar: true })
+      }
+    })
+  }
 
   //Sample Person Data
   let Person1Data = [
@@ -93,13 +177,30 @@ const App = () => {
   return (
     <>
       <Router>
+        
         <div>
           <TopNavBar />
           <Switch>
             <Route exact path="/">
-              <LoginPage />
+              {userState.isLoggedIn ? <Redirect to="/homepage" /> : 
+              <LoginPage handleLogin={handleLogin} 
+                handleInputChange={handleInputChangeUser}
+  /> }
             </Route>
-            <Route path="/homepage">            
+            <Route path="/register">
+              <Paper className={classes.height500Page}>
+              <RegisterPage handleInputChange={handleInputChangeUser} 
+              CreateAccount={handleCreateAccount}
+              handleCloseSnackbar={handleCloseUserSnackbar}
+              userState={userState}
+              />
+              </Paper>
+            </Route>
+            <Route path="/forgotpassword">
+              <ForgotPassword handleInputChange={handleInputChangeUser} />
+            </Route>
+            <Route path="/homepage">
+              <Paper className={classes.height500Page}>
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
               Person1Name='Jack'
               Person1Data = {Person1Data}
@@ -111,12 +212,14 @@ const App = () => {
               Person2yValueFormatString="#,##0.##"
               />
               <HomePage />
+              </Paper>
+              <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
+                modalStyle={modalStyle}
+              />
+              <BottomNavBar searchOpen={handleOpenSearchModal} />
+
             </Route>
           </Switch>
-          <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
-            modalStyle={modalStyle}
-          />
-          <BottomNavBar searchOpen={handleOpenSearchModal} />
 
         </div>
       </Router>

@@ -15,11 +15,7 @@ const useStyles = makeStyles(theme => ({
 
 const CommentInput = () => {
   const classes = useStyles()
-  const [value, setValue] = React.useState('Controlled')
 
-  const handleChange = event => {
-    setValue(event.target.value)
-  }
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <TextField

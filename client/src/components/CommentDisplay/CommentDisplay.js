@@ -3,9 +3,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import Typography from '@material-ui/core/Typography'
-import DeleteIcon from '@material-ui/icons/Delete'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 
 const useStyles = makeStyles(theme => ({
@@ -16,22 +14,13 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     margin: theme.spacing(4, 0, 2),
+    fontSize: 14
   },
   inline: {
     display: 'inline',
   },
-  title: {
-    fontSize: 14,
-  },
-}))
 
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
+}))
 
 const CommentDisplay = () => {
   const classes = useStyles()
@@ -39,24 +28,19 @@ const CommentDisplay = () => {
   return (
     <div className={classes.root}>
       <Typography variant="h6" component="h2">
-        Friend Comments
+        Friend 
           </Typography>
       <div >
         <List >
-          {generate(
             <ListItem>
               <Card className={classes.root}>
                 <CardContent>
-                  <Typography component="h2" gutterBottom>
-                    user name
-                  </Typography>
                   <Typography variant="body2" component="h4">
                     well meaning and kindly.
                   </Typography>
                 </CardContent>
               </Card>
             </ListItem>,
-          )}
         </List>
       </div>
 

@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
 import Rating from '@material-ui/lab/Rating'
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied'
 import SentimentDissatisfiedIcon from '@material-ui/icons/SentimentDissatisfied'
@@ -62,11 +61,6 @@ const useStyles = makeStyles(theme => ({
 const PostInput = () => {
 
   const classes = useStyles();
-  const [value, setValue] = React.useState('Controlled')
-
-  const handleChange = event => {
-    setValue(event.target.value);
-  }
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
