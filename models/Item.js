@@ -1,7 +1,16 @@
 const { model, Schema } = require('mongoose')
 
 module.exports = model('item', new Schema({
-  text: {
+  score: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  goodtext: {
+    type: String,
+    required: true
+  },
+  badtext: {
     type: String,
     required: true
   },
@@ -10,19 +19,5 @@ module.exports = model('item', new Schema({
     required: true,
     default: false
   },
-  audience: [{
-    type: Schema.Types.ObjectId,
-    ref: 'user'
-  }],
-  typeId: {
-    type: Number,
-    required: true,
-    default: 0 // 0=Good comment
-    // 1=Bad comment
-  },
-  Relationship: { type: Schema.Types.ObjectId, ref: 'Relationship' },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'user'
-  }
+  Relationship: { type: Schema.Types.ObjectId, ref: 'Relationship' }
 }))
