@@ -13,7 +13,6 @@ import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 
 
-
 const customIcons = {
   1: {
     icon: <SentimentVeryDissatisfiedIcon />,
@@ -58,8 +57,8 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const PostInput = () => {
-
+const PostInput = (props) => {
+  
   const classes = useStyles();
 
   return (
@@ -68,30 +67,38 @@ const PostInput = () => {
         <Box component="fieldset" mb={3} borderColor="transparent">
           <Typography component="legend">How do you feel today?</Typography>
           <Rating
-            name="customized-icons"
+            name="score"
             defaultValue={2}
             getLabelText={value => customIcons[value].label}
             IconContainerComponent={IconContainer}
+            onClick={props.handleInputChange}
           />
         </Box>
         <TextField
-          id="goodInput"
+          id="goodtext"
+          name="goodtext"
           label="Good things"
           multiline
           rows="4"
-          placeholder="Placeholder"
+          placeholder="Something good"
           variant="outlined"
+          onChange={props.handleInputChange}
         />
         <TextField
-          id="badInput"
+          id="badtext"
+          name="badtext"
           label="Bad things"
           multiline
           rows="4"
-          placeholder="Placeholder"
+          placeholder="Something bad"
           variant="outlined"
+          onChange={props.handleInputChange}
         />
         <br></br>
-        <Button variant="outlined" color="primary">
+        <Button 
+        variant="outlined" 
+        color="primary"
+        onClick={props.handleCreateItem}>
           Submit
         </Button>
 
