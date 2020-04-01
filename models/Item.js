@@ -20,4 +20,4 @@ module.exports = model('item', new Schema({
     default: false
   },
   Relationship: { type: Schema.Types.ObjectId, ref: 'Relationship' }
-}))
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}}))

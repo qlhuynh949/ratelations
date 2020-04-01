@@ -83,6 +83,7 @@ const PostInput = (props) => {
           placeholder="Something good"
           variant="outlined"
           onChange={props.handleInputChange}
+          value={props.goodText}
         />
         <TextField
           id="badtext"
@@ -93,6 +94,7 @@ const PostInput = (props) => {
           placeholder="Something bad"
           variant="outlined"
           onChange={props.handleInputChange}
+          value={props.badText}
         />
         <br></br>
         <Button 
