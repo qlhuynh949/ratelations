@@ -9,10 +9,11 @@ import Chart from './components/Chart'
 import RegisterPage from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
 import User from './utils/User'
-import Paper from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper'
+import Item from '../src/utils/Item'
 
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 
 import {
   BrowserRouter as Router,
@@ -52,6 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const App = () => {
+
 
   const [userState, setUserState] = useState({
     users: [],
@@ -186,6 +188,38 @@ const App = () => {
     { x: new Date("2017- 11- 01"), y: 64.49 },
     { x: new Date("2017- 12- 01"), y: 63.84 }
   ]
+  
+
+  const [itemState, setItemState] = useState({
+    items: [],
+    score: '',
+    goodtext: '',
+    badtext: '',
+    isActive: true,
+    Ralationship: '',
+  })
+  const handleInputChange = ({ target }) => {
+    setItemState({ ...itemState, [target.name]: target.value })
+    console.log(target.value)
+  }
+  const handleCreateItem = (event) => {
+    event.preventDefault()
+    console.log('ping')
+    Item.create({
+      score: itemState.score,
+      goodtext: itemState.goodtext,
+      badtext: itemState.badtext,
+      isActive: true
+    })
+      .then(({ data: item }) => {
+        let items = JSON.parse(JSON.stringify(itemState.items))
+        items.push(item)
+        setItemState({ ...itemState, items, score: '', goodtext: '', badtext: '' })
+      })
+  }
+
+
+
 
   return (
     <>
@@ -250,7 +284,9 @@ const App = () => {
               Person2xValueFormatString="MMM YYYY"
               Person2yValueFormatString="#,##0.##"
               />
-              <HomePage />
+              <HomePage handleInputChange={handleInputChange} 
+              handleCreateItem={handleCreateItem}
+              />
               </Paper>
               <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
                 modalStyle={modalStyle}
