@@ -8,7 +8,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import red from '@material-ui/core/colors/red';
+import {red, pink} from '@material-ui/core/colors';
 
 import {
   Link
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: red[900],
+    backgroundColor: pink[500],
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -63,6 +63,7 @@ return(
       <form className={classes.form} noValidate>
         <TextField
           variant="outlined"
+          color="secondary"
           margin="normal"
           required
           fullWidth
@@ -75,6 +76,7 @@ return(
         />
         <TextField
           variant="outlined"
+          color="secondary"
           margin="normal"
           required
           fullWidth
@@ -87,7 +89,7 @@ return(
         />
         <Grid container>
           <Grid item xs>
-            <Link to="/forgotpassword">
+            <Link to="/forgotpassword" color="secondary">
               Forgot password?
             </Link>
           </Grid>

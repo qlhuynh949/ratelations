@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React,{ useState, useEffect } from 'react'
 import PostInput from '../PostInput'
 import PostDisplay from '../PostDisplay'
 import CommentInput from '../CommentInput'
@@ -16,8 +16,11 @@ const HomePage = () => {
   })
   const handleInputChange = ({ target }) => {
     setItemState({ ...itemState, [target.name]: target.value })
-    console.log(target.value)
+    // console.log(target.value)
   }
+
+
+
   const handleCreateItem = (event) => {
     event.preventDefault()
     console.log('ping')
@@ -34,11 +37,22 @@ const HomePage = () => {
       })
   }
 
+  useEffect(() => {
+    Item.read()
+      .then(({ data: items }) => {
+        setItemState({ ...itemState, items })
+      })
+  }, [])
+
   return (
     <Container component="main" maxWidth="xs">
-      <PostInput handleInputChange={handleInputChange}
+      <PostInput 
+        goodText={itemState.goodtext}
+        badText={itemState.badtext}
+        score={itemState.score}
+        handleInputChange={handleInputChange}
         handleCreateItem={handleCreateItem} />
-      <PostDisplay />
+      <PostDisplay items={itemState.items} />
       <CommentInput />
     </Container>
 

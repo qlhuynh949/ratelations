@@ -16,23 +16,23 @@ import Button from '@material-ui/core/Button'
 const customIcons = {
   1: {
     icon: <SentimentVeryDissatisfiedIcon />,
-    label: 'Very Dissatisfied',
+    label: 'Very Dissatisfied'
   },
   2: {
     icon: <SentimentDissatisfiedIcon />,
-    label: 'Dissatisfied',
+    label: 'Dissatisfied'
   },
   3: {
     icon: <SentimentSatisfiedIcon />,
-    label: 'Neutral',
+    label: 'Neutral'
   },
   4: {
     icon: <SentimentSatisfiedAltIcon />,
-    label: 'Satisfied',
+    label: 'Satisfied'
   },
   5: {
     icon: <SentimentVerySatisfiedIcon />,
-    label: 'Very Satisfied',
+    label: 'Very Satisfied'
   },
 }
 
@@ -64,7 +64,7 @@ const PostInput = (props) => {
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <div>
-        <Box component="fieldset" mb={3} borderColor="transparent">
+        <Box component="fieldset" mb={3} borderColor="secondary">
           <Typography component="legend">How do you feel today?</Typography>
           <Rating
             name="score"
@@ -82,7 +82,9 @@ const PostInput = (props) => {
           rows="4"
           placeholder="Something good"
           variant="outlined"
+          color="secondary"
           onChange={props.handleInputChange}
+          value={props.goodText}
         />
         <TextField
           id="badtext"
@@ -92,12 +94,14 @@ const PostInput = (props) => {
           rows="4"
           placeholder="Something bad"
           variant="outlined"
+          color="secondary"
           onChange={props.handleInputChange}
+          value={props.badText}
         />
         <br></br>
         <Button 
         variant="outlined" 
-        color="primary"
+        color="secondary"
         onClick={props.handleCreateItem}>
           Submit
         </Button>
