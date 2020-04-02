@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
-  }, 
+  },
   root: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -45,14 +45,14 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
-  button:{
+  button: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     '& > *': {
       margin: theme.spacing(1),
     },
-  }, 
+  },
   paper: {
     position: 'absolute',
     width: 400,
@@ -86,6 +86,7 @@ const PostDisplay = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle)
   const [open, setOpen] = React.useState(false)
+  const [isInputCheckedState, toggleInputCheck] = React.useState(false)
   const handleOpen = () => {
     setOpen(true);
   }
@@ -93,15 +94,28 @@ const PostDisplay = (props) => {
     setOpen(false);
   }
 
- 
+function handleInputChange(ev) {
+  //toggleInputCheck(ev.target.checked)
+  if (ev.target.checked) props.handleGetItemId(ev.target.value)
+  else props.handleGetItemId('')
+}
 
   return (
-<>
+    <>
       <div className={classes.root}>
         <GridList cellHeight={'auto'} className={classes.gridList} cols={1}>
-          { props.items.length > 0 ? props.items.map((item,i) => (
-            <GridListTile key={i} >
-              <Typography variant="h6" component="h2">
+          {props.items.length > 0 ? props.items.map((item, i) => (
+            <GridListTile
+              key={i}
+            //value={item._id}
+            //onClick={ev => { props.handleGetItemId(ev) }}
+            >
+              <input 
+                type='checkbox' 
+                value={item._id}
+                onClick={(ev) => {handleInputChange(ev)}}
+                />
+              <Typography variant="h6" component="h2" >
                 {moment(item.created_at.$date).format('dddd, MMM Do, YYYY')}
                 {/* {format.asString('mm/dd/yy', new Date(item.created_at.$date))}
                {(Date(item.created_at.$date))} */}
@@ -128,7 +142,7 @@ const PostDisplay = (props) => {
                   <ExpansionPanelDetails>
                     <Typography>
                       <div className={classes.button}>
-                        <ButtonGroup variant="text"aria-label="text primary button group">
+                        <ButtonGroup variant="text" aria-label="text primary button group">
                           <Button type="button" onClick={handleOpen}> map user name </Button>
                           <Button>will be deleted after map</Button>
                         </ButtonGroup>
@@ -139,7 +153,7 @@ const PostDisplay = (props) => {
                           aria-labelledby="simple-modal-title"
                           aria-describedby="simple-modal-description"
                         >
-            
+
                           <CommentDisplay />
 
                         </Modal>
@@ -156,7 +170,7 @@ const PostDisplay = (props) => {
 
 
 
-    
+
     </>
   )
 }

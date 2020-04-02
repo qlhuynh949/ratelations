@@ -17,6 +17,7 @@ const CommentInput = (props) => {
   const classes = useStyles()
 
   return (
+    // {props.item?}
     <form className={classes.root} noValidate autoComplete="off">
       <TextField
         id="outlined-multiline-static"

@@ -60,7 +60,12 @@ const HomePage = () => {
         setCommentState({ ...setCommentState, comments, text: '' })
       })
   }
-
+  const handleGetItemId = itemValue => {
+    //console.log(target)
+    console.log(itemValue)
+    setCommentState({ ...commentState, item: itemValue })
+   
+  }
 
 
 
@@ -70,6 +75,7 @@ const HomePage = () => {
     Item.read()
       .then(({ data: items }) => {
         setItemState({ items })
+        console.log(items)
       })
 
   }, [])
@@ -82,12 +88,17 @@ const HomePage = () => {
         score={itemState.score}
         handleInputChange={handleInputChange}
         handleCreateItem={handleCreateItem} />
-      <PostDisplay items={itemState.items} />
+      <PostDisplay
+        items={itemState.items}
+        handleGetItemId={handleGetItemId}
+      />
+      {commentState.item ?
       <CommentInput
+        item={commentState.item}
         text={commentState.text}
         handleInputChange={handleCommentInput}
         handleCreateComment={handleCreateComment}
-      />
+        /> : null}
     </Container>
 
   )
