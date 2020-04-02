@@ -86,7 +86,7 @@ const PostDisplay = (props) => {
 
   const [modalStyle] = React.useState(getModalStyle)
   const [open, setOpen] = React.useState(false)
-  const [isInputCheckedState, toggleInputCheck] = React.useState(false)
+  // const [isInputCheckedState, toggleInputCheck] = React.useState(false)
   const handleOpen = () => {
     setOpen(true);
   }

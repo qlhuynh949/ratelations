@@ -233,7 +233,10 @@ const App = () => {
                     Person2xValueFormatString="MMM YYYY"
                     Person2yValueFormatString="#,##0.##"
                   />
-                  <HomePage />
+                  <HomePage 
+                    userState={userState}
+                    
+                  />
                 </Paper>
                 <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
                   modalStyle={modalStyle}

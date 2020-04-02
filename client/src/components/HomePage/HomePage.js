@@ -6,7 +6,8 @@ import Container from '@material-ui/core/Container'
 import Item from '../../utils/Item'
 import Comment from '../../utils/Comments'
 
-const HomePage = () => {
+const HomePage = (props) => {
+  console.log(props)
   const [itemState, setItemState] = useState({
     items: [],
     score: '',
@@ -17,7 +18,7 @@ const HomePage = () => {
   })
   const handleInputChange = ({ target }) => {
     setItemState({ ...itemState, [target.name]: target.value })
-    console.log(target.value)
+    // console.log(target.value)
   }
   const handleCommentInput = ({ target }) => {
     setCommentState({ ...commentState, text: target.value })
@@ -27,6 +28,7 @@ const HomePage = () => {
     event.preventDefault()
     console.log('ping')
     Item.create({
+      user: props._id,
       score: itemState.score,
       goodtext: itemState.goodtext,
       badtext: itemState.badtext,
@@ -65,7 +67,7 @@ const HomePage = () => {
     //console.log(target)
     console.log(itemValue)
     setCommentState({ ...commentState, item: itemValue })
-   
+
   }
 
 
@@ -76,9 +78,13 @@ const HomePage = () => {
     Item.read()
       .then(({ data: items }) => {
         setItemState({ items })
-        console.log(items)
+        // console.log(items)
       })
-
+    Comment.read()
+      .then(({ data: comments }) => {
+        setCommentState({ comments })
+        // console.log(comments)
+      })
   }, [])
 
   return (
@@ -90,15 +96,16 @@ const HomePage = () => {
         handleInputChange={handleInputChange}
         handleCreateItem={handleCreateItem} />
       <PostDisplay
+        comments={commentState.comments}
         items={itemState.items}
         handleGetItemId={handleGetItemId}
       />
       {commentState.item ?
-      <CommentInput
-        item={commentState.item}
-        text={commentState.text}
-        handleInputChange={handleCommentInput}
-        handleCreateComment={handleCreateComment}
+        <CommentInput
+          item={commentState.item}
+          text={commentState.text}
+          handleInputChange={handleCommentInput}
+          handleCreateComment={handleCreateComment}
         /> : null}
     </Container>
 
