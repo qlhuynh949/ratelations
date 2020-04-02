@@ -51,6 +51,7 @@ const HomePage = () => {
     event.preventDefault()
     console.log('pang')
     Comment.create({
+      item: commentState.item,
       text: commentState.text,
       isActive: true
     })
