@@ -186,7 +186,7 @@ const App = () => {
     { x: new Date("2017- 06- 01"), y: 84.180 },
     { x: new Date("2017- 07- 01"), y: 84.840 },
     { x: new Date("2017- 08- 01"), y: 82.671 },
-    { x: new Date("2017- 09- 01"), y: 87.496 },
+    { x: new Date("2017- 09- 01"),  y: 89, indexLabel: "\u2191 Break Point", markerColor: "red", markerType: "triangle"  },
     { x: new Date("2017- 10- 01"), y: 86.007 },
     { x: new Date("2017- 11- 01"), y: 87.233 },
     { x: new Date("2017- 12- 01"), y: 86.276 }
