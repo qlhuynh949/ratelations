@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const CommentInput = () => {
+const CommentInput = (props) => {
   const classes = useStyles()
 
   return (
@@ -23,12 +23,19 @@ const CommentInput = () => {
         label="Write your comment"
         multiline
         rows="4"
-        placeholder="Placeholder"
+        placeholder="Your Comment"
         variant="outlined"
-        color = "secondary"
+        color="secondary"
+        name="text"
+        value={props.text}
+        onChange={props.handleInputChange}
       />
       <br></br>
-      <Button variant="outlined" color="secondary">
+      <Button
+        variant="outlined"
+        color="secondary"
+        onClick={props.handleCreateComment}
+      >
         Submit
       </Button>
     </form>

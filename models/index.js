@@ -3,7 +3,7 @@ const User = require('./User.js')
 const Chart = require('./Chart.js')
 const Relationship = require('./Relationship.js')
 const Friends = require('./Friends.js')
-const Comments = require('./Comments.js')
+const Comment = require('./Comment.js')
 
 module.exports = {
   Item,
@@ -11,5 +11,5 @@ module.exports = {
   Chart,
   Relationship,
   Friends,
-  Comments
+  Comment
 }
