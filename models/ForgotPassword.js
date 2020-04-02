@@ -1,15 +1,11 @@
 const { model, Schema } = require('mongoose')
 
-module.exports = model('ForgetPassword', new Schema({
-  Day: {
-    type: Date,
-    required: true
-  },
-  Token: {
+module.exports = model('ForgotPassword', new Schema({
+  token: {
     type: String,
     required: true
   },
-  Email: {
+  email: {
     type: String,
     required: true
   },

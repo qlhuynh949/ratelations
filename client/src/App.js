@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  height500Page: { height:'auto', overflow: 'auto', marginBottom:70 }
+  heightCenterPage: { height:'auto', overflow: 'auto', marginBottom:70 }
 }))
 
 
@@ -62,6 +62,7 @@ const App = () => {
     firstName: '',
     lastName: '',
     userSnackBar: false,
+    userForgotPasswordSnackBar:false,
     token: '',
     currentUser: '',
     isLoggedIn: false,
@@ -92,6 +93,13 @@ const App = () => {
     setUserState({ ...userState, userSnackBar: false })
   };
 
+  const handleCloseForgotPasswordSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setUserState({ ...userState, userForgotPasswordSnackBar: false })
+  };
 
   const handleInputChangeUser = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
@@ -134,7 +142,6 @@ const App = () => {
       , currentUser: ''
       , isLoggedIn: false
       , headers: null })
-
       
   }
 
@@ -154,6 +161,19 @@ const App = () => {
         setUserState({ ...userState, userSnackBar: true })
       }
     })
+  }
+
+  const handleForgotPassword =(event)=>{
+    event.preventDefault()
+    let curUserEmail = {
+      email: userState.email,
+    }
+    User.forgotPassword(curUserEmail)
+      .then((response) => {
+        if (response.status === 200) {
+          setUserState({ ...userState, userForgotPasswordSnackBar: true })
+        }
+      })
   }
 
   //Sample Person Data
@@ -188,14 +208,9 @@ const App = () => {
   ]
   
 
-  
-
-
-
   return (
     <>
-      <Router>
-        
+      <Router>        
         <div>
           <TopNavBar userState={userState}
             handleSignOut = {handleSignOut}
@@ -208,7 +223,7 @@ const App = () => {
             /> }
             </Route>
             <Route path="/register">              
-              <Paper className={classes.height500Page}>
+              <Paper className={classes.heightCenterPage}>
               <RegisterPage handleInputChange={handleInputChangeUser} 
               CreateAccount={handleCreateAccount}
               handleCloseSnackbar={handleCloseUserSnackbar}
@@ -217,11 +232,15 @@ const App = () => {
               </Paper>
             </Route>
             <Route path="/forgotpassword">
-              <ForgotPassword handleInputChange={handleInputChangeUser} />
+              <ForgotPassword handleInputChange={handleInputChangeUser} 
+                handleForgotPassword={handleForgotPassword}
+                handleCloseForgotPasswordSnackbar={handleCloseForgotPasswordSnackbar}
+                userState={userState}
+              />
             </Route>
             <Route path="/internal">
               <>
-                <Paper className={classes.height500Page}>
+                <Paper className={classes.heightCenterPage}>
                   <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane'
                     Person1Name='Jack'
                     Person1Data={Person1Data}
@@ -244,7 +263,7 @@ const App = () => {
               {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin} 
                 handleInputChange={handleInputChangeUser} /> :
                 <>              
-              <Paper className={classes.height500Page}>
+              <Paper className={classes.heightCenterPage}>
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
               Person1Name='Jack'
               Person1Data = {Person1Data}
@@ -263,15 +282,11 @@ const App = () => {
               />
               <BottomNavBar searchOpen={handleOpenSearchModal} />
               </>
-              }
-              
+              }              
             </Route>
           </Switch>
-
         </div>
       </Router>
-
-
     </>
   );
 }

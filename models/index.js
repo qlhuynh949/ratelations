@@ -4,7 +4,7 @@ const Chart = require('./Chart.js')
 const Relationship = require('./Relationship.js')
 const Friends = require('./Friends.js')
 const Comments = require('./Comments.js')
-const ForgetPassword = require('./ForgetPassword.js')
+const ForgotPassword = require('./ForgotPassword.js')
 
 module.exports = {
   Item,
@@ -13,5 +13,5 @@ module.exports = {
   Relationship,
   Friends,
   Comments,
-  ForgetPassword
+  ForgotPassword
 }
