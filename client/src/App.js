@@ -66,6 +66,7 @@ const App = () => {
     token: '',
     currentUser: '',
     isLoggedIn: false,
+    uid:0,
     headers: null
   })
 
@@ -89,7 +90,6 @@ const App = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setUserState({ ...userState, userSnackBar: false })
   };
 
@@ -118,6 +118,7 @@ const App = () => {
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("currentUser",response.data.user)
           localStorage.setItem("isLoggedIn", response.data.isLoggedIn)
+          localStorage.setItem("uid", response.data.uid)
 
           let headers
             headers = {
@@ -127,6 +128,7 @@ const App = () => {
             setUserState({ ...userState, token: response.data.token
               , currentUser: response.data.user
               , isLoggedIn: response.data.isLoggedIn
+              , uid: response.data.uid
               , headers: headers })
           
           //Cookies.remove("x-auth-cookie"); //delete just that cookie
@@ -141,6 +143,7 @@ const App = () => {
     setUserState({ ...userState, token: ''
       , currentUser: ''
       , isLoggedIn: false
+      , uid:0
       , headers: null })
       
   }
@@ -237,27 +240,6 @@ const App = () => {
                 handleCloseForgotPasswordSnackbar={handleCloseForgotPasswordSnackbar}
                 userState={userState}
               />
-            </Route>
-            <Route path="/internal">
-              <>
-                <Paper className={classes.heightCenterPage}>
-                  <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane'
-                    Person1Name='Jack'
-                    Person1Data={Person1Data}
-                    Person1xValueFormatString="MMM YYYY"
-                    Person1yValueFormatString="#,##0.##"
-                    Person2Name='Jane'
-                    Person2Data={Person2Data}
-                    Person2xValueFormatString="MMM YYYY"
-                    Person2yValueFormatString="#,##0.##"
-                  />
-                  <HomePage />
-                </Paper>
-                <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
-                  modalStyle={modalStyle}
-                />
-                <BottomNavBar searchOpen={handleOpenSearchModal} />
-              </>
             </Route>
             <Route path="/homepage">
               {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin} 

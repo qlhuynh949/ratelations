@@ -8,7 +8,6 @@ import IconButton from '@material-ui/core/IconButton'
 
 import red from '@material-ui/core/colors/red'
 import LockIcon from '@material-ui/icons/Lock'
-import HomeIcon from '@material-ui/icons/Home';
 import PersonIcon from '@material-ui/icons/Person';
 
 import {
@@ -58,11 +57,6 @@ const TopNavBar = (props) => {
               </IconButton>
             </Link>
           }          
-          <Link to="/internal">
-            <IconButton>
-              <HomeIcon />
-            </IconButton>
-          </Link>
         </Toolbar>
       </AppBar>
     </div>

@@ -13,6 +13,7 @@ router.post('/users/login', (req, res) => {
       isLoggedIn: !!user,
       items: user.items,
       user: user.username,
+      uid: user._id,
       token: jwt.sign({ id: user._id }, process.env.SecretKey)
     })
   })
