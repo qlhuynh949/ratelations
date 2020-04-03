@@ -115,10 +115,10 @@ router.post('/ForgotPasswordToken', (req, res) => {
       ForgotPassword.create({ user: userid, token: newToken, email: userEmail })
         .then(forgot => {
           let isHeroku = process.env.isHeroku
-
+          
           let tokenUrlLink = ''
 
-          if (!isHeroku) {
+          if (isHeroku==='0') {
             tokenUrlLink = 'http://' + domainName + ':' + domainPort + '/resetAccount/' + newToken
           }
           else {
