@@ -136,12 +136,12 @@ const AccountUpdate = (props) => {
             className={classes.bar}
             onClick={props.UpdateAccount}
           >
-            Create Account
+            Update Account
           </Button>
           <br />
           <Snackbar open={props.userObjState.userSnackBar} autoHideDuration={6000} onClose={props.handleCloseUserSnackbar}>
             <Alert onClose={props.handleCloseUserSnackbar} severity="success">
-              User is updated!
+              User is updated!  Click on the login icon at the top nav bar and log in.
             </Alert>
           </Snackbar>
           <br />
