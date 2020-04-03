@@ -15,6 +15,8 @@ const HomePage = (props) => {
     badtext: '',
     isActive: true,
     ralationship: '',
+    user: '',
+
   })
   const handleInputChange = ({ target }) => {
     setItemState({ ...itemState, [target.name]: target.value })
@@ -28,7 +30,7 @@ const HomePage = (props) => {
     event.preventDefault()
     console.log('ping')
     Item.create({
-      user: props._id,
+      user: props.userState.uid,
       score: itemState.score,
       goodtext: itemState.goodtext,
       badtext: itemState.badtext,
@@ -53,6 +55,7 @@ const HomePage = (props) => {
     event.preventDefault()
     console.log('pang')
     Comment.create({
+      user: props.userState.uid,
       item: commentState.item,
       text: commentState.text,
       isActive: true
