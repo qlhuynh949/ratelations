@@ -10,6 +10,7 @@ import RegisterPage from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
 import User from './utils/User'
 import Paper from '@material-ui/core/Paper'
+import AccountReset from './components/AccountReset'
 
 
 import { makeStyles } from '@material-ui/core/styles'
@@ -224,6 +225,9 @@ const App = () => {
               <LoginPage handleLogin={handleLogin} 
                 handleInputChange={handleInputChangeUser}
             /> }
+            </Route>
+            <Route path="/resetAccount/:key" exact component={AccountReset}>
+
             </Route>
             <Route path="/register">              
               <Paper className={classes.heightCenterPage}>
