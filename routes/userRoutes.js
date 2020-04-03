@@ -32,8 +32,8 @@ router.post('/users/register', (req, res) => {
 })
 
 router.post('/users/updateAccount', (req, res) => {
-
-  User.findOne({ _id: req.body.uid }, (sanitizedUser)=> {
+  User.findOne({ _id: req.body.uid })
+  .then( (sanitizedUser)=> {
     if (sanitizedUser)
     {
       sanitizedUser.setPassword(req.body.password,()=>{
