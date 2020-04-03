@@ -118,6 +118,8 @@ router.post('/ForgotPasswordToken', (req, res) => {
           
           let tokenUrlLink = ''
 
+          //in .env if isHeroku=1 it we use Heroku deployment link
+          // in .env if is Heroku=0 then we it is our loca
           if (isHeroku==='0') {
             tokenUrlLink = 'http://' + domainName + ':' + domainPort + '/resetAccount/' + newToken
           }
