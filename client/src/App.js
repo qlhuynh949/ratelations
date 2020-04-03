@@ -257,6 +257,7 @@ const App = () => {
               Person2yValueFormatString="#,##0.##"
               />
               <HomePage 
+                      userState={userState}
               />
               </Paper>
               <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
