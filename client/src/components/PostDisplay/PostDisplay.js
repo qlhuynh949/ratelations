@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
@@ -18,7 +18,7 @@ import Modal from '@material-ui/core/Modal'
 import CommentDisplay from '../CommentDisplay'
 import moment from 'moment'
 // import format from 'date-format'
-
+import Comment from '../../utils/Comments'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -94,11 +94,36 @@ const PostDisplay = (props) => {
     setOpen(false);
   }
 
-function handleInputChange(ev) {
-  //toggleInputCheck(ev.target.checked)
-  if (ev.target.checked) props.handleGetItemId(ev.target.value)
-  else props.handleGetItemId('')
+  function handleInputChange(ev) {
+    //toggleInputCheck(ev.target.checked)
+    if (ev.target.checked) props.handleGetItemId(ev.target.value)
+    else props.handleGetItemId('')
+  }
+
+  const [commentState, setCommentState] = useState({
+    comments: [],
+    text: '',
+    isActive: true,
+    ralationship: '',
+    item: '',
+    user: '',
+  })
+
+  
+ 
+const handleGetComment =(event, id) =>{
+    Comment.read(id)
+      .then(({ data: comments }) => {
+        setCommentState({ comments })
+        console.log(comments)
+      })
 }
+
+const handleGetUsername =(event, id)=>{
+
+  
+}
+
 
   return (
     <>
@@ -110,11 +135,11 @@ function handleInputChange(ev) {
             //value={item._id}
             //onClick={ev => { props.handleGetItemId(ev) }}
             >
-              <input 
-                type='checkbox' 
+              <input
+                type='checkbox'
                 value={item._id}
-                onClick={(ev) => {handleInputChange(ev)}}
-                />
+                onClick={(ev) => { handleInputChange(ev) }}
+              />
               <Typography variant="h6" component="h2" >
                 {moment(item.created_at.$date).format('dddd, MMM Do, YYYY')}
                 {/* {format.asString('mm/dd/yy', new Date(item.created_at.$date))}
@@ -137,7 +162,10 @@ function handleInputChange(ev) {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={classes.heading}>Friend comments</Typography>
+                    <Typography 
+                    className={classes.heading}
+                    onClick={(e) => handleGetComment(e, item._id)}
+                    >Friend comments</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <Typography>
@@ -154,7 +182,9 @@ function handleInputChange(ev) {
                           aria-describedby="simple-modal-description"
                         >
 
-                          <CommentDisplay />
+                          <CommentDisplay
+                            commentState={props.commentState}
+                          />
 
                         </Modal>
                       </div>

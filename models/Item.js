@@ -1,6 +1,7 @@
 const { model, Schema } = require('mongoose')
 
 module.exports = model('item', new Schema({
+  
   score: {
     type: Number,
     required: true,

@@ -1,6 +1,7 @@
 const { model, Schema } = require('mongoose')
 
 module.exports = model('comments', new Schema({
+ 
   text: {
     type: String,
     required: true

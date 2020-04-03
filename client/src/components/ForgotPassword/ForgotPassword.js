@@ -8,7 +8,12 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import {red,pink} from '@material-ui/core/colors';
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />
+}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -59,10 +64,10 @@ const ForgotPassword = (props) => {
             margin="normal"
             required
             fullWidth
-            id="Email"
+            id="email"
             label="Email"
-            name="Email"
-            autoComplete="Email"
+            name="email"
+            autoComplete="email"
             onChange={props.handleInputChange}
             autoFocus
           />
@@ -72,11 +77,17 @@ const ForgotPassword = (props) => {
             variant="contained"
             color="secondary"
             className={classes.bar}
-            onClick={props.ForgotPassword}
+            onClick={props.handleForgotPassword}
           >
             Forgot Password
           </Button>
-
+          <br />
+          <Snackbar open={props.userState.userForgotPasswordSnackBar} autoHideDuration={6000} onClose={props.handleCloseForgotPasswordSnackbar}>
+            <Alert onClose={props.handleCloseForgotPasswordSnackbar} severity="success">
+              Please review your email for the link to reset your account information!
+            </Alert>
+          </Snackbar>
+          <br />
         </form>
       </div>
 

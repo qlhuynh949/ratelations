@@ -7,7 +7,7 @@ import Item from '../../utils/Item'
 import Comment from '../../utils/Comments'
 
 const HomePage = (props) => {
-  console.log(props)
+  // console.log(props)
   const [itemState, setItemState] = useState({
     items: [],
     score: '',
@@ -15,6 +15,8 @@ const HomePage = (props) => {
     badtext: '',
     isActive: true,
     ralationship: '',
+    user:'',
+   
   })
   const handleInputChange = ({ target }) => {
     setItemState({ ...itemState, [target.name]: target.value })
@@ -28,7 +30,7 @@ const HomePage = (props) => {
     event.preventDefault()
     console.log('ping')
     Item.create({
-      user: props._id,
+      user: props.userState.uid,
       score: itemState.score,
       goodtext: itemState.goodtext,
       badtext: itemState.badtext,
@@ -53,6 +55,7 @@ const HomePage = (props) => {
     event.preventDefault()
     console.log('pang')
     Comment.create({
+      user: props.userState.uid,
       item: commentState.item,
       text: commentState.text,
       isActive: true
@@ -65,7 +68,7 @@ const HomePage = (props) => {
   }
   const handleGetItemId = itemValue => {
     //console.log(target)
-    console.log(itemValue)
+    // console.log(itemValue)
     setCommentState({ ...commentState, item: itemValue })
 
   }
@@ -80,11 +83,6 @@ const HomePage = (props) => {
         setItemState({ items })
         // console.log(items)
       })
-    Comment.read()
-      .then(({ data: comments }) => {
-        setCommentState({ comments })
-        // console.log(comments)
-      })
   }, [])
 
   return (
@@ -96,6 +94,7 @@ const HomePage = (props) => {
         handleInputChange={handleInputChange}
         handleCreateItem={handleCreateItem} />
       <PostDisplay
+        commentState={commentState}
         comments={commentState.comments}
         items={itemState.items}
         handleGetItemId={handleGetItemId}

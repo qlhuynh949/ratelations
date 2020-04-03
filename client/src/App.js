@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-  height500Page: { height:'auto', overflow: 'auto', marginBottom:70 }
+  heightCenterPage: { height:'auto', overflow: 'auto', marginBottom:70 }
 }))
 
 
@@ -62,9 +62,11 @@ const App = () => {
     firstName: '',
     lastName: '',
     userSnackBar: false,
+    userForgotPasswordSnackBar:false,
     token: '',
     currentUser: '',
     isLoggedIn: false,
+    uid:0,
     headers: null
   })
 
@@ -88,10 +90,16 @@ const App = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setUserState({ ...userState, userSnackBar: false })
   };
 
+  const handleCloseForgotPasswordSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setUserState({ ...userState, userForgotPasswordSnackBar: false })
+  };
 
   const handleInputChangeUser = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
@@ -105,12 +113,12 @@ const App = () => {
     }
     User.login(curUser)
       .then((response) => {
-        console.log(response)
         if (response.status === 200) {
 
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("currentUser",response.data.user)
           localStorage.setItem("isLoggedIn", response.data.isLoggedIn)
+          localStorage.setItem("uid", response.data.uid)
 
           let headers
             headers = {
@@ -120,6 +128,7 @@ const App = () => {
             setUserState({ ...userState, token: response.data.token
               , currentUser: response.data.user
               , isLoggedIn: response.data.isLoggedIn
+              , uid: response.data.uid
               , headers: headers })
           
           //Cookies.remove("x-auth-cookie"); //delete just that cookie
@@ -134,8 +143,8 @@ const App = () => {
     setUserState({ ...userState, token: ''
       , currentUser: ''
       , isLoggedIn: false
+      , uid:0
       , headers: null })
-
       
   }
 
@@ -157,6 +166,19 @@ const App = () => {
     })
   }
 
+  const handleForgotPassword =(event)=>{
+    event.preventDefault()
+    let curUserEmail = {
+      email: userState.email,
+    }
+    User.forgotPassword(curUserEmail)
+      .then((response) => {
+        if (response.status === 200) {
+          setUserState({ ...userState, userForgotPasswordSnackBar: true })
+        }
+      })
+  }
+
   //Sample Person Data
   let Person1Data = [
     { x: new Date("2017- 01- 01"), y: 84.927 },
@@ -167,7 +189,7 @@ const App = () => {
     { x: new Date("2017- 06- 01"), y: 84.180 },
     { x: new Date("2017- 07- 01"), y: 84.840 },
     { x: new Date("2017- 08- 01"), y: 82.671 },
-    { x: new Date("2017- 09- 01"), y: 87.496 },
+    { x: new Date("2017- 09- 01"),  y: 89, indexLabel: "\u2191 Break Point", markerColor: "red", markerType: "triangle"  },
     { x: new Date("2017- 10- 01"), y: 86.007 },
     { x: new Date("2017- 11- 01"), y: 87.233 },
     { x: new Date("2017- 12- 01"), y: 86.276 }
@@ -189,14 +211,9 @@ const App = () => {
   ]
   
 
-  
-
-
-
   return (
     <>
-      <Router>
-        
+      <Router>        
         <div>
           <TopNavBar userState={userState}
             handleSignOut = {handleSignOut}
@@ -209,7 +226,7 @@ const App = () => {
             /> }
             </Route>
             <Route path="/register">              
-              <Paper className={classes.height500Page}>
+              <Paper className={classes.heightCenterPage}>
               <RegisterPage handleInputChange={handleInputChangeUser} 
               CreateAccount={handleCreateAccount}
               handleCloseSnackbar={handleCloseUserSnackbar}
@@ -218,37 +235,17 @@ const App = () => {
               </Paper>
             </Route>
             <Route path="/forgotpassword">
-              <ForgotPassword handleInputChange={handleInputChangeUser} />
-            </Route>
-            <Route path="/internal">
-              <>
-                <Paper className={classes.height500Page}>
-                  <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane'
-                    Person1Name='Jack'
-                    Person1Data={Person1Data}
-                    Person1xValueFormatString="MMM YYYY"
-                    Person1yValueFormatString="#,##0.##"
-                    Person2Name='Jane'
-                    Person2Data={Person2Data}
-                    Person2xValueFormatString="MMM YYYY"
-                    Person2yValueFormatString="#,##0.##"
-                  />
-                  <HomePage 
-                    userState={userState}
-                    
-                  />
-                </Paper>
-                <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
-                  modalStyle={modalStyle}
-                />
-                <BottomNavBar searchOpen={handleOpenSearchModal} />
-              </>
+              <ForgotPassword handleInputChange={handleInputChangeUser} 
+                handleForgotPassword={handleForgotPassword}
+                handleCloseForgotPasswordSnackbar={handleCloseForgotPasswordSnackbar}
+                userState={userState}
+              />
             </Route>
             <Route path="/homepage">
               {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin} 
                 handleInputChange={handleInputChangeUser} /> :
                 <>              
-              <Paper className={classes.height500Page}>
+              <Paper className={classes.heightCenterPage}>
               <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
               Person1Name='Jack'
               Person1Data = {Person1Data}
@@ -260,6 +257,7 @@ const App = () => {
               Person2yValueFormatString="#,##0.##"
               />
               <HomePage 
+              userState={userState}
               />
               </Paper>
               <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
@@ -267,15 +265,11 @@ const App = () => {
               />
               <BottomNavBar searchOpen={handleOpenSearchModal} />
               </>
-              }
-              
+              }              
             </Route>
           </Switch>
-
         </div>
       </Router>
-
-
     </>
   );
 }
