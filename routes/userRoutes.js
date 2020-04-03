@@ -33,21 +33,20 @@ router.post('/users/register', (req, res) => {
 
 router.post('/users/updateAccount', (req, res) => {
   User.findOne({ _id: req.body.uid })
-  .then( (sanitizedUser)=> {
-    if (sanitizedUser)
-    {
-      sanitizedUser.setPassword(req.body.password,()=>{
-        sanitizedUser.username = req.body.username
-        sanitizedUser.email = req.body.email
-        sanitizedUser.firstName= req.body.firstName
-        sanitizedUser.lastName= req.body.lastName
-        sanitizedUser.save();
-        res.sendStatus(200)
-      })
-    }  
-  })
+    .then((sanitizedUser) => {
+      if (sanitizedUser) {
+        sanitizedUser.setPassword(req.body.password, () => {
+          sanitizedUser.username = req.body.username
+          sanitizedUser.email = req.body.email
+          sanitizedUser.firstName = req.body.firstName
+          sanitizedUser.lastName = req.body.lastName
+          sanitizedUser.save();
+          res.sendStatus(200)
+        })
+      }
+    })
 
-  
+
 })
 
 
@@ -85,10 +84,10 @@ router.post('/checkToken', (req, res) => {
             }
           }
           res.json(userObj)
-        })   
+        })
 
     })
-    .catch((e) =>{
+    .catch((e) => {
       let empty =
       {
         uid: 0,
@@ -115,7 +114,17 @@ router.post('/ForgotPasswordToken', (req, res) => {
 
       ForgotPassword.create({ user: userid, token: newToken, email: userEmail })
         .then(forgot => {
-          let tokenUrlLink = 'http://' + domainName + ':' + domainPort + '/resetAccount/' + newToken
+          let isHeroku = process.env.isHeroku
+
+          let tokenUrlLink = ''
+
+          if (!isHeroku) {
+            tokenUrlLink = 'http://' + domainName + ':' + domainPort + '/resetAccount/' + newToken
+          }
+          else {
+            tokenUrlLink = 'http://' + domainName + '/resetAccount/' + newToken
+          }
+
           sendForgotPasswordMail(userEmail, tokenUrlLink, user)
         })
 
