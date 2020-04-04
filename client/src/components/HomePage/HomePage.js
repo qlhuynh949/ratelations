@@ -7,7 +7,7 @@ import Item from '../../utils/Item'
 import Comment from '../../utils/Comments'
 
 const HomePage = (props) => {
-  console.log(props)
+  //console.log(props)
   const [itemState, setItemState] = useState({
     items: [],
     score: '',
@@ -28,7 +28,7 @@ const HomePage = (props) => {
   // relationship?????
   const handleCreateItem = (event) => {
     event.preventDefault()
-    console.log('ping')
+    //console.log('ping')
     Item.create({
       user: props.userState.uid,
       score: itemState.score,
@@ -53,7 +53,7 @@ const HomePage = (props) => {
   })
   const handleCreateComment = (event) => {
     event.preventDefault()
-    console.log('pang')
+    //console.log('pang')
     Comment.create({
       user: props.userState.uid,
       item: commentState.item,
@@ -68,7 +68,7 @@ const HomePage = (props) => {
   }
   const handleGetItemId = itemValue => {
     //console.log(target)
-    console.log(itemValue)
+    //console.log(itemValue)
     setCommentState({ ...commentState, item: itemValue })
 
   }
