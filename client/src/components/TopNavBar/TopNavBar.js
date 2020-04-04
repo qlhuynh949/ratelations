@@ -25,7 +25,11 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
-    
+  },
+  imageCenter:{
+  verticalAlign:'middle',
+  paddingBottom: '3px',
+  paddingTop: '3px'
   },
   bar: {
     backgroundColor: red[900] 
@@ -43,7 +47,9 @@ const TopNavBar = (props) => {
       <AppBar className={classes.bar} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <img src={logo} alt="logo" width="80px" height="80px" />
+            
+              <img src={logo} className={classes.imageCenter} alt="logo" width="80px" height="80px" />
+                     
           </Typography>
           {props.userState.isLoggedIn? (
             <Link to="/">          
