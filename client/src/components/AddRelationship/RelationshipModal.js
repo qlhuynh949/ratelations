@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import './RelationshipModal.css'
 import Modal from '@material-ui/core/Modal';
+import AddRelationshipCurrent from '../AddRelationshipCurrent'
+import AddRelationshipDisplay from '../AddRelationshipDisplay'
 
 
 const RelationshipModal = (props) => {
@@ -16,6 +18,8 @@ const RelationshipModal = (props) => {
         >
           <div style={props.modalStyle} className={props.classes.paper}>
             <h2 id="simple-modal-title">Relationship</h2>
+          <AddRelationshipCurrent />
+          <AddRelationshipDisplay />
             <p id="simple-modal-description">
 
           </p>

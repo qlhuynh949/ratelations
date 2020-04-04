@@ -291,8 +291,12 @@ const App = () => {
               <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
                 modalStyle={modalStyle}
               />
-              <RelationshipModal open={openRelationshipModal} handleClose={handleCloseRelationshipModal} classes={classes}
+              <RelationshipModal 
+              open={openRelationshipModal} 
+              handleClose={handleCloseRelationshipModal} 
+              classes={classes}
               modalStyle={modalStyle}
+              userState={userState}
               />
               <ConnectionsModal open={openConnectionsModal} handleClose={handleCloseConnectionsModal} classes={classes}
               modalStyle={modalStyle}

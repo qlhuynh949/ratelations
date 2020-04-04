@@ -79,7 +79,7 @@ const AccountReset = (props) => {
     
     User.updateAccount(curUser)
       .then((response) => {
-        console.log(response)
+        
         if (response.status === 200) {
           setUserObjState({ ...userObjState, userSnackBar: true })
         }
