@@ -22,13 +22,13 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const CommentDisplay = () => {
+const CommentDisplay = (props) => {
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
       <Typography variant="h6" component="h2">
-        Friend 
+        {props.itemUserComment.Username}
           </Typography>
       <div >
         <List >
@@ -36,15 +36,14 @@ const CommentDisplay = () => {
               <Card className={classes.root}>
                 <CardContent>
                   <Typography variant="body2" component="h4">
-                    well meaning and kindly.
+                    text
+                  {props.itemUserComment.Text}
                   </Typography>
                 </CardContent>
               </Card>
             </ListItem>,
         </List>
       </div>
-
-
     </div>
 
   )
