@@ -1,6 +1,5 @@
 import React from 'react';
 import './AddRelationshipCurrent.css'
-import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import BrokenImageIcon from '@material-ui/icons/BrokenImage';
 import Typography from '@material-ui/core/Typography'
