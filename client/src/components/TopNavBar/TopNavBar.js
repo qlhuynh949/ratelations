@@ -5,7 +5,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
-
+import logo from './logo.png'
 import red from '@material-ui/core/colors/red'
 import LockIcon from '@material-ui/icons/Lock'
 import PersonIcon from '@material-ui/icons/Person';
@@ -25,7 +25,11 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
-    
+  },
+  imageCenter:{
+  verticalAlign:'middle',
+  paddingBottom: '3px',
+  paddingTop: '3px'
   },
   bar: {
     backgroundColor: red[900] 
@@ -43,7 +47,9 @@ const TopNavBar = (props) => {
       <AppBar className={classes.bar} position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            Ratelations
+            
+              <img src={logo} className={classes.imageCenter} alt="logo" width="80px" height="80px" />
+                     
           </Typography>
           {props.userState.isLoggedIn? (
             <Link to="/">          
