@@ -1,12 +1,13 @@
 import React from 'react';
 import './ConnectionsModal.css'
 import Modal from '@material-ui/core/Modal';
-
+import PastConnections from '../PastConnections'
+import RelationshipFollowed from '../RelationshipFollowed'
 
 const ConnectionsModal = (props) => {
 
   return (
-
+      <>
       <div>
         <Modal
           aria-labelledby="simple-modal-title"
@@ -18,12 +19,13 @@ const ConnectionsModal = (props) => {
             <h2 id="simple-modal-title">Connections</h2>
             <p id="simple-modal-description">
 
-          </p>
-           
+            </p>
+            <RelationshipFollowed />
+            <PastConnections />
           </div>
         </Modal>
       </div>
-    
+      </>
 
   )
 }

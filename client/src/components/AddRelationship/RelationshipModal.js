@@ -8,7 +8,7 @@ import AddRelationshipDisplay from '../AddRelationshipDisplay'
 const RelationshipModal = (props) => {
 
   return (
-
+      <>
       <div>
         <Modal
           aria-labelledby="simple-modal-title"
@@ -27,7 +27,7 @@ const RelationshipModal = (props) => {
           </div>
         </Modal>
       </div>
-    
+      </>
 
   )
 }
