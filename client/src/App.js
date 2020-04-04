@@ -5,6 +5,8 @@ import BottomNavBar from './components/BottomNavBar'
 import TopNavBar from './components/TopNavBar'
 import HomePage from './components/HomePage'
 import SearchModal from './components/SearchModal'
+import RelationshipModal from './components/AddRelationship'
+import ConnectionsModal from './components/Connections'
 import Chart from './components/Chart'
 import RegisterPage from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
@@ -76,6 +78,7 @@ const App = () => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
+  
   const [openSearchModal, setOpenSearchModal] = React.useState(false);
   
   const handleOpenSearchModal = () => {
@@ -86,6 +89,27 @@ const App = () => {
     setOpenSearchModal(false);
   };
 
+
+
+  const [openRelationshipModal, setOpenRelationshipModal] = React.useState(false);
+
+  const handleOpenRelationshipModal = () => {
+    setOpenRelationshipModal(true);
+  };
+
+  const handleCloseRelationshipModal = () => {
+    setOpenRelationshipModal(false);
+  };
+
+  const [openConnectionsModal, setOpenConnectionsModal] = React.useState(false);
+
+  const handleOpenConnectionsModal = () => {
+    setOpenConnectionsModal(true);
+  };
+
+  const handleCloseConnectionsModal = () => {
+    setOpenConnectionsModal(false);
+  };
 
   const handleCloseUserSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -267,7 +291,16 @@ const App = () => {
               <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
                 modalStyle={modalStyle}
               />
-              <BottomNavBar searchOpen={handleOpenSearchModal} />
+              <RelationshipModal open={openRelationshipModal} handleClose={handleCloseRelationshipModal} classes={classes}
+              modalStyle={modalStyle}
+              />
+              <ConnectionsModal open={openConnectionsModal} handleClose={handleCloseConnectionsModal} classes={classes}
+              modalStyle={modalStyle}
+                  />
+              <BottomNavBar searchOpen={handleOpenSearchModal}
+              addOpen={handleOpenRelationshipModal}
+              historyOpen={handleOpenConnectionsModal}
+               />
               </>
               }              
             </Route>
