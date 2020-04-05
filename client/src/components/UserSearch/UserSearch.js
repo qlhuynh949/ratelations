@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const UserSearch = (props) => {
   const classes = useStyles();
+  
   return (
     <>
     <Container>
@@ -39,8 +40,14 @@ const UserSearch = (props) => {
         className={classes.input}
         placeholder="Friends Search"
         inputProps={{ 'aria-label': 'Friends Search' }}
+        name="searchText"
+        onChange={props.onChangeSearchText}
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
+      <IconButton 
+      type="submit" 
+      className={classes.iconButton} aria-label="search"
+      onClick={props.searchClick}
+      >
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />

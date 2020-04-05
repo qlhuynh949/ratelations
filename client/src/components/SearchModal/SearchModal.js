@@ -6,6 +6,7 @@ import FriendsSection from '../FriendsSection'
 
 
 const SearchModal = (props) => {
+  
 
   return (
       <>
@@ -20,8 +21,8 @@ const SearchModal = (props) => {
             <h2 id="simple-modal-title">Search and Add Friends</h2>
             <p id="simple-modal-description">
             </p>
-             <UserSection />
-             <FriendsSection />
+            <UserSection userState={props.userState}/>
+            <FriendsSection userState={props.userState} />
 
           </div>
         </Modal>

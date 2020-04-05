@@ -7,6 +7,13 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { fade, makeStyles } from '@material-ui/core/styles'
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import AddIcon from '@material-ui/icons/Add';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -67,6 +74,9 @@ const useStyles = makeStyles(theme => ({
 
 const FriendsSection = (props) => {
   const classes = useStyles()
+  const removeFriend=(item)=>{
+
+  }
   return (
     <>
       <ExpansionPanel>
@@ -79,7 +89,30 @@ const FriendsSection = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Paper variant="outlined" square>
-
+            {props.userState.currentFriends.map(searchItem => (
+              <>
+                <Grid container className={classes.root}>
+                <Grid item xs={12} key={searchItem.id}>
+                  <Card className={classes.root} variant="outlined">
+                    <CardContent>
+                      <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        Name:{searchItem.firstName} {searchItem.lastName}
+                      </Typography>
+                      <Typography className={classes.pos}>
+                        User: {searchItem.username}
+                      </Typography>
+                      <Typography className={classes.pos} color="textSecondary">
+                        Email: {searchItem.email}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button onClick={() => removeFriend(searchItem)}><RemoveCircleIcon /></Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+                </Grid>
+              </>
+            ))}
           </Paper>
         </ExpansionPanelDetails>
       </ExpansionPanel >

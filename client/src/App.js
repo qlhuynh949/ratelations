@@ -70,7 +70,8 @@ const App = () => {
     currentUser: '',
     isLoggedIn: false,
     uid:0,
-    headers: null
+    headers: null,
+    currentFriends:[]
   })
 
 
@@ -293,8 +294,12 @@ const App = () => {
                       userState={userState}
               />
               </Paper>
-              <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
-                modalStyle={modalStyle}
+              <SearchModal 
+              open={openSearchModal} 
+              handleClose={handleCloseSearchModal} 
+              classes={classes}
+              modalStyle={modalStyle}
+              userState={userState}
               />
               <RelationshipModal 
               open={openRelationshipModal} 

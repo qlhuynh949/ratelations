@@ -49,7 +49,6 @@ router.post('/users/updateAccount', (req, res) => {
 
 })
 
-
 // Find One user By Email
 router.get('/users/email/:email', (req, res) => {
   User.findOne({ email: req.params.email })
@@ -57,6 +56,31 @@ router.get('/users/email/:email', (req, res) => {
       res.json(user)
     })
     .catch(e => console.log(e))
+})
+
+// Find search users base on text
+router.get('/users/userSearch/:searchText', (req, res) => {
+  User.find({ $text: { $search: req.params.searchText } })
+  .limit(5)
+  .then(
+    user=>{
+       let userFound=[]
+       user.forEach(element=>{
+         let userObj = {
+           id: element._id,
+           username: element.username,
+           email: element.email,
+           firstName: element.firstName,
+           lastName: element.lastName
+         }
+         userFound.push(userObj)
+       })
+       
+      res.json(userFound)
+    }
+  )
+  .catch(e => console.log(e))
+  
 })
 
 router.post('/checkToken', (req, res) => {
