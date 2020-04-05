@@ -1,12 +1,14 @@
 import React from 'react';
 import './SearchModal.css'
 import Modal from '@material-ui/core/Modal';
+import UserSection from '../UserSection'
+import FriendsSection from '../FriendsSection'
 
 
 const SearchModal = (props) => {
 
   return (
-
+      <>
       <div>
         <Modal
           aria-labelledby="simple-modal-title"
@@ -15,16 +17,16 @@ const SearchModal = (props) => {
           onClose={props.handleClose}
         >
           <div style={props.modalStyle} className={props.classes.paper}>
-            <h2 id="simple-modal-title">Search</h2>
+            <h2 id="simple-modal-title">Search and Add Friends</h2>
             <p id="simple-modal-description">
+            </p>
+             <UserSection />
+             <FriendsSection />
 
-          </p>
-           
           </div>
         </Modal>
       </div>
-    
-
+      </>
   )
 }
 
