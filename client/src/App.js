@@ -13,7 +13,7 @@ import ForgotPassword from './components/ForgotPassword'
 import User from './utils/User'
 import Paper from '@material-ui/core/Paper'
 import AccountReset from './components/AccountReset'
-
+import RelationshipView from './components/RelationshipView'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -268,6 +268,11 @@ const App = () => {
                 handleCloseForgotPasswordSnackbar={handleCloseForgotPasswordSnackbar}
                 userState={userState}
               />
+            </Route>
+            <Route path="/viewFriendRelationship">
+              {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin}
+                handleInputChange={handleInputChangeUser} /> :<RelationshipView />
+              }
             </Route>
             <Route path="/homepage">
               {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin} 
