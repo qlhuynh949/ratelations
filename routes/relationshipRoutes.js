@@ -1,13 +1,13 @@
 const router = require('express').Router()
 const { Relationship} = require('../models')
 
-router.get('/relationships', (req, res) => {
+router.get('/relationshipsByUser', (req, res) => {
   Relationship.find()
     .then(relationships => res.json(relationships))
     .catch(e => console.error(e))
 })
 
-router.post('/relationships', (req, res) => {
+router.post('/relationshipsAdd', (req, res) => {
   Relationship.create(req.body)
     .then(relationship => res.json(relationship))
     .catch(e => console.error(e))
