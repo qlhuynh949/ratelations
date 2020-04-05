@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './UserSection.css'
 import UserDisplay from '../UserDisplay'
 import UserSearch from '../UserSearch'
@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import User from '../../utils/User'
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -69,6 +71,25 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserSection = (props) => {
+  const [searchUserState, setSearchUserState] = useState({
+    searchText: '',
+    searchResults: []
+  })
+
+  const handleInputChangeUser = ({ target }) => {
+    setSearchUserState({ ...searchUserState, [target.name]: target.value })
+  }
+
+  const handleSearch = (event) => {
+    event.preventDefault()
+    let searchText = searchUserState.searchText
+    User.userSearch(searchText)
+      .then((response) => {
+        
+        setSearchUserState({ ...searchUserState, searchResults: response.data})
+
+      })
+  }
 
   const classes = useStyles()
   return (
@@ -83,10 +104,15 @@ const UserSection = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Container>
-          <Paper variant="outlined" square>
-          <UserSearch />
-          <UserDisplay />
-          </Paper>
+            <Paper variant="outlined" square>
+              <UserSearch
+                onChangeSearchText={handleInputChangeUser}
+                searchClick={handleSearch}
+              />
+              <UserDisplay searchUserState={searchUserState}
+              userState={props.userState}
+              />
+            </Paper>
           </Container>
         </ExpansionPanelDetails>
       </ExpansionPanel >

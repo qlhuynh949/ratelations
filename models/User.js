@@ -13,6 +13,8 @@ const UserSchema = new Schema({
   }]
 })
 
+UserSchema.index({ "username": "text", "email": "text", "firstName": "text", "lastName":"text" })
+
 UserSchema.plugin(require('passport-local-mongoose'))
 
 module.exports = model('user', UserSchema)
