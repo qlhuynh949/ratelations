@@ -85,7 +85,7 @@ const UserSection = (props) => {
     let searchText = searchUserState.searchText
     User.userSearch(searchText)
       .then((response) => {
-        
+        console.log(response)
         setSearchUserState({ ...searchUserState, searchResults: response.data})
 
       })
@@ -94,23 +94,25 @@ const UserSection = (props) => {
   const classes = useStyles()
   return (
     <>
-      <ExpansionPanel>
+      <ExpansionPanel key="userSection">
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="RelationshipFollowedPanelbh-content"
-          id="RelationshipFollowedPanelbh-header"
+          aria-controls="UserSectionPanelbh-content"
+          id="UserSectionPanelbh-header"
         >
           <Typography className={classes.heading}>Look for Friends</Typography>
         </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        <ExpansionPanelDetails key="UserSectionExpansionPanel">
           <Container>
             <Paper variant="outlined" square>
               <UserSearch
                 onChangeSearchText={handleInputChangeUser}
                 searchClick={handleSearch}
+                key="UserSearch"
               />
               <UserDisplay searchUserState={searchUserState}
               userState={props.userState}
+              key="UserDisplay"
               />
             </Paper>
           </Container>

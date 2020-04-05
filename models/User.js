@@ -6,6 +6,7 @@ const UserSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   friends: [{ type: Schema.Types.ObjectId, ref: 'Friends' }],
+  followers: [{ type: Schema.Types.ObjectId, ref: 'User'}],
   relationship: { type: Schema.Types.ObjectId, ref: 'Relationship' },
   items: [{
     type: Schema.Types.ObjectId,

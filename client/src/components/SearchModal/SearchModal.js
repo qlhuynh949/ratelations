@@ -20,8 +20,8 @@ const SearchModal = (props) => {
             
             <h3 id="simple-modal-title">Search Friends</h3>
             
-            <UserSection userState={props.userState}/>
-            <FriendsSection userState={props.userState} />
+            <UserSection userState={props.userState} key="userSection"/>
+            <FriendsSection userState={props.userState} key="friendsSection" />
           </div>
           
         </Modal>

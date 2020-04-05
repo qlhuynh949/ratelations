@@ -6,7 +6,7 @@ const friendsSchema = new Schema({
   status: {
     type: Number,
     enums: [
-      0,    //'add friend',
+      0,    //'not friends or no longer or blocked',
       1,    //'requested',
       2,    //'pending', //state of pending request
       3,    //'friends'
