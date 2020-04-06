@@ -72,6 +72,7 @@ const PostInput = (props) => {
             getLabelText={value => customIcons[value].label}
             IconContainerComponent={IconContainer}
             onClick={props.handleInputChange}
+            value={props.score}
           />
         </Box>
         <TextField

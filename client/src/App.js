@@ -5,12 +5,15 @@ import BottomNavBar from './components/BottomNavBar'
 import TopNavBar from './components/TopNavBar'
 import HomePage from './components/HomePage'
 import SearchModal from './components/SearchModal'
+import RelationshipModal from './components/AddRelationship'
+import ConnectionsModal from './components/Connections'
 import Chart from './components/Chart'
 import RegisterPage from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
 import User from './utils/User'
 import Paper from '@material-ui/core/Paper'
-
+import AccountReset from './components/AccountReset'
+import RelationshipView from './components/RelationshipView'
 
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -27,8 +30,8 @@ function rand() {
 }
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -41,7 +44,7 @@ function getModalStyle() {
 const useStyles = makeStyles(theme => ({
   paper: {
     position: 'absolute',
-    width: 400,
+    width: '95%',
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
     boxShadow: theme.shadows[5],
@@ -66,7 +69,9 @@ const App = () => {
     token: '',
     currentUser: '',
     isLoggedIn: false,
-    headers: null
+    uid:0,
+    headers: null,
+    currentFriends:[]
   })
 
 
@@ -74,6 +79,7 @@ const App = () => {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
+  
   const [openSearchModal, setOpenSearchModal] = React.useState(false);
   
   const handleOpenSearchModal = () => {
@@ -85,11 +91,31 @@ const App = () => {
   };
 
 
+
+  const [openRelationshipModal, setOpenRelationshipModal] = React.useState(false);
+
+  const handleOpenRelationshipModal = () => {
+    setOpenRelationshipModal(true);
+  };
+
+  const handleCloseRelationshipModal = () => {
+    setOpenRelationshipModal(false);
+  };
+
+  const [openConnectionsModal, setOpenConnectionsModal] = React.useState(false);
+
+  const handleOpenConnectionsModal = () => {
+    setOpenConnectionsModal(true);
+  };
+
+  const handleCloseConnectionsModal = () => {
+    setOpenConnectionsModal(false);
+  };
+
   const handleCloseUserSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setUserState({ ...userState, userSnackBar: false })
   };
 
@@ -118,6 +144,7 @@ const App = () => {
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("currentUser",response.data.user)
           localStorage.setItem("isLoggedIn", response.data.isLoggedIn)
+          localStorage.setItem("uid", response.data.uid)
 
           let headers
             headers = {
@@ -127,6 +154,7 @@ const App = () => {
             setUserState({ ...userState, token: response.data.token
               , currentUser: response.data.user
               , isLoggedIn: response.data.isLoggedIn
+              , uid: response.data.uid
               , headers: headers })
           
           //Cookies.remove("x-auth-cookie"); //delete just that cookie
@@ -141,6 +169,7 @@ const App = () => {
     setUserState({ ...userState, token: ''
       , currentUser: ''
       , isLoggedIn: false
+      , uid:0
       , headers: null })
       
   }
@@ -186,7 +215,7 @@ const App = () => {
     { x: new Date("2017- 06- 01"), y: 84.180 },
     { x: new Date("2017- 07- 01"), y: 84.840 },
     { x: new Date("2017- 08- 01"), y: 82.671 },
-    { x: new Date("2017- 09- 01"), y: 87.496 },
+    { x: new Date("2017- 09- 01"),  y: 89, indexLabel: "\u2191 Break Point", markerColor: "red", markerType: "triangle"  },
     { x: new Date("2017- 10- 01"), y: 86.007 },
     { x: new Date("2017- 11- 01"), y: 87.233 },
     { x: new Date("2017- 12- 01"), y: 86.276 }
@@ -222,6 +251,9 @@ const App = () => {
                 handleInputChange={handleInputChangeUser}
             /> }
             </Route>
+            <Route path="/resetAccount/:key" exact component={AccountReset}>
+
+            </Route>
             <Route path="/register">              
               <Paper className={classes.heightCenterPage}>
               <RegisterPage handleInputChange={handleInputChangeUser} 
@@ -238,26 +270,10 @@ const App = () => {
                 userState={userState}
               />
             </Route>
-            <Route path="/internal">
-              <>
-                <Paper className={classes.heightCenterPage}>
-                  <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane'
-                    Person1Name='Jack'
-                    Person1Data={Person1Data}
-                    Person1xValueFormatString="MMM YYYY"
-                    Person1yValueFormatString="#,##0.##"
-                    Person2Name='Jane'
-                    Person2Data={Person2Data}
-                    Person2xValueFormatString="MMM YYYY"
-                    Person2yValueFormatString="#,##0.##"
-                  />
-                  <HomePage />
-                </Paper>
-                <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
-                  modalStyle={modalStyle}
-                />
-                <BottomNavBar searchOpen={handleOpenSearchModal} />
-              </>
+            <Route path="/viewFriendRelationship">
+              {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin}
+                handleInputChange={handleInputChangeUser} /> :<RelationshipView />
+              }
             </Route>
             <Route path="/homepage">
               {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin} 
@@ -275,12 +291,30 @@ const App = () => {
               Person2yValueFormatString="#,##0.##"
               />
               <HomePage 
+                      userState={userState}
               />
               </Paper>
-              <SearchModal open={openSearchModal} handleClose={handleCloseSearchModal} classes={classes}
-                modalStyle={modalStyle}
+              <SearchModal 
+              open={openSearchModal} 
+              handleClose={handleCloseSearchModal} 
+              classes={classes}
+              modalStyle={modalStyle}
+              userState={userState}
               />
-              <BottomNavBar searchOpen={handleOpenSearchModal} />
+              <RelationshipModal 
+              open={openRelationshipModal} 
+              handleClose={handleCloseRelationshipModal} 
+              classes={classes}
+              modalStyle={modalStyle}
+              userState={userState}
+              />
+              <ConnectionsModal open={openConnectionsModal} handleClose={handleCloseConnectionsModal} classes={classes}
+              modalStyle={modalStyle}
+                  />
+              <BottomNavBar searchOpen={handleOpenSearchModal}
+              addOpen={handleOpenRelationshipModal}
+              historyOpen={handleOpenConnectionsModal}
+               />
               </>
               }              
             </Route>
