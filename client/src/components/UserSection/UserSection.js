@@ -82,10 +82,13 @@ const UserSection = (props) => {
 
   const handleSearch = (event) => {
     event.preventDefault()
-    let searchText = searchUserState.searchText
-    User.userSearch(searchText)
+    
+    let search = {
+      searchText: searchUserState.searchText,
+      uid:props.userState.uid
+    }
+    User.userSearch(search)
       .then((response) => {
-        console.log(response)
         setSearchUserState({ ...searchUserState, searchResults: response.data})
 
       })

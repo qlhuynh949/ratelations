@@ -1,8 +1,10 @@
 const router = require('express').Router()
-const { User, ForgotPassword } = require('../models')
+const { User, Friends, ForgotPassword } = require('../models')
 const jwt = require('jsonwebtoken')
 const TokenGenerator = require('uuid-token-generator')
 const nodemailer = require("nodemailer");
+var mongoose = require('mongoose');
+
 let domainName = process.env.domainurl || 'localhost' //This will be where we read in the current domain name
 let domainPort = process.env.PORT || process.env.ReactClientPort //Read in config setting for our default listen port on our domain
 
@@ -59,29 +61,69 @@ router.get('/users/email/:email', (req, res) => {
 })
 
 // Find search users base on text
-router.get('/users/userSearch/:searchText', (req, res) => {
-  User.find({ $text: { $search: req.params.searchText } })
-  .limit(5)
-  .then(
-    user=>{
-       let userFound=[]
-       user.forEach(element=>{
-         let userObj = {
-           id: element._id,
-           username: element.username,
-           email: element.email,
-           firstName: element.firstName,
-           lastName: element.lastName
+router.post('/users/userSearch', (req, res) => {
+  let uid = req.body.uid 
+
+  User.findById(uid)
+  .then 
+  (currentUser=>
+  {
+
+    User.find({ $text: { $search: req.body.searchText } }     )
+    .limit(3)
+    .then(
+      user=>{
+         let userFound=[]
+        user.forEach(element=>{
+          let inFriends = currentUser.friends.includes(element._id)
+          let inRelationship = currentUser.relationship.includes(element._id)
+
+          if (element._id != uid && !inFriends && !inRelationship)
+           {
+           let userObj = {
+             id: element._id,
+             username: element.username,
+             email: element.email,
+             firstName: element.firstName,
+            lastName: element.lastName
+           }
+           userFound.push(userObj)
          }
-         userFound.push(userObj)
-       })
+        })
        
-      res.json(userFound)
-    }
-  )
-  .catch(e => console.log(e))
-  
+        res.json(userFound)
+      }
+    )
+    .catch(e => console.log(e))
+  })
 })
+
+
+router.get('/users/userFriends/:id', (req, res) => {
+  User.findById(req.params.id)
+    .then(
+      user => {        
+
+        
+        if (user!==null && user.friends !== null && user.friends.length > 0)
+        {
+          User.find({ "_id": { $in: user.friends } })
+            .then(friends => {
+              res.json(friends)
+            }
+            )
+        }
+        else
+        {
+          res.json(null)
+        }
+        
+      }
+    )
+    .catch(e => console.log(e))
+
+})
+
 
 router.post('/checkToken', (req, res) => {
   let forgetToken = req.body.forgetToken

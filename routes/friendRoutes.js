@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Friends } = require('../models')
+const { Friends, User } = require('../models')
 
 router.get('/friends', (req, res) => {
   Friends.find()
@@ -9,7 +9,18 @@ router.get('/friends', (req, res) => {
 
 router.post('/friends', (req, res) => {
   Friends.create(req.body)
-    .then(friend => res.json(friend))
+    .then(friend =>
+      {
+      User.findById(req.body.requester)
+      .then(user=>{
+        user.friends.push(req.body.recipient)
+        user.save()
+        res.json(user)
+
+      })      
+      } 
+      
+      )
     .catch(e => console.error(e))
 })
 
