@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  cardroot: {
     flexGrow: 1,
     maxWidth: 752,
     backgroundColor: theme.palette.background.paper,
@@ -22,29 +22,28 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-const CommentDisplay = () => {
+const CommentDisplay = (props) => {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div className={classes.cardroot}>
       <Typography variant="h6" component="h2">
-        Friend 
-          </Typography>
+        {props.Comment.user.username}
+      </Typography>
       <div >
         <List >
-            <ListItem>
-              <Card className={classes.root}>
-                <CardContent>
-                  <Typography variant="body2" component="h4">
-                    well meaning and kindly.
-                  </Typography>
-                </CardContent>
-              </Card>
-            </ListItem>,
+          <ListItem>
+            <Card className={classes.cardroot}>
+              <CardContent>
+                <Typography variant="body2" component="h4">
+                  text
+                  {props.Comment.text}
+                </Typography>
+              </CardContent>
+            </Card>
+          </ListItem>,
         </List>
       </div>
-
-
     </div>
 
   )

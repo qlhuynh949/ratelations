@@ -1,98 +1,168 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import IconButton from '@material-ui/core/IconButton'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
-import DeleteIcon from '@material-ui/icons/Delete'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CommentDisplay from '../CommentDisplay'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+// for expansionPanel
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    maxWidth: 752,
-    backgroundColor: theme.palette.background.paper,
+import GridList from '@material-ui/core/GridList'
+import GridListTile from '@material-ui/core/GridListTile'
+// for Gridlist
+
+import moment from 'moment'
+// import format from 'date-format'
+import Comment from '../../utils/Comments'
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+const useStyles = makeStyles((theme) => ({
+  expansionPanel: {
+    width: '100%',
   },
-  title: {
-    margin: theme.spacing(4, 0, 2),
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    //backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    width: 500,
+    height: 400,
   },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
     transform: 'scale(0.8)',
   },
-  title: {
-    fontSize: 14,
+  button: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
   },
-  card:{
-    display: 'block',
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
-  cardcontent:{
-    float:'right'
-  }
-}))
+  listroot: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
-
-const PostDisplay = () => {
+const PostDisplay = (props) => {
   const classes = useStyles()
   const bull = <span className={classes.bullet}>•</span>
-  return (
-    <div className={classes.root}>
-      <Typography variant="h6" component="h2">
-        Daily Post
-          </Typography>
-      <div>
-        <List >
-          {generate(
-            <ListItem className={classes.card}>
-              <Card >
-                <CardContent>
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    post date
-                  </Typography>
-                  <Typography variant="h5" component="h2">
-                    Good things{bull}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    well meaning and kindly.gfgaddfgafgagaga
-                    <br />
-                    {'"a benevolent smile"'}
-                  </Typography>
-                    <br />
-                  <Typography variant="h5" component="h2">
-                    Bad things{bull}
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    well meaning and kindly.hetehetthjtrhehetethehe
-                    <br />
-                    {'"a benevolent smile"'}
-                  </Typography>
-                </CardContent>
-                <CardContent className={classes.cardcontent}>
-                   <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon />
-                   </IconButton>
-                </CardContent>
-              </Card>
-              <Card >
-                <CommentDisplay />
-              </Card>
-            </ListItem>
-          )}
-        </List>
-      </div>
-    </div>
 
+  const [expanded, setExpanded] = React.useState(false)
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  }
+
+  function handleInputChange(ev) {
+    //toggleInputCheck(ev.target.checked)
+    if (ev.target.checked) props.handleGetItemId(ev.target.value)
+    else props.handleGetItemId('')
+  }
+
+  const [commentState, setCommentState] = useState({
+    comments: [],
+    text: '',
+    isActive: true,
+    ralationship: '',
+    item: '',
+    user: '',
+  })
+
+  const handleGetComment = (event, id) => {
+    Comment.read(id)
+      .then(({ data: comments }) => {
+        // console.log(comments)
+        setCommentState({ comments })
+        console.log(comments)
+      })
+  }
+
+
+
+  return (
+    <>
+      <div className={classes.root}>
+        <GridList cellHeight={'auto'} className={classes.gridList} cols={1}>
+          {props.items.length > 0 ? props.items.map((item, i) => (
+            <GridListTile
+              key={i}
+            >
+              <input
+                type='checkbox'
+                value={item._id}
+                onClick={(ev) => { handleInputChange(ev) }}
+              />
+              <Typography variant="h6" component="h2" >
+                {moment(item.created_at.$date).format('dddd, MMM Do, YYYY')}
+              </Typography>
+              <Typography variant="h5" component="h2">
+                Good things{bull}
+              </Typography>
+              <Typography>{item.goodtext}</Typography>
+              <br></br>
+              <Typography variant="h5" component="h2">
+                Bad things{bull}
+              </Typography>
+              <Typography>{item.badtext}</Typography>
+
+              <div className={classes.expansionPanel}>
+                <ExpansionPanel expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel${i}a-content"
+                    id="panel1a-header"
+                  >
+                    <Typography
+                      className={classes.heading}
+                      onClick={(e) => handleGetComment(e, item._id)}
+                    >Friend comments</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <div className={classes.listroot}>
+                      <List component="nav" aria-label="main mailbox folders">
+                        {commentState.comments.length > 0 ? commentState.comments.map((comment, i) => (
+                          <ListItem button>
+                            <ListItemText>
+                              {comment.user.username}: {comment.text}
+                            </ListItemText>
+                          </ListItem>
+
+                        )) : <ListItemText>no comment</ListItemText>}
+                      </List>
+                    </div>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              </div>
+
+            </GridListTile>
+          )) : null}
+        </GridList>
+      </div>
+    </>
   )
 }
 
-export default PostDisplay1
+export default PostDisplay
