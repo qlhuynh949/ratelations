@@ -33,7 +33,12 @@ const useStyles = makeStyles(theme => ({
   paddingTop: '3px'
   },
   bar: {
-    backgroundColor: red[900] 
+    backgroundColor: red[900]
+  },
+  stickyTop: {
+  position: 'fixed',
+  top: 0,
+  width: '100 %'
   }
 }));
 

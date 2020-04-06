@@ -60,7 +60,8 @@ router.get('/users/email/:email', (req, res) => {
     .catch(e => console.log(e))
 })
 
-// Find search users base on text
+// Find search users base on text and not currently friends
+// already or in a relationship
 router.post('/users/userSearch', (req, res) => {
   let uid = req.body.uid 
 
@@ -104,7 +105,6 @@ router.get('/users/userFriends/:id', (req, res) => {
     .then(
       user => {        
 
-        
         if (user!==null && user.friends !== null && user.friends.length > 0)
         {
           User.find({ "_id": { $in: user.friends } })
@@ -124,6 +124,21 @@ router.get('/users/userFriends/:id', (req, res) => {
 
 })
 
+
+router.post('/users/userFriendsDetach', (req, res) => {
+  User.findByIdAndUpdate(req.body.requester,
+    { $pull: { friends: req.body.recipient } },
+    { safe: true, upsert: true },
+    (err, doc)=> {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(200)
+      }
+    }
+  );
+  
+})
 
 router.post('/checkToken', (req, res) => {
   let forgetToken = req.body.forgetToken

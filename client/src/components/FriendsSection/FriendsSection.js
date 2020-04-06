@@ -77,39 +77,7 @@ const useStyles = makeStyles(theme => ({
 const FriendsSection = (props) => {
   const classes = useStyles()
 
-  const [friendsState, setFriendsState] = useState({
-    friends:[]
-  })
 
-  useEffect(() => {
-    let currentUser = props.userState.uid
-    console.log(currentUser)
-    User.userFriends(props.userState.uid)
-      .then((response) => {
-        if (response.status === 200) {
-        console.log(response)
-          //setState(response)
-          let result=[]
-          if (response.data !== null)
-          {
-            if (response.data.length > 0)
-            {
-              response.data.forEach(element=>{
-                  result.push(element)
-              })
-            }
-          }
-          setFriendsState({ ...friendsState, friends:result })
-
-        }
-      })
-  }, [])
-
-
-
-  const removeFriend=(item)=>{
-
-  }
 
   return (
     <>
@@ -123,7 +91,7 @@ const FriendsSection = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Paper variant="outlined" square key="currentFriendsPaper">
-            {friendsState.friends.map(searchItem => (
+            {props.friendsState.friends.map(searchItem => (
               <>
                 <Grid container className={classes.root}>
                 <Grid item xs={12} key={searchItem.id}>
@@ -140,7 +108,7 @@ const FriendsSection = (props) => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button onClick={() => removeFriend(searchItem)}><RemoveCircleIcon /></Button>
+                        <Button onClick={() => props.removeFriend(searchItem)}><RemoveCircleIcon /></Button>
                     </CardActions>
                   </Card>
                 </Grid>
