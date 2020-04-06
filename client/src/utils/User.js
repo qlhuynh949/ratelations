@@ -7,7 +7,8 @@ const User = {
   forgotPassword: user => axios.post('/api/ForgotPasswordToken', user),
   checkToken: user=>axios.post('/api/CheckToken',user),
   userSearch: (search) => axios.post('/api/users/userSearch',search),
-  userFriends: (id) => axios.get(`/api/users/userFriends/${id}`)
+  userFriends: (id) => axios.get(`/api/users/userFriends/${id}`),
+  userFriendsDetach: (friendsDetach) => axios.post(`/api/users/userFriendsDetach/`,friendsDetach)
 }
 
 export default User

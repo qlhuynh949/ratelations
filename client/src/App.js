@@ -51,6 +51,15 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3),
   },
   heightCenterPage: { height:'auto', overflow: 'auto', marginBottom:70 }
+  ,
+  heightModalPage: {
+    position: 'absolute',
+    width: '95%',
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  }
 }))
 
 

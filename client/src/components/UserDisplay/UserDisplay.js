@@ -7,7 +7,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
-import Friends from '../../utils/Friends'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,22 +16,7 @@ const useStyles = makeStyles((theme) => ({
 const UsersDisplay = (props) => {
   const classes = useStyles();
   
-  const addFriend=(item)=>{
-    props.userState.currentFriends.push(item)
-    let friend = {
-      recipient: item.id,
-      requester: props.userState.uid,
-      status: 3 // added as a Friends
-    }    
-    Friends.create(
-      friend
-      )
-      .then(({ data: friends }) => {
-        console.log(friend)
-        //console.log(friends)
-      })
 
-  }
   return (
     <>
       <h3>Search Results:</h3>
@@ -65,7 +49,7 @@ const UsersDisplay = (props) => {
                 <CardActions
                 key={searchItem.id.toString() + "cardActions"}
                 >
-                  <Button onClick={() => addFriend(searchItem)}><AddIcon /></Button>                    
+                  <Button onClick={() => props.addFriend(searchItem)}><AddIcon /></Button>                    
                 </CardActions>                
               </Card>
         </>
