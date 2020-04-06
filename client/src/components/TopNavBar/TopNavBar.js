@@ -9,6 +9,7 @@ import logo from './logo.png'
 import red from '@material-ui/core/colors/red'
 import LockIcon from '@material-ui/icons/Lock'
 import PersonIcon from '@material-ui/icons/Person';
+import HomeIcon from '@material-ui/icons/Home';
 
 import {
   Link
@@ -51,12 +52,15 @@ const TopNavBar = (props) => {
               <img src={logo} className={classes.imageCenter} alt="logo" width="80px" height="80px" />
                      
           </Typography>
-          {props.userState.isLoggedIn? (
+          {props.userState.isLoggedIn? (            
             <Link to="/">          
               <IconButton onClick={props.handleSignOut}>
                 <LockIcon />
               </IconButton>
-            </Link>
+              <IconButton>
+                <HomeIcon />
+              </IconButton>
+            </Link>             
           ) : <Link to="/">
               <IconButton>
                 <PersonIcon />

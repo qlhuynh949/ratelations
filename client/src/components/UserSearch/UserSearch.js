@@ -34,7 +34,7 @@ const UserSearch = (props) => {
   
   return (
     <>
-    <Container>
+    <Container key="UserSearchContainer">
     <Paper component="form" className={classes.root}>
       <InputBase
         className={classes.input}
