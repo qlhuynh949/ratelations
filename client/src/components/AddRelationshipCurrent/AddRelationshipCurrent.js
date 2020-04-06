@@ -14,14 +14,15 @@ const AddRelationshipCurrent = (props) => {
   const classes = useStyles();
   return (
     <>
-      <Grid container className={classes.root}>
-        <Grid item xs={4}>
-          <Typography>Edge-cases</Typography>
-        </Grid>
-        <Grid item xs={8}>
-          <BrokenImageIcon />
-        </Grid>
-      </Grid>
+        <Grid container className={classes.root}>
+          <Grid item xs={4}>
+            <Typography>{props.userState.firstName} {props.userState.firstName}
+            </Typography>
+          </Grid>
+          <Grid item xs={8}>
+            <BrokenImageIcon onClick={props.BreakUp}/>
+          </Grid>
+        </Grid>        
     </>
 
   )

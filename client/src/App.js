@@ -80,7 +80,9 @@ const App = () => {
     isLoggedIn: false,
     uid:0,
     headers: null,
-    currentFriends:[]
+    currentFriends:[],
+    currentRelationship:[],
+    inRelationship:false
   })
 
 
@@ -104,29 +106,57 @@ const App = () => {
   const [openRelationshipModal, setOpenRelationshipModal] = React.useState(false);
 
   const handleOpenRelationshipModal = () => {
-    setOpenRelationshipModal(true);
-  };
+    getRelationshipInfo()
+    setOpenRelationshipModal(true)
+  }
 
   const handleCloseRelationshipModal = () => {
-    setOpenRelationshipModal(false);
-  };
 
-  const [openConnectionsModal, setOpenConnectionsModal] = React.useState(false);
+    setOpenRelationshipModal(false)
+  }
+
+  const getRelationshipInfo =()=>
+  {
+    //userRelationship
+    User.userRelationship(userState.uid)
+      .then((response) => {
+        if (response.status === 200) {
+          let result = []
+          if (response.data !== null) {
+            if (response.data.length > 0) {
+              response.data.forEach(element => {
+                result.push(element)
+              })
+            }
+          }
+          let inRelationship = false
+          if (result.length > 0)
+          {
+            inRelationship = true
+          } 
+          
+          setUserState({ ...userState, currentRelationship: result, inRelationship:inRelationship })
+          
+        }
+      })
+  }
+
+  const [openConnectionsModal, setOpenConnectionsModal] = React.useState(false)
 
   const handleOpenConnectionsModal = () => {
-    setOpenConnectionsModal(true);
-  };
+    setOpenConnectionsModal(true)
+  }
 
   const handleCloseConnectionsModal = () => {
-    setOpenConnectionsModal(false);
-  };
+    setOpenConnectionsModal(false)
+  }
 
   const handleCloseUserSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
-      return;
+      return
     }
     setUserState({ ...userState, userSnackBar: false })
-  };
+  }
 
   const handleCloseForgotPasswordSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -134,7 +164,7 @@ const App = () => {
     }
 
     setUserState({ ...userState, userForgotPasswordSnackBar: false })
-  };
+  }
 
   const handleInputChangeUser = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
