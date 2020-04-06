@@ -3,7 +3,9 @@ import './AddRelationshipDisplay.css'
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography'
+
+import PartnerCard from '../PartnerCard'
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,16 +16,19 @@ const AddRelationshipDisplay = (props) => {
   const classes = useStyles();
   return (
   <>
-      <Grid container className={classes.root}>
-        <Grid item xs={4}>
-          <Typography>Edge-cases</Typography>
-        </Grid>
-        <Grid item xs={8}>
-          <AddIcon/>
-        </Grid>
-      </Grid>
+      {props.searchPartnerState.searchPartnerResults.map(searchItem => (
+        <>
+          <Grid container className={classes.root}>
+            <Grid item xs={6}>
+              <PartnerCard searchItem={searchItem} />
+            </Grid>
+            <Grid item xs={2}>
+              <Button onClick={() => props.addPartner(searchItem)}><AddIcon /></Button>
+            </Grid>
+          </Grid>
+        </>
+      ))}
   </>
-
   )
 }
 

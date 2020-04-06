@@ -8,7 +8,8 @@ const User = {
   checkToken: user=>axios.post('/api/CheckToken',user),
   userSearch: (search) => axios.post('/api/users/userSearch',search),
   userFriends: (id) => axios.get(`/api/users/userFriends/${id}`),
-  userFriendsDetach: (friendsDetach) => axios.post(`/api/users/userFriendsDetach/`,friendsDetach)
+  userFriendsDetach: (friendsDetach) => axios.post(`/api/users/userFriendsDetach/`,friendsDetach),
+  userRelationship: (id) => axios.get(`/api/users/userRelationship/${id}`)
 }
 
 export default User

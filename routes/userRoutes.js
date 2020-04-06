@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, Friends, ForgotPassword } = require('../models')
+const { User, Friends, Relationship, ForgotPassword } = require('../models')
 const jwt = require('jsonwebtoken')
 const TokenGenerator = require('uuid-token-generator')
 const nodemailer = require("nodemailer");
@@ -124,6 +124,35 @@ router.get('/users/userFriends/:id', (req, res) => {
 
 })
 
+router.get('/users/userRelationship/:id', (req, res) => {
+  User.findById(req.params.id)
+    .then(
+      user => {
+        //We currently restrict the user to only be in 
+        //one relationship at a time but we know in 
+        //the real world especially in casual dating
+        //that it is possible for a person to be
+        //in multiple relationships at a given moment
+        if (user !== null && user.relationship !== null && user.relationship.length > 0) {
+          let curRelationship = user.relationship[0]
+          Relationship.findById(curRelationship)
+          .then(relationship=>{
+            let relationshipObj=
+            {
+              relationshipID:relationship._id, 
+              uid:user._id,
+              partners:relationship.partners,
+              status:relationship.status
+            }
+            res.json(relationshipObj)
+          })
+        }
+        else
+        {
+          res.send(null)
+        }
+      })
+})
 
 router.post('/users/userFriendsDetach', (req, res) => {
   User.findByIdAndUpdate(req.body.requester,
