@@ -21,6 +21,6 @@ module.exports = model('comments', new Schema({
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'user'
   }
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }))

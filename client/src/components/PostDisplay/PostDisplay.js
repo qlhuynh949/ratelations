@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    //backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     width: 500,
@@ -69,14 +69,14 @@ function rand() {
 }
 // for modal
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50
+  const left = 50
 
   return {
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
-  };
+  }
 }
 // for modal
 
@@ -88,10 +88,10 @@ const PostDisplay = (props) => {
   const [open, setOpen] = React.useState(false)
   // const [isInputCheckedState, toggleInputCheck] = React.useState(false)
   const handleOpen = () => {
-    setOpen(true);
+    setOpen(true)
   }
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
   }
 
   function handleInputChange(ev) {
@@ -109,35 +109,23 @@ const PostDisplay = (props) => {
     user: '',
   })
 
-  let itemUserComments = [
-    {
-      Cuser: "5e838464fd8e6d26f039b1e9",
-      Text: "sdafasdfawgwawargfaw",
-      Username: "jie"
-    },
-    {
-      Cuser: "5e8783b2abab553bc4df36ba",
-      Text: "yan",
-      Username: "yan"
-    }
-  ]
   const handleGetComment = (event, id) => {
-
     Comment.read(id)
       .then(({ data: comments }) => {
+        // console.log(comments)
         setCommentState({ comments })
         console.log(comments)
       })
-    commentState.comments.forEach(comment => {
-      // console.log(comment)
-      User.get(comment.user)
-        .then(({ data: comUser }) => {
-          // console.log(comUser)
-          itemUserComments.push({ "Cuser": comment.user, "Text": comment.text, "Username": comUser.username })
-          return itemUserComments
-        })
-    })
-    console.log(itemUserComments)
+    // commentState.comments.forEach(comment => {
+    //   // console.log(comment)
+    //   User.get(comment.user)
+    //     .then(({ data: comUser }) => {
+    //       // console.log(comUser)
+    //       itemUserComments[itemUserComments.length]={ "Cuser": comment.user, "Text": comment.text, "Username": comUser.username }
+    //       return itemUserComments
+    //     })
+    // })
+    // console.log(itemUserComments)
     // const distinct = (value, index, self) => {
     //   return self.indexOf(value) === index
     // }
@@ -191,20 +179,26 @@ const PostDisplay = (props) => {
                     <Typography>
                       <div className={classes.button}>
                         <ButtonGroup variant="text" aria-label="text primary button group">
-                          {itemUserComments.length > 0 ? itemUserComments.map((itemUserComment, i) => (
-                            <Button key={i} type="button" onClick={handleOpen}> {itemUserComment.Username}
+                          {commentState.comments.length > 0 ? commentState.comments.map((comment, i) => (
+                            <div>
                               <Modal
                                 open={open}
-                                className={modalStyle}
+                                //className={classes.paper}
                                 onClose={handleClose}
                                 aria-labelledby="simple-modal-title"
                                 aria-describedby="simple-modal-description"
                               >
-                                <CommentDisplay
-                                  itemUserComment={itemUserComment}
-                                />
+                                {/* <div > */}
+                                <div style={modalStyle} className={classes.paper}>
+                                  <CommentDisplay
+                                    Comment={comment}
+                                  />
+                                  {/* Sample div! */}
+                                </div>
                               </Modal>
-                            </Button>
+                              <Button key={i} type="button" onClick={handleOpen}> {comment.user.username}
+                              </Button>
+                            </div>
                           )) : <Button>no comment</Button>}
                         </ButtonGroup>
                       </div>
