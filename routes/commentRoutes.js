@@ -1,9 +1,15 @@
 const router = require('express').Router()
 const { Comments } = require('../models')
 
-router.get('/comments', (req, res) => {
-  Comments.find()
-    .then(comments => res.json(comments))
+
+router.get('/comments/item/:item', (req, res) => {
+  console.log(req.params.item)
+  Comments.find({ item: req.params.item })
+    .populate('user')
+    .then(comments => {
+      console.log(comments)
+      res.json(comments)
+    })
     .catch(e => console.error(e))
 })
 
