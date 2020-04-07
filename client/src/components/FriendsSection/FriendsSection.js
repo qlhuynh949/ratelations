@@ -107,6 +107,7 @@ const FriendsSection = (props) => {
                     </CardContent>
                     <CardActions>
                         <Button onClick={() => props.removeFriend(searchItem)}><RemoveCircleIcon /></Button>
+                        <Button onClick={() => props.friendFollowMe(searchItem)}>Follow Me</Button>
                     </CardActions>
                   </Card>
                 </Grid>

@@ -81,6 +81,19 @@ const SearchModal = (props) => {
     RefreshFriends()
   }, [])
 
+  const friendFollowMe =(item)=> {
+    let relationshipFollow ={
+      follower:item._id,
+      me:props.userState.uid,
+      partner: props.userState.partnerId,
+      relationshipid: props.userState.userRelationshipID,
+      partnerFirstName: props.userState.partnerFirstName,
+      partnerLastName: props.userState.partnerLastName,
+      meFirstName: props.userState.firstName,
+      melastName: props.userState.lastName
+      }
+  }
+
   const removeFriend = (item) => {
     let friend = {
       recipient: item._id,
@@ -121,6 +134,7 @@ const SearchModal = (props) => {
             <FriendsSection userState={props.userState} key="friendsSection"
             friendsState={friendsState} 
             removeFriend={removeFriend}
+            friendFollowMe={friendFollowMe}
             />
           </div>
           

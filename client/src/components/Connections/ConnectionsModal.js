@@ -1,7 +1,7 @@
 import React from 'react';
 import './ConnectionsModal.css'
 import Modal from '@material-ui/core/Modal';
-import PastConnections from '../PastConnections'
+import FriendsFollowing from '../FriendsFollowing'
 import RelationshipFollowed from '../RelationshipFollowed'
 
 const ConnectionsModal = (props) => {
@@ -21,7 +21,7 @@ const ConnectionsModal = (props) => {
 
             </p>
             <RelationshipFollowed />
-            <PastConnections />
+            <FriendsFollowing />
           </div>
         </Modal>
       </div>
