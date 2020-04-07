@@ -139,35 +139,27 @@ router.get('/users/userRelationship/:id', (req, res) => {
         if (user !== null && user.relationship !== null && user.relationship.length > 0) {
           let curRelationship = user.relationship[0]
           Relationship.findById(curRelationship)
-          .populate('user')
-          .then(relationship=>{
-
- 
-            let relationshipObj=
-            {
-              relationshipID:relationship._id, 
-              uid:user._id,
-              partners:relationship.couples,
-              status:relationship.status,
-              firstName:user.firstName,
-              lastName:user.lastName,
-              username:user.username,
-              email:user.email,
-              partnerFirstName: relationship.partnerFirstName,
-              partnerLastName: relationship.partnerLastName,
-              partnerUserName: relationship.partnerUserName,
-              partnerEmail: relationship.partnerEmail
-            }
-            res.json(relationshipObj)
-          })
+            .then(relationship => {
+              let relationshipObj =
+              {
+                relationshipID: relationship._id,
+                uid: user._id,
+                couples: relationship.couples,
+                status: relationship.status,
+                partnerFirstName: relationship.partnerFirstName,
+                partnerLastName:relationship.partnerLastName,
+                partnerEmail:relationship.partnerEmail,
+                partnerId:relationship.partnerId,
+                requestingPartnerId:relationship.requestingPartnerId
+              }
+              res.json(relationshipObj)
+            })
         }
-        else
-        {
+        else {
           res.send(null)
         }
       })
 })
-
 
 router.post('/users/userFriendsDetach', (req, res) => {
   User.findByIdAndUpdate(req.body.requester,
@@ -185,7 +177,7 @@ router.post('/users/userFriendsDetach', (req, res) => {
 })
 
 
-router.post('/users/relationshipAttach', (req, res) => {
+router.post('/users/userRelationshipAttach', (req, res) => {
   let couples=[]
 
   //double check if user is in relationship
@@ -201,24 +193,56 @@ router.post('/users/relationshipAttach', (req, res) => {
             partnerLastName: req.body.lastName,
             partnerUserName: req.body.username,
             partnerEmail: req.body.email,
+            partnerId: req.body.id,
+            requestingPartnerId: req.body.uid,       
             isActive: true,
             status: 2 //in relationship
           }
           Relationship.create(relation)
             .then(relationship => {
               let relationshipId = relationship._id
-              User.findById(req.body.uid)
-                .then(user => {
-                  user.relationship.push(relationshipId)
-                  user.save()
-                  res.json(user)
-                })
+
+              User.updateMany(
+                { "_id": { "$in": couples } },
+                { "$push": { "relationship": relationshipId } },
+                ()=>{
+                  res.json(relation)                
+                }
+              )
+
+
             })
 
         }
     })
   
 })
+
+router.post('/users/userRelationshipDetach', (req, res) => {
+  let couples = []
+  couples.push(req.body.id)
+  couples.push(req.body.uid)
+
+  let removedRequest = {
+    operation:'removeRelationship',
+    partnerId:req.body.id,
+    requestingPartnerId: req.body.uid,
+    relationshipId:req.body.relationshipId
+  }
+
+  User.updateMany(
+    { "_id": { "$in": couples } },
+    { "$pull": { "relationship": req.body.relationshipId } },
+    () => {
+      Relationship.findOneAndRemove({ _id: req.body.relationshipId }, (err, relationship)=> {
+        res.json(removedRequest)
+      })
+      
+    }
+  )
+
+})
+
 
 
 router.post('/checkToken', (req, res) => {

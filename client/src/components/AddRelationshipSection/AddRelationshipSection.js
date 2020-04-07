@@ -112,19 +112,30 @@ const AddRelationshipSection = (props) => {
       partner
     )
       .then(({ data }) => {
-        console.log(data)
         props.getRelationshipUserInfo()
         //console.log(friends)
         //search()
         //RefreshFriends()
       })
   }
+
   const BreakUp =()=>
   {
      let breakup = {
        uid:props.userState.uid,
-       relationshipid:props.userState.relationshipid
+       relationshipId: props.userState.userRelationshipID,
+       id:props.userState.partnerId
      }
+    
+      User.userRelationshipDetach(
+        breakup
+      )
+      .then(({ data }) => {
+        props.getRelationshipUserInfo()
+        //console.log(friends)
+        //search()
+        //RefreshFriends()
+      })
   }
 
 
