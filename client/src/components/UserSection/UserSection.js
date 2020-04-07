@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './UserSection.css'
 import UserDisplay from '../UserDisplay'
 import UserSearch from '../UserSearch'
@@ -10,8 +10,6 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import User from '../../utils/User'
-import Friends from '../../utils/Friends'
 
 const useStyles = makeStyles(theme => ({
   root: {

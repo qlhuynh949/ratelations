@@ -82,7 +82,14 @@ const App = () => {
     headers: null,
     currentFriends:[],
     currentRelationship:[],
-    inRelationship:false
+    currentViewRelationshipID:'',
+    userRelationshipID: '',
+    userRelationshipStatusID:0,
+    inRelationship:false,
+    partnerFirstName: '',
+    partnerLastName: '',
+    partnerUserName: '',
+    partnerEmail: ''
   })
 
 
@@ -106,7 +113,7 @@ const App = () => {
   const [openRelationshipModal, setOpenRelationshipModal] = React.useState(false);
 
   const handleOpenRelationshipModal = () => {
-    getRelationshipInfo()
+    getRelationshipUserInfo()
     setOpenRelationshipModal(true)
   }
 
@@ -115,32 +122,43 @@ const App = () => {
     setOpenRelationshipModal(false)
   }
 
-  const getRelationshipInfo =()=>
-  {
+  const getRelationshipUserInfo = () => {
     //userRelationship
+    let inRelationship = false
+    let relationshipId = 0
+    let relationshipStatus = 0
+    let couples
     User.userRelationship(userState.uid)
       .then((response) => {
         if (response.status === 200) {
           let result = []
           if (response.data !== null) {
-            if (response.data.length > 0) {
-              response.data.forEach(element => {
-                result.push(element)
-              })
-            }
-          }
-          let inRelationship = false
-          if (result.length > 0)
-          {
             inRelationship = true
-          } 
-          
-          setUserState({ ...userState, currentRelationship: result, inRelationship:inRelationship })
-          
+            result.push(response.data.relationshipId)
+            relationshipId = response.data.relationshipId
+            relationshipStatus = response.data.status
+            couples=response.data.couples
+          }
+          setUserState({
+            ...userState,
+            inRelationship: inRelationship,
+            currentViewRelationshipID: relationshipId,
+            userRelationshipID: relationshipId,
+            userRelationshipStatusID: relationshipStatus,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            currentRelationship: couples,
+            partnerFirstName: response.data.partnerFirstName,
+            partnerLastName: response.data.partnerLastName,
+            partnerUserName: response.data.partnerUserName,
+            partnerEmail: response.data.partnerEmail
+          })
+        
         }
       })
   }
 
+  
   const [openConnectionsModal, setOpenConnectionsModal] = React.useState(false)
 
   const handleOpenConnectionsModal = () => {
@@ -184,7 +202,7 @@ const App = () => {
           localStorage.setItem("currentUser",response.data.user)
           localStorage.setItem("isLoggedIn", response.data.isLoggedIn)
           localStorage.setItem("uid", response.data.uid)
-
+          
           let headers
             headers = {
               "Content-Type": "application/json",
@@ -194,7 +212,11 @@ const App = () => {
               , currentUser: response.data.user
               , isLoggedIn: response.data.isLoggedIn
               , uid: response.data.uid
+              , firstName: response.data.firstName
+              , lastName: response.data.lastName
+              , email: response.data.email
               , headers: headers })
+            
           
           //Cookies.remove("x-auth-cookie"); //delete just that cookie
 
@@ -346,6 +368,7 @@ const App = () => {
               classes={classes}
               modalStyle={modalStyle}
               userState={userState}
+              getRelationshipUserInfo={getRelationshipUserInfo}
               />
               <ConnectionsModal open={openConnectionsModal} handleClose={handleCloseConnectionsModal} classes={classes}
               modalStyle={modalStyle}

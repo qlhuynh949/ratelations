@@ -3,6 +3,10 @@ const { model, Schema } = require('mongoose')
 
 const relationshipSchema = new Schema({
   couples: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  partnerFirstName:String,
+  partnerLastName:String,
+  partnerUserName:String,
+  partnerEmail:String,
   isActive: Boolean,
    status: {
     type: Number,

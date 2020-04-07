@@ -18,7 +18,9 @@ const RelationshipModal = (props) => {
         >
           <div style={props.modalStyle} className={props.classes.paper}>
             <h2 id="simple-modal-title">Relationship</h2>
-            <AddRelationshipSection userState={props.userState} />   
+            <AddRelationshipSection userState={props.userState} 
+              getRelationshipUserInfo= {props.getRelationshipUserInfo}
+            />   
           </div>
         </Modal>
       </div>

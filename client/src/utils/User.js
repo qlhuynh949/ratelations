@@ -9,7 +9,8 @@ const User = {
   userSearch: (search) => axios.post('/api/users/userSearch',search),
   userFriends: (id) => axios.get(`/api/users/userFriends/${id}`),
   userFriendsDetach: (friendsDetach) => axios.post(`/api/users/userFriendsDetach/`,friendsDetach),
-  userRelationship: (id) => axios.get(`/api/users/userRelationship/${id}`)
+  userRelationship: (id) => axios.get(`/api/users/userRelationship/${id}`),
+  userRelationshipAttach: (relationshipAttach) => axios.post(`/api/users/relationshipAttach/`, relationshipAttach)
 }
 
 export default User

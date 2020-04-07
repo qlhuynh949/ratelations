@@ -15,6 +15,9 @@ router.post('/users/login', (req, res) => {
       isLoggedIn: !!user,
       items: user.items,
       user: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
       uid: user._id,
       token: jwt.sign({ id: user._id }, process.env.SecretKey)
     })
@@ -136,13 +139,24 @@ router.get('/users/userRelationship/:id', (req, res) => {
         if (user !== null && user.relationship !== null && user.relationship.length > 0) {
           let curRelationship = user.relationship[0]
           Relationship.findById(curRelationship)
+          .populate('user')
           .then(relationship=>{
+
+ 
             let relationshipObj=
             {
               relationshipID:relationship._id, 
               uid:user._id,
-              partners:relationship.partners,
-              status:relationship.status
+              partners:relationship.couples,
+              status:relationship.status,
+              firstName:user.firstName,
+              lastName:user.lastName,
+              username:user.username,
+              email:user.email,
+              partnerFirstName: relationship.partnerFirstName,
+              partnerLastName: relationship.partnerLastName,
+              partnerUserName: relationship.partnerUserName,
+              partnerEmail: relationship.partnerEmail
             }
             res.json(relationshipObj)
           })
@@ -153,6 +167,7 @@ router.get('/users/userRelationship/:id', (req, res) => {
         }
       })
 })
+
 
 router.post('/users/userFriendsDetach', (req, res) => {
   User.findByIdAndUpdate(req.body.requester,
@@ -168,6 +183,43 @@ router.post('/users/userFriendsDetach', (req, res) => {
   );
   
 })
+
+
+router.post('/users/relationshipAttach', (req, res) => {
+  let couples=[]
+
+  //double check if user is in relationship
+  User.findById(req.body.uid)
+    .then(user => {
+      if (user.relationship === null ||user.relationship.length === 0 )
+        {
+          couples.push(req.body.id)
+          couples.push(req.body.uid)
+          let relation = {
+            couples: couples,
+            partnerFirstName: req.body.firstName,
+            partnerLastName: req.body.lastName,
+            partnerUserName: req.body.username,
+            partnerEmail: req.body.email,
+            isActive: true,
+            status: 2 //in relationship
+          }
+          Relationship.create(relation)
+            .then(relationship => {
+              let relationshipId = relationship._id
+              User.findById(req.body.uid)
+                .then(user => {
+                  user.relationship.push(relationshipId)
+                  user.save()
+                  res.json(user)
+                })
+            })
+
+        }
+    })
+  
+})
+
 
 router.post('/checkToken', (req, res) => {
   let forgetToken = req.body.forgetToken
