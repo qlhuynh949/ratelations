@@ -1,5 +1,5 @@
 import React from 'react'
-import './PastConnections.css'
+import './FriendsFollowing.css'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
@@ -66,17 +66,17 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const PastConnections = (props) => {
+const FriendsFollowing = (props) => {
   const classes = useStyles()
   return (
     <>
       <ExpansionPanel>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
-          aria-controls="PastConnectionsPanelbh-content"
-          id="PastConnectionsPanelbh-header"
+          aria-controls="FriendsFollowingPanelbh-content"
+          id="FriendsFollowingPanelbh-header"
         >
-          <Typography className={classes.heading}>Past Connections</Typography>
+          <Typography className={classes.heading}>Friends Following</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Paper variant="outlined" square>
@@ -88,4 +88,4 @@ const PastConnections = (props) => {
   )
 }
 
-export default PastConnections
+export default FriendsFollowing
