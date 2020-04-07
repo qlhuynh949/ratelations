@@ -1,11 +1,9 @@
 import React from 'react';
 import './PartnerCard.css'
 import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
 import Typography from '@material-ui/core/Typography'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {

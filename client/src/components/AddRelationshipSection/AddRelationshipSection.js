@@ -100,14 +100,42 @@ const AddRelationshipSection = (props) => {
   }
 
   const addPartner =(item)=>{
-  
+    let partner={
+      id:item.id,
+      username:item.username,
+      email:item.email,
+      firstName:item.firstName,
+      lastName:item.lastName,
+      uid: props.userState.uid
+    }
+    User.userRelationshipAttach(
+      partner
+    )
+      .then(({ data }) => {
+        console.log(data)
+        props.getRelationshipUserInfo()
+        //console.log(friends)
+        //search()
+        //RefreshFriends()
+      })
   }
+  const BreakUp =()=>
+  {
+     let breakup = {
+       uid:props.userState.uid,
+       relationshipid:props.userState.relationshipid
+     }
+  }
+
 
   const classes = useStyles()
   return (
     <>
       {props.userState.inRelationship ? 
-      <AddRelationshipCurrent />
+      <AddRelationshipCurrent 
+      userState={props.userState}
+          breakup={BreakUp}
+      />
       :
       <>
             <Container>
@@ -119,7 +147,7 @@ const AddRelationshipSection = (props) => {
               />
               <AddRelationshipDisplay 
                 searchPartnerState={searchPartnerState}
-                addFriend={addPartner}
+                addPartner={addPartner}
                 key="AddRelationshipDisplay"
               />
               </Paper>

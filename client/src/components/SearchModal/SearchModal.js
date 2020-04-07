@@ -58,7 +58,7 @@ const SearchModal = (props) => {
 
 
   const RefreshFriends = () => {
-    let currentUser = props.userState.uid
+    
     User.userFriends(props.userState.uid)
       .then((response) => {
         if (response.status === 200) {

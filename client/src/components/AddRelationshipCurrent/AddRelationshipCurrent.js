@@ -15,11 +15,12 @@ const AddRelationshipCurrent = (props) => {
   return (
     <>
         <Grid container className={classes.root}>
-          <Grid item xs={4}>
+          <Grid item xs={8}>
             <Typography>{props.userState.firstName} {props.userState.firstName}
+             {props.userState.partnerFirstName} {props.userState.partnerLastName}
             </Typography>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={4}>
             <BrokenImageIcon onClick={props.BreakUp}/>
           </Grid>
         </Grid>        
