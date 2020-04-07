@@ -7,6 +7,8 @@ const relationshipSchema = new Schema({
   partnerLastName:String,
   partnerUserName:String,
   partnerEmail:String,
+  partnerId:String,
+  requestingPartnerId:String,
   isActive: Boolean,
    status: {
     type: Number,

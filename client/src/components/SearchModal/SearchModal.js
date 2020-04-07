@@ -82,7 +82,6 @@ const SearchModal = (props) => {
   }, [])
 
   const removeFriend = (item) => {
-    let currentUser = props.userState.uid
     let friend = {
       recipient: item._id,
       requester: props.userState.uid,

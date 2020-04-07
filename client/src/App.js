@@ -89,7 +89,9 @@ const App = () => {
     partnerFirstName: '',
     partnerLastName: '',
     partnerUserName: '',
-    partnerEmail: ''
+    partnerEmail: '',
+    partnerId: '',
+    requestingPartnerId: ''
   })
 
 
@@ -130,30 +132,34 @@ const App = () => {
     let couples
     User.userRelationship(userState.uid)
       .then((response) => {
+        
         if (response.status === 200) {
           let result = []
           if (response.data !== null) {
-            inRelationship = true
             result.push(response.data.relationshipId)
-            relationshipId = response.data.relationshipId
+            relationshipId = response.data.relationshipID
+            if (relationshipId) {
+              inRelationship=true
+            }
             relationshipStatus = response.data.status
             couples=response.data.couples
+            
+            setUserState({
+              ...userState,
+              inRelationship: inRelationship,
+              currentViewRelationshipID: relationshipId,
+              userRelationshipID: relationshipId,
+              userRelationshipStatusID: relationshipStatus,
+              currentRelationship: couples,
+              partnerFirstName: response.data.partnerFirstName,
+              partnerLastName: response.data.partnerLastName,
+              partnerUserName: response.data.partnerUserName,
+              partnerEmail: response.data.partnerEmail,
+              partnerId: response.data.partnerId,
+              requestingPartnerId: response.data.requestingPartnerId
+            })
           }
-          setUserState({
-            ...userState,
-            inRelationship: inRelationship,
-            currentViewRelationshipID: relationshipId,
-            userRelationshipID: relationshipId,
-            userRelationshipStatusID: relationshipStatus,
-            firstName: response.data.firstName,
-            lastName: response.data.lastName,
-            currentRelationship: couples,
-            partnerFirstName: response.data.partnerFirstName,
-            partnerLastName: response.data.partnerLastName,
-            partnerUserName: response.data.partnerUserName,
-            partnerEmail: response.data.partnerEmail
-          })
-        
+          
         }
       })
   }
