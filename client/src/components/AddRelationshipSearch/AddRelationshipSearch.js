@@ -1,5 +1,5 @@
 import React from 'react';
-import './UserSearch.css'
+import './AddRelationshipSearch.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -29,33 +29,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserSearch = (props) => {
+const AddRelationshipSearch = (props) => {
   const classes = useStyles();
   
   return (
     <>
-    <Container key="UserSearchContainer">
-    <Paper component="form" className={classes.root}>
+      
+      <Container key="RelationshipSearchContainer">
+      <Paper component="form" className={classes.root}>
+      <h5>Add A Relationship</h5>&nbsp;
       <InputBase
         className={classes.input}
-        placeholder="Friends Search"
-        inputProps={{ 'aria-label': 'Friends Search' }}
-        name="searchText"
+        placeholder="Search for a partner"
+        inputProps={{ 'aria-label': 'Partner Search' }}
+        name="searchPartnerText"
         onChange={props.onChangeSearchText}
       />
       <IconButton 
       type="submit" 
       className={classes.iconButton} aria-label="search"
-      onClick={props.searchClick}
+      onClick={props.searchPartner}
       >
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
 
-    </Paper>
+      </Paper>
       </Container>
     </>
   )
 }
 
-export default UserSearch
+export default AddRelationshipSearch

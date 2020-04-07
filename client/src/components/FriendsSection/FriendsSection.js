@@ -8,12 +8,12 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -74,12 +74,12 @@ const useStyles = makeStyles(theme => ({
 
 const FriendsSection = (props) => {
   const classes = useStyles()
-  const removeFriend=(item)=>{
 
-  }
+
+
   return (
     <>
-      <ExpansionPanel>
+      <ExpansionPanel key="FriendsSectionExpansionPanel">
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="FriendsPanelbh-content"
@@ -88,8 +88,8 @@ const FriendsSection = (props) => {
           <Typography className={classes.heading}>Friends List</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Paper variant="outlined" square>
-            {props.userState.currentFriends.map(searchItem => (
+          <Paper variant="outlined" square key="currentFriendsPaper">
+            {props.friendsState.friends.map(searchItem => (
               <>
                 <Grid container className={classes.root}>
                 <Grid item xs={12} key={searchItem.id}>
@@ -106,7 +106,8 @@ const FriendsSection = (props) => {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button onClick={() => removeFriend(searchItem)}><RemoveCircleIcon /></Button>
+                        <Button onClick={() => props.removeFriend(searchItem)}><RemoveCircleIcon /></Button>
+                        <Button onClick={() => props.friendFollowMe(searchItem)}>Follow Me</Button>
                     </CardActions>
                   </Card>
                 </Grid>

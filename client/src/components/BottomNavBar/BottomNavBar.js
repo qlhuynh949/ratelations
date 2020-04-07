@@ -4,7 +4,7 @@ import './BottomNavBar.css'
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import HomeIcon from '@material-ui/icons/Home';
+//import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import HistoryIcon from '@material-ui/icons/History';
@@ -65,7 +65,7 @@ const BottomNavBar = (props) => {
       showLabels
     >
       <BottomNavigationAction label="Search" icon={<SearchIcon />} onClick={props.searchOpen} />
-      <BottomNavigationAction label="Home" icon={<HomeIcon />} onClick={props.homeOpen} />
+      
       <BottomNavigationAction label="Add Relationship" icon={<AddCircleIcon />} onClick={props.addOpen} />
       <BottomNavigationAction label="Connections" icon={<HistoryIcon onClick={props.historyOpen} />} />
 

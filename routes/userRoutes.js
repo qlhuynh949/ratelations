@@ -1,8 +1,10 @@
 const router = require('express').Router()
-const { User, ForgotPassword } = require('../models')
+const { User, Friends, Relationship, ForgotPassword, RelationshipFollowing } = require('../models')
 const jwt = require('jsonwebtoken')
 const TokenGenerator = require('uuid-token-generator')
 const nodemailer = require("nodemailer");
+var mongoose = require('mongoose');
+
 let domainName = process.env.domainurl || 'localhost' //This will be where we read in the current domain name
 let domainPort = process.env.PORT || process.env.ReactClientPort //Read in config setting for our default listen port on our domain
 
@@ -13,6 +15,9 @@ router.post('/users/login', (req, res) => {
       isLoggedIn: !!user,
       items: user.items,
       user: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
       uid: user._id,
       token: jwt.sign({ id: user._id }, process.env.SecretKey)
     })
@@ -58,30 +63,206 @@ router.get('/users/email/:email', (req, res) => {
     .catch(e => console.log(e))
 })
 
-// Find search users base on text
-router.get('/users/userSearch/:searchText', (req, res) => {
-  User.find({ $text: { $search: req.params.searchText } })
-  .limit(5)
-  .then(
-    user=>{
-       let userFound=[]
-       user.forEach(element=>{
-         let userObj = {
-           id: element._id,
-           username: element.username,
-           email: element.email,
-           firstName: element.firstName,
-           lastName: element.lastName
-         }
-         userFound.push(userObj)
-       })
-       
-      res.json(userFound)
+router.post('/users/userRelationshipFollowing', (req, res) => {
+  RelationshipFollowing.findOne({ follower: req.body.follower }, { me: req.body.me }, { relationshipid: req.body.relationshipid})
+  .then ((found)=>{
+
+    if (!found)
+    {
+      RelationshipFollowing.create(req.body)
+      .then (
+        (newObj)=>
+        {
+          res.json(newObj)
+        }
+      )
     }
-  )
-  .catch(e => console.log(e))
+
+  })
+})
+
+
+// Find search users base on text and not currently friends
+// already or in a relationship
+router.post('/users/userSearch', (req, res) => {
+  let uid = req.body.uid 
+
+  User.findById(uid)
+  .then 
+  (currentUser=>
+  {
+
+    User.find({ $text: { $search: req.body.searchText } }     )
+    .limit(3)
+    .then(
+      user=>{
+         let userFound=[]
+        user.forEach(element=>{
+          let inFriends = currentUser.friends.includes(element._id)
+          let inRelationship = currentUser.relationship.includes(element._id)
+
+          if (element._id != uid && !inFriends && !inRelationship)
+           {
+           let userObj = {
+             id: element._id,
+             username: element.username,
+             email: element.email,
+             firstName: element.firstName,
+            lastName: element.lastName
+           }
+           userFound.push(userObj)
+         }
+        })
+       
+        res.json(userFound)
+      }
+    )
+    .catch(e => console.log(e))
+  })
+})
+
+
+router.get('/users/userFriends/:id', (req, res) => {
+  User.findById(req.params.id)
+    .then(
+      user => {        
+
+        if (user!==null && user.friends !== null && user.friends.length > 0)
+        {
+          User.find({ "_id": { $in: user.friends } })
+            .then(friends => {
+              res.json(friends)
+            }
+            )
+        }
+        else
+        {
+          res.json(null)
+        }
+        
+      }
+    )
+    .catch(e => console.log(e))
+
+})
+
+router.get('/users/userRelationship/:id', (req, res) => {
+  User.findById(req.params.id)
+    .then(
+      user => {
+        //We currently restrict the user to only be in 
+        //one relationship at a time but we know in 
+        //the real world especially in casual dating
+        //that it is possible for a person to be
+        //in multiple relationships at a given moment
+        if (user !== null && user.relationship !== null && user.relationship.length > 0) {
+          let curRelationship = user.relationship[0]
+          Relationship.findById(curRelationship)
+            .then(relationship => {
+              let relationshipObj =
+              {
+                relationshipID: relationship._id,
+                uid: user._id,
+                couples: relationship.couples,
+                status: relationship.status,
+                partnerFirstName: relationship.partnerFirstName,
+                partnerLastName:relationship.partnerLastName,
+                partnerEmail:relationship.partnerEmail,
+                partnerId:relationship.partnerId,
+                requestingPartnerId:relationship.requestingPartnerId
+              }
+              res.json(relationshipObj)
+            })
+        }
+        else {
+          res.send(null)
+        }
+      })
+})
+
+router.post('/users/userFriendsDetach', (req, res) => {
+  User.findByIdAndUpdate(req.body.requester,
+    { $pull: { friends: req.body.recipient } },
+    { safe: true, upsert: true },
+    (err, doc)=> {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(200)
+      }
+    }
+  );
   
 })
+
+
+router.post('/users/userRelationshipAttach', (req, res) => {
+  let couples=[]
+
+  //double check if user is in relationship
+  User.findById(req.body.uid)
+    .then(user => {
+      if (user.relationship === null ||user.relationship.length === 0 )
+        {
+          couples.push(req.body.id)
+          couples.push(req.body.uid)
+          let relation = {
+            couples: couples,
+            partnerFirstName: req.body.firstName,
+            partnerLastName: req.body.lastName,
+            partnerUserName: req.body.username,
+            partnerEmail: req.body.email,
+            partnerId: req.body.id,
+            requestingPartnerId: req.body.uid,       
+            isActive: true,
+            status: 2 //in relationship
+          }
+          Relationship.create(relation)
+            .then(relationship => {
+              let relationshipId = relationship._id
+
+              User.updateMany(
+                { "_id": { "$in": couples } },
+                { "$push": { "relationship": relationshipId } },
+                ()=>{
+                  res.json(relation)                
+                }
+              )
+
+
+            })
+
+        }
+    })
+  
+})
+
+router.post('/users/userRelationshipDetach', (req, res) => {
+  let couples = []
+  couples.push(req.body.id)
+  couples.push(req.body.uid)
+
+  let removedRequest = {
+    operation:'removeRelationship',
+    partnerId:req.body.id,
+    requestingPartnerId: req.body.uid,
+    relationshipId:req.body.relationshipId
+  }
+
+  User.updateMany(
+    { "_id": { "$in": couples } },
+    { "$pull": { "relationship": req.body.relationshipId } },
+    () => {
+      Relationship.findOneAndRemove({ _id: req.body.relationshipId }, (err, relationship)=> {
+        res.json(removedRequest)
+      })
+      
+    }
+  )
+
+})
+
+
 
 router.post('/checkToken', (req, res) => {
   let forgetToken = req.body.forgetToken

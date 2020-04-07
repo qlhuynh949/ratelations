@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
@@ -18,7 +17,8 @@ import Modal from '@material-ui/core/Modal'
 import CommentDisplay from '../CommentDisplay'
 import moment from 'moment'
 // import format from 'date-format'
-
+import Comment from '../../utils/Comments'
+import User from '../../utils/User.js'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    //backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     width: 500,
@@ -69,14 +69,14 @@ function rand() {
 }
 // for modal
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50
+  const left = 50
 
   return {
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
-  };
+  }
 }
 // for modal
 
@@ -88,17 +88,52 @@ const PostDisplay = (props) => {
   const [open, setOpen] = React.useState(false)
   // const [isInputCheckedState, toggleInputCheck] = React.useState(false)
   const handleOpen = () => {
-    setOpen(true);
+    setOpen(true)
   }
   const handleClose = () => {
-    setOpen(false);
+    setOpen(false)
   }
 
-function handleInputChange(ev) {
-  //toggleInputCheck(ev.target.checked)
-  if (ev.target.checked) props.handleGetItemId(ev.target.value)
-  else props.handleGetItemId('')
-}
+  function handleInputChange(ev) {
+    //toggleInputCheck(ev.target.checked)
+    if (ev.target.checked) props.handleGetItemId(ev.target.value)
+    else props.handleGetItemId('')
+  }
+
+  const [commentState, setCommentState] = useState({
+    comments: [],
+    text: '',
+    isActive: true,
+    ralationship: '',
+    item: '',
+    user: '',
+  })
+
+  const handleGetComment = (event, id) => {
+    Comment.read(id)
+      .then(({ data: comments }) => {
+        // console.log(comments)
+        setCommentState({ comments })
+        console.log(comments)
+      })
+    // commentState.comments.forEach(comment => {
+    //   // console.log(comment)
+    //   User.get(comment.user)
+    //     .then(({ data: comUser }) => {
+    //       // console.log(comUser)
+    //       itemUserComments[itemUserComments.length]={ "Cuser": comment.user, "Text": comment.text, "Username": comUser.username }
+    //       return itemUserComments
+    //     })
+    // })
+    // console.log(itemUserComments)
+    // const distinct = (value, index, self) => {
+    //   return self.indexOf(value) === index
+    // }
+    // const commentUsersIds = commentUsers.filter(distinct)
+    // console.log(commentUsersIds)
+  }
+
+
 
   return (
     <>
@@ -110,15 +145,13 @@ function handleInputChange(ev) {
             //value={item._id}
             //onClick={ev => { props.handleGetItemId(ev) }}
             >
-              <input 
-                type='checkbox' 
+              <input
+                type='checkbox'
                 value={item._id}
-                onClick={(ev) => {handleInputChange(ev)}}
-                />
+                onClick={(ev) => { handleInputChange(ev) }}
+              />
               <Typography variant="h6" component="h2" >
                 {moment(item.created_at.$date).format('dddd, MMM Do, YYYY')}
-                {/* {format.asString('mm/dd/yy', new Date(item.created_at.$date))}
-               {(Date(item.created_at.$date))} */}
               </Typography>
               <Typography variant="h5" component="h2">
                 Good things{bull}
@@ -137,26 +170,37 @@ function handleInputChange(ev) {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={classes.heading}>Friend comments</Typography>
+                    <Typography
+                      className={classes.heading}
+                      onClick={(e) => handleGetComment(e, item._id)}
+                    >Friend comments</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <Typography>
                       <div className={classes.button}>
                         <ButtonGroup variant="text" aria-label="text primary button group">
-                          <Button type="button" onClick={handleOpen}> map user name </Button>
-                          <Button>will be deleted after map</Button>
+                          {commentState.comments.length > 0 ? commentState.comments.map((comment, i) => (
+                            <div>
+                              <Modal
+                                open={open}
+                                //className={classes.paper}
+                                onClose={handleClose}
+                                aria-labelledby="simple-modal-title"
+                                aria-describedby="simple-modal-description"
+                              >
+                                {/* <div > */}
+                                <div style={modalStyle} className={classes.paper}>
+                                  {/* <CommentDisplay
+                                    Comment={comment}
+                                  /> */}
+                                  Sample div!
+                                </div>
+                              </Modal>
+                              <Button key={i} type="button" onClick={handleOpen}> {comment.user.username}
+                              </Button>
+                            </div>
+                          )) : <Button>no comment</Button>}
                         </ButtonGroup>
-                        <Modal
-                          open={open}
-                          className={modalStyle}
-                          onClose={handleClose}
-                          aria-labelledby="simple-modal-title"
-                          aria-describedby="simple-modal-description"
-                        >
-
-                          <CommentDisplay />
-
-                        </Modal>
                       </div>
                     </Typography>
                   </ExpansionPanelDetails>
@@ -167,10 +211,6 @@ function handleInputChange(ev) {
           )) : null}
         </GridList>
       </div>
-
-
-
-
     </>
   )
 }

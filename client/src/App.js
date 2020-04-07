@@ -51,6 +51,15 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2, 4, 3),
   },
   heightCenterPage: { height:'auto', overflow: 'auto', marginBottom:70 }
+  ,
+  heightModalPage: {
+    position: 'absolute',
+    width: '95%',
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  }
 }))
 
 
@@ -71,7 +80,18 @@ const App = () => {
     isLoggedIn: false,
     uid:0,
     headers: null,
-    currentFriends:[]
+    currentFriends:[],
+    currentRelationship:[],
+    currentViewRelationshipID:'',
+    userRelationshipID: '',
+    userRelationshipStatusID:0,
+    inRelationship:false,
+    partnerFirstName: '',
+    partnerLastName: '',
+    partnerUserName: '',
+    partnerEmail: '',
+    partnerId: '',
+    requestingPartnerId: ''
   })
 
 
@@ -83,11 +103,13 @@ const App = () => {
   const [openSearchModal, setOpenSearchModal] = React.useState(false);
   
   const handleOpenSearchModal = () => {
-    setOpenSearchModal(true);
+    getRelationshipUserInfo()
+    setOpenSearchModal(true)
+    
   };
 
   const handleCloseSearchModal = () => {
-    setOpenSearchModal(false);
+    setOpenSearchModal(false)
   };
 
 
@@ -95,29 +117,72 @@ const App = () => {
   const [openRelationshipModal, setOpenRelationshipModal] = React.useState(false);
 
   const handleOpenRelationshipModal = () => {
-    setOpenRelationshipModal(true);
-  };
+    getRelationshipUserInfo()
+    setOpenRelationshipModal(true)
+  }
 
   const handleCloseRelationshipModal = () => {
-    setOpenRelationshipModal(false);
-  };
 
-  const [openConnectionsModal, setOpenConnectionsModal] = React.useState(false);
+    setOpenRelationshipModal(false)
+  }
+
+  const getRelationshipUserInfo = () => {
+    //userRelationship
+    let inRelationship = false
+    let relationshipId = 0
+    let relationshipStatus = 0
+    let couples
+    User.userRelationship(userState.uid)
+      .then((response) => {
+        
+        if (response.status === 200) {
+          let result = []
+          if (response.data !== null) {
+            result.push(response.data.relationshipId)
+            relationshipId = response.data.relationshipID
+            if (relationshipId) {
+              inRelationship=true
+            }
+            relationshipStatus = response.data.status
+            couples=response.data.couples
+            
+            setUserState({
+              ...userState,
+              inRelationship: inRelationship,
+              currentViewRelationshipID: relationshipId,
+              userRelationshipID: relationshipId,
+              userRelationshipStatusID: relationshipStatus,
+              currentRelationship: couples,
+              partnerFirstName: response.data.partnerFirstName,
+              partnerLastName: response.data.partnerLastName,
+              partnerUserName: response.data.partnerUserName,
+              partnerEmail: response.data.partnerEmail,
+              partnerId: response.data.partnerId,
+              requestingPartnerId: response.data.requestingPartnerId
+            })
+          }
+          
+        }
+      })
+  }
+
+  
+  const [openConnectionsModal, setOpenConnectionsModal] = React.useState(false)
 
   const handleOpenConnectionsModal = () => {
-    setOpenConnectionsModal(true);
-  };
+    setOpenConnectionsModal(true)
+  }
 
   const handleCloseConnectionsModal = () => {
-    setOpenConnectionsModal(false);
-  };
+    setOpenConnectionsModal(false)
+  }
 
   const handleCloseUserSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
-      return;
+      return
     }
     setUserState({ ...userState, userSnackBar: false })
-  };
+  }
 
   const handleCloseForgotPasswordSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -125,7 +190,7 @@ const App = () => {
     }
 
     setUserState({ ...userState, userForgotPasswordSnackBar: false })
-  };
+  }
 
   const handleInputChangeUser = ({ target }) => {
     setUserState({ ...userState, [target.name]: target.value })
@@ -145,7 +210,7 @@ const App = () => {
           localStorage.setItem("currentUser",response.data.user)
           localStorage.setItem("isLoggedIn", response.data.isLoggedIn)
           localStorage.setItem("uid", response.data.uid)
-
+          
           let headers
             headers = {
               "Content-Type": "application/json",
@@ -155,7 +220,11 @@ const App = () => {
               , currentUser: response.data.user
               , isLoggedIn: response.data.isLoggedIn
               , uid: response.data.uid
+              , firstName: response.data.firstName
+              , lastName: response.data.lastName
+              , email: response.data.email
               , headers: headers })
+            
           
           //Cookies.remove("x-auth-cookie"); //delete just that cookie
 
@@ -307,6 +376,7 @@ const App = () => {
               classes={classes}
               modalStyle={modalStyle}
               userState={userState}
+              getRelationshipUserInfo={getRelationshipUserInfo}
               />
               <ConnectionsModal open={openConnectionsModal} handleClose={handleCloseConnectionsModal} classes={classes}
               modalStyle={modalStyle}

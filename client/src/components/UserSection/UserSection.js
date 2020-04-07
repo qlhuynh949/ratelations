@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './UserSection.css'
 import UserDisplay from '../UserDisplay'
 import UserSearch from '../UserSearch'
@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import User from '../../utils/User'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,6 +25,7 @@ const useStyles = makeStyles(theme => ({
       display: 'block',
     },
   },
+  scroll:{ maxHeight: '100%', overflow: 'auto' },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -71,25 +71,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserSection = (props) => {
-  const [searchUserState, setSearchUserState] = useState({
-    searchText: '',
-    searchResults: []
-  })
-
-  const handleInputChangeUser = ({ target }) => {
-    setSearchUserState({ ...searchUserState, [target.name]: target.value })
-  }
-
-  const handleSearch = (event) => {
-    event.preventDefault()
-    let searchText = searchUserState.searchText
-    User.userSearch(searchText)
-      .then((response) => {
-        console.log(response)
-        setSearchUserState({ ...searchUserState, searchResults: response.data})
-
-      })
-  }
 
   const classes = useStyles()
   return (
@@ -104,14 +85,15 @@ const UserSection = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails key="UserSectionExpansionPanel">
           <Container>
-            <Paper variant="outlined" square>
+            <Paper variant="outlined" square className={classes.scroll}>
               <UserSearch
-                onChangeSearchText={handleInputChangeUser}
-                searchClick={handleSearch}
+                onChangeSearchText={props.handleInputChangeUser}
+                searchClick={props.handleSearch}
                 key="UserSearch"
               />
-              <UserDisplay searchUserState={searchUserState}
+              <UserDisplay searchUserState={props.searchUserState}
               userState={props.userState}
+              addFriend={props.addFriend}
               key="UserDisplay"
               />
             </Paper>

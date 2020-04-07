@@ -9,6 +9,7 @@ import logo from './logo.png'
 import red from '@material-ui/core/colors/red'
 import LockIcon from '@material-ui/icons/Lock'
 import PersonIcon from '@material-ui/icons/Person';
+import HomeIcon from '@material-ui/icons/Home';
 
 import {
   Link
@@ -32,7 +33,12 @@ const useStyles = makeStyles(theme => ({
   paddingTop: '3px'
   },
   bar: {
-    backgroundColor: red[900] 
+    backgroundColor: red[900]
+  },
+  stickyTop: {
+  position: 'fixed',
+  top: 0,
+  width: '100 %'
   }
 }));
 
@@ -51,12 +57,15 @@ const TopNavBar = (props) => {
               <img src={logo} className={classes.imageCenter} alt="logo" width="80px" height="80px" />
                      
           </Typography>
-          {props.userState.isLoggedIn? (
+          {props.userState.isLoggedIn? (            
             <Link to="/">          
               <IconButton onClick={props.handleSignOut}>
                 <LockIcon />
               </IconButton>
-            </Link>
+              <IconButton>
+                <HomeIcon />
+              </IconButton>
+            </Link>             
           ) : <Link to="/">
               <IconButton>
                 <PersonIcon />
