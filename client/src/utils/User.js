@@ -12,9 +12,10 @@ const User = {
   userRelationship: (id) => axios.get(`/api/users/userRelationship/${id}`),
   userRelationshipAttach: (relationshipAttach) => axios.post(`/api/users/userRelationshipAttach/`, relationshipAttach),
   userRelationshipDetach: (relationshipDetach) => axios.post(`/api/users/userRelationshipDetach/`, relationshipDetach),
-  userRelationshipFollowing: (relationshipFollowing) => axios.post(`/api/users/userRelationshipFollowing/`, relationshipFollowing)
-
-  
+  userRelationshipFollowing: (relationshipFollowing) => axios.post(`/api/users/userRelationshipFollowing/`, relationshipFollowing),
+  userRelationshipFollowingFollower: (follower) => axios.get(`/api/users/userRelationshipFollowingFollower/${follower}`),
+  userRelationshipFollowingMe: (me) => axios.get(`/api/users/userRelationshipFollowingMe/${me}`), 
+  userRelationshipFollowingIdDetach: (me) => axios.delete(`/api/users/userRelationshipFollowingIdDetach/${me}`), 
 }
 
 export default User

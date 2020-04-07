@@ -63,6 +63,33 @@ router.get('/users/email/:email', (req, res) => {
     .catch(e => console.log(e))
 })
 
+// Find all relationship followings by follower
+router.get('/users/userRelationshipFollowingFollower/:follower', (req, res) => {
+  RelationshipFollowing.find({ follower: req.params.follower })
+    .then(following => {
+      res.json(following)
+    })
+    .catch(e => console.log(e))
+})
+
+
+// Find all relationship follow me's by a particular me
+// me being the person requested to be followed or requested follow me
+router.get('/users/userRelationshipFollowingMe/:me', (req, res) => {
+  RelationshipFollowing.find({ me: req.params.me })
+    .then(following => {
+      res.json(following)
+    })
+    .catch(e => console.log(e))
+})
+
+router.delete('//users/userRelationshipFollowingIdDetach/:id', (req, res) => {
+  RelationshipFollowing.findByIdAndDelete(req.params.id)
+    .then(() => res.sendStatus(200))
+    .catch(e => console.error(e))
+})
+
+
 router.post('/users/userRelationshipFollowing', (req, res) => {
   RelationshipFollowing.findOne({ follower: req.body.follower }, { me: req.body.me }, { relationshipid: req.body.relationshipid})
   .then ((found)=>{

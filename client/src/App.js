@@ -108,6 +108,11 @@ const App = () => {
     
   };
 
+  const changeCurrentViewRelationshipId=(id)=>
+  {
+    setUserState({ ...userState, currentViewRelationshipID: id })
+  }
+
   const handleCloseSearchModal = () => {
     setOpenSearchModal(false)
   };
@@ -170,6 +175,7 @@ const App = () => {
   const [openConnectionsModal, setOpenConnectionsModal] = React.useState(false)
 
   const handleOpenConnectionsModal = () => {
+    getRelationshipUserInfo()
     setOpenConnectionsModal(true)
   }
 
@@ -380,6 +386,9 @@ const App = () => {
               />
               <ConnectionsModal open={openConnectionsModal} handleClose={handleCloseConnectionsModal} classes={classes}
               modalStyle={modalStyle}
+              changeCurrentViewRelationshipId={changeCurrentViewRelationshipId}
+              userState={userState}
+
                   />
               <BottomNavBar searchOpen={handleOpenSearchModal}
               addOpen={handleOpenRelationshipModal}
