@@ -68,7 +68,7 @@ const ConnectionsModal = (props) => {
 
   const removeRelationshipFollowed = (item) => {
 
-    User.userRelationshipFollowingId(
+    User.userRelationshipFollowingIdDetach(
       item._id
     )
       .then(({ data: friends }) => {
