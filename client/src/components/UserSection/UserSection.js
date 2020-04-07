@@ -81,7 +81,7 @@ const UserSection = (props) => {
           aria-controls="UserSectionPanelbh-content"
           id="UserSectionPanelbh-header"
         >
-          <Typography className={classes.heading}>Look for Friends</Typography>
+          <Typography className={classes.heading}>Search for Friends</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails key="UserSectionExpansionPanel">
           <Container>
