@@ -84,6 +84,7 @@ router.get('/users/userRelationshipFollowingMe/:me', (req, res) => {
 })
 
 router.delete('//users/userRelationshipFollowingIdDetach/:id', (req, res) => {
+  console.log(req.params.id)
   RelationshipFollowing.findByIdAndDelete(req.params.id)
     .then(() => res.sendStatus(200))
     .catch(e => console.error(e))

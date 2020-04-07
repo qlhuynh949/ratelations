@@ -19,8 +19,6 @@ const ConnectionsModal = (props) => {
     User.userRelationshipFollowingMe(props.userState.uid)
       .then((response) => {
         if (response.status === 200) {
-          console.log(response)
-
           //setState(response)
           let result = []
           if (response.data !== null) {
@@ -30,7 +28,6 @@ const ConnectionsModal = (props) => {
               })
             }
           }
-          console.log(result)
           setFriendsFollowingState({ ...FriendsFollowingState, friends: result })
           //FriendsFollowing
         }
@@ -40,7 +37,6 @@ const ConnectionsModal = (props) => {
   const RefreshRelationshipFollowedState = () => {
     User.userRelationshipFollowingFollower(props.userState.uid)
       .then((response) => {
-        console.log(response)
         if (response.status === 200) {
           //setState(response)
           let result = []
@@ -51,7 +47,6 @@ const ConnectionsModal = (props) => {
               })
             }
           }
-          console.log(result)
           setRelationshipFollowedState({ ...RelationshipFollowedState, friends: result })
           //RelationshipFollowedState
         }
@@ -68,7 +63,7 @@ const ConnectionsModal = (props) => {
 
   const removeRelationshipFollowed = (item) => {
 
-    User.userRelationshipFollowingId(
+    User.userRelationshipFollowingIdDetach(
       item._id
     )
       .then(({ data: friends }) => {
