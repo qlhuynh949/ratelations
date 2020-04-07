@@ -52,8 +52,8 @@ const ConnectionsModal = (props) => {
             }
           }
           console.log(result)
-          setFriendsFollowingState({ ...FriendsFollowingState, friends: result })
-          //FriendsFollowing
+          setRelationshipFollowedState({ ...RelationshipFollowedState, friends: result })
+          //RelationshipFollowedState
         }
       })
   }
@@ -73,18 +73,20 @@ const ConnectionsModal = (props) => {
     )
       .then(({ data: friends }) => {
         RelationshipFollowedState.friends.pop(item)
+        RefreshFriendsFollowingState()
         RefreshRelationshipFollowedState()
-      })
+    })
   }
 
   const removeFriendFollowing = (item) => {
 
-    User.userRelationshipFollowingId(
+    User.userRelationshipFollowingIdDetach(
       item._id
     )
       .then(({ data: friends }) => {
         RelationshipFollowedState.friends.pop(item)
         RefreshFriendsFollowingState()
+        RefreshRelationshipFollowedState()
       })
   }
 
