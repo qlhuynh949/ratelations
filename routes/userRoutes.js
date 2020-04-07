@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, Friends, Relationship, ForgotPassword } = require('../models')
+const { User, Friends, Relationship, ForgotPassword, RelationshipFollowing } = require('../models')
 const jwt = require('jsonwebtoken')
 const TokenGenerator = require('uuid-token-generator')
 const nodemailer = require("nodemailer");
@@ -62,6 +62,25 @@ router.get('/users/email/:email', (req, res) => {
     })
     .catch(e => console.log(e))
 })
+
+router.post('/users/userRelationshipFollowing', (req, res) => {
+  RelationshipFollowing.findOne({ follower: req.body.follower }, { me: req.body.me }, { relationshipid: req.body.relationshipid})
+  .then ((found)=>{
+
+    if (!found)
+    {
+      RelationshipFollowing.create(req.body)
+      .then (
+        (newObj)=>
+        {
+          res.json(newObj)
+        }
+      )
+    }
+
+  })
+})
+
 
 // Find search users base on text and not currently friends
 // already or in a relationship

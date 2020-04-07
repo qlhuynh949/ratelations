@@ -103,11 +103,13 @@ const App = () => {
   const [openSearchModal, setOpenSearchModal] = React.useState(false);
   
   const handleOpenSearchModal = () => {
-    setOpenSearchModal(true);
+    getRelationshipUserInfo()
+    setOpenSearchModal(true)
+    
   };
 
   const handleCloseSearchModal = () => {
-    setOpenSearchModal(false);
+    setOpenSearchModal(false)
   };
 
 

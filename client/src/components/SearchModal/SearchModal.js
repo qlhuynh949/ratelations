@@ -97,6 +97,11 @@ const SearchModal = (props) => {
       meFirstName: props.userState.firstName,
       melastName: props.userState.lastName
       }
+    console.log(relationshipFollow)
+      User.userRelationshipFollowing(relationshipFollow)
+      .then(newObj=>{
+        console.log(newObj)
+      })
   }
 
   const removeFriend = (item) => {

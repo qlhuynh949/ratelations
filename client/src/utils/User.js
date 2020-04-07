@@ -11,7 +11,10 @@ const User = {
   userFriendsDetach: (friendsDetach) => axios.post(`/api/users/userFriendsDetach/`,friendsDetach),
   userRelationship: (id) => axios.get(`/api/users/userRelationship/${id}`),
   userRelationshipAttach: (relationshipAttach) => axios.post(`/api/users/userRelationshipAttach/`, relationshipAttach),
-  userRelationshipDetach: (relationshipDetach) => axios.post(`/api/users/userRelationshipDetach/`, relationshipDetach)
+  userRelationshipDetach: (relationshipDetach) => axios.post(`/api/users/userRelationshipDetach/`, relationshipDetach),
+  userRelationshipFollowing: (relationshipFollowing) => axios.post(`/api/users/userRelationshipFollowing/`, relationshipFollowing)
+
+  
 }
 
 export default User
