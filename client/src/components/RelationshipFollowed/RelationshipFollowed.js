@@ -7,6 +7,13 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { fade, makeStyles } from '@material-ui/core/styles'
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -67,22 +74,46 @@ const useStyles = makeStyles(theme => ({
 
 const RelationshipFollowed = (props) => {
   const classes = useStyles()
+
+
+
   return (
     <>
-    <ExpansionPanel>
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="RelationshipFollowedPanelbh-content"
-        id="RelationshipFollowedPanelbh-header"
-      >
-        <Typography className={classes.heading}>Relationships Followed</Typography>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        <Paper variant="outlined" square>
-    
-        </Paper>
-      </ExpansionPanelDetails>
-    </ExpansionPanel >
+      <ExpansionPanel key="RelationshipFollowedExpansionPanel">
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="RelationshipFollowedPanelbh-content"
+          id="RelationshipFollowedPanelPanelbh-header"
+        >
+          <Typography className={classes.heading}>Relationship Followed</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Paper variant="outlined" square key="currentRelationshipFollowedPaper">
+            {props.RelationshipFollowedState.friends.map(searchItem => (
+              <>
+                <Grid container className={classes.root}>
+                  <Grid item xs={12} key={searchItem.id}>
+                    <Card className={classes.root} variant="outlined">
+                      <CardContent>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                          My Friend:{searchItem.mefirstName} {searchItem.melastName}
+                        </Typography>
+                        <Typography className={classes.pos}>
+                          Their Partner: {searchItem.partnerFirstName} {searchItem.partnerLastName}
+                        </Typography>                        
+                      </CardContent>
+                      <CardActions>
+                        <Button onClick={() => props.removeRelationshipFollowed(searchItem)}><RemoveCircleIcon /></Button>
+                        <Button onClick={() => props.viewRelationshipFollowed(searchItem)}>View</Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                </Grid>
+              </>
+            ))}
+          </Paper>
+        </ExpansionPanelDetails>
+      </ExpansionPanel >
     </>
   )
 }
