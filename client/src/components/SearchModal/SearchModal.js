@@ -81,9 +81,14 @@ const SearchModal = (props) => {
     RefreshFriends()
   }, [])
 
+
   const friendFollowMe =(item)=> {
     let relationshipFollow ={
       follower:item._id,
+      followerfirstName:item.firstName,
+      followerlastName:item.lastName,
+      followerUserName:item.username,
+      followerEmail:item.email,
       me:props.userState.uid,
       partner: props.userState.partnerId,
       relationshipid: props.userState.userRelationshipID,
