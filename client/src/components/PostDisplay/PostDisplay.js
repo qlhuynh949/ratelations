@@ -6,20 +6,22 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 // for expansionPanel
-import Button from '@material-ui/core/Button'
-import ButtonGroup from '@material-ui/core/ButtonGroup'
-// for button
+
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 // for Gridlist
-import Modal from '@material-ui/core/Modal'
-// for comment modal
-import CommentDisplay from '../CommentDisplay'
+
 import moment from 'moment'
 // import format from 'date-format'
 import Comment from '../../utils/Comments'
-import User from '../../utils/User.js'
 
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme) => ({
   expansionPanel: {
@@ -61,37 +63,21 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
+  listroot: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
 }));
-
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-// for modal
-function getModalStyle() {
-  const top = 50
-  const left = 50
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  }
-}
-// for modal
 
 const PostDisplay = (props) => {
   const classes = useStyles()
   const bull = <span className={classes.bullet}>•</span>
 
-  const [modalStyle] = React.useState(getModalStyle)
-  const [open, setOpen] = React.useState(false)
-  // const [isInputCheckedState, toggleInputCheck] = React.useState(false)
-  const handleOpen = () => {
-    setOpen(true)
-  }
-  const handleClose = () => {
-    setOpen(false)
+  const [expanded, setExpanded] = React.useState(false)
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
   }
 
   function handleInputChange(ev) {
@@ -116,23 +102,18 @@ const PostDisplay = (props) => {
         setCommentState({ comments })
         console.log(comments)
       })
-    // commentState.comments.forEach(comment => {
-    //   // console.log(comment)
-    //   User.get(comment.user)
-    //     .then(({ data: comUser }) => {
-    //       // console.log(comUser)
-    //       itemUserComments[itemUserComments.length]={ "Cuser": comment.user, "Text": comment.text, "Username": comUser.username }
-    //       return itemUserComments
-    //     })
-    // })
-    // console.log(itemUserComments)
-    // const distinct = (value, index, self) => {
-    //   return self.indexOf(value) === index
-    // }
-    // const commentUsersIds = commentUsers.filter(distinct)
-    // console.log(commentUsersIds)
   }
 
+  const [state, setState] = React.useState({
+    checked: false
+  });
+
+  const handleCheckChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+    console.log(event.target.checked)
+    if (event.target.checked) props.handleGetItemId(event.target.value)
+    else props.handleGetItemId('')
+  };
 
 
   return (
@@ -142,16 +123,24 @@ const PostDisplay = (props) => {
           {props.items.length > 0 ? props.items.map((item, i) => (
             <GridListTile
               key={i}
-            //value={item._id}
-            //onClick={ev => { props.handleGetItemId(ev) }}
             >
               <input
+                name="inputcheck"
+                id="inputcheck"
                 type='checkbox'
                 value={item._id}
                 onClick={(ev) => { handleInputChange(ev) }}
-              />
+              /><label for="inputcheck">check to leave comment</label>
+              {/* <FormControlLabel
+                control={<Checkbox checked={state.checked} 
+                onChange={handleCheckChange} 
+                name="checked" />}
+                label="check to leave comment"
+                value={item._id}
+              /> */}
+
               <Typography variant="h6" component="h2" >
-                {moment(item.created_at.$date).format('dddd, MMM Do, YYYY')}
+                {moment(item.created_at).format('dddd, MMM Do, YYYY')}
               </Typography>
               <Typography variant="h5" component="h2">
                 Good things{bull}
@@ -164,45 +153,35 @@ const PostDisplay = (props) => {
               <Typography>{item.badtext}</Typography>
 
               <div className={classes.expansionPanel}>
-                <ExpansionPanel>
+                <ExpansionPanel expanded={expanded === `panel${i}`} onChange={handleChange(`panel${i}`)}>
                   <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
+                    aria-controls="panel${i}a-content"
                     id="panel1a-header"
+                    onClick={(e) => handleGetComment(e, item._id)}
                   >
                     <Typography
                       className={classes.heading}
-                      onClick={(e) => handleGetComment(e, item._id)}
+
                     >Friend comments</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
-                    <Typography>
-                      <div className={classes.button}>
-                        <ButtonGroup variant="text" aria-label="text primary button group">
-                          {commentState.comments.length > 0 ? commentState.comments.map((comment, i) => (
-                            <div>
-                              <Modal
-                                open={open}
-                                //className={classes.paper}
-                                onClose={handleClose}
-                                aria-labelledby="simple-modal-title"
-                                aria-describedby="simple-modal-description"
-                              >
-                                {/* <div > */}
-                                <div style={modalStyle} className={classes.paper}>
-                                  <CommentDisplay
-                                    Comment={comment}
-                                  />
-                                  {/* Sample div! */}
-                                </div>
-                              </Modal>
-                              <Button key={i} type="button" onClick={handleOpen}> {comment.user.username}
-                              </Button>
-                            </div>
-                          )) : <Button>no comment</Button>}
-                        </ButtonGroup>
-                      </div>
-                    </Typography>
+                    <div className={classes.listroot}>
+                      <List component="nav" aria-label="main mailbox folders">
+                        {commentState.comments.length > 0 ? commentState.comments.map((comment, i) => (
+                          <ListItem button>
+                            <ListItemText>
+                              <Typography>{comment.user.username}: {comment.text}
+                              </Typography>
+                              <Typography variant="h9" component="h5">
+                              {moment(comment.created_at).format(' L, LT')}
+                              </Typography>
+                            </ListItemText>
+                          </ListItem>
+
+                        )) : <ListItemText>no comment</ListItemText>}
+                      </List>
+                    </div>
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
               </div>

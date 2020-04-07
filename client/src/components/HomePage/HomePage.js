@@ -34,7 +34,8 @@ const HomePage = (props) => {
       score: itemState.score,
       goodtext: itemState.goodtext,
       badtext: itemState.badtext,
-      isActive: true
+      isActive: true,
+      relationship: props.userState.currentViewRelationshipID
     })
       .then(({ data: item }) => {
         let items = JSON.parse(JSON.stringify(itemState.items))
@@ -72,10 +73,6 @@ const HomePage = (props) => {
     setCommentState({ ...commentState, item: itemValue })
 
   }
-
-
-
-
 
   useEffect(() => {
     Item.read()

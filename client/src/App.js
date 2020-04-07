@@ -67,7 +67,8 @@ const App = () => {
     currentUser: '',
     isLoggedIn: false,
     uid:0,
-    headers: null
+    headers: null,
+    currentViewRelationshipID:'111111'
   })
 
 

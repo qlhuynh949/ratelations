@@ -22,7 +22,7 @@ module.exports = model('item', new Schema({
   },
   relationship: { 
     type: Schema.Types.ObjectId, 
-    ref: 'Relationship' 
+    ref: 'relationship' 
   },
   user: {
     type: Schema.Types.ObjectId,
