@@ -1,6 +1,12 @@
 const router = require('express').Router()
 const { Item } = require('../models')
 
+router.get('/items/relationship/:relationship', (req, res) => {
+  Item.find({ relationship: req.params.relationship })
+    .then(items => res.json(items))
+    .catch(e => console.error(e))
+})
+
 router.get('/items', (req, res) => {
   Item.find()
     .then(items => res.json(items))
