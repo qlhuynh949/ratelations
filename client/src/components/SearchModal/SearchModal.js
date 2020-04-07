@@ -58,7 +58,7 @@ const SearchModal = (props) => {
 
 
   const RefreshFriends = () => {
-    
+
     User.userFriends(props.userState.uid)
       .then((response) => {
         if (response.status === 200) {
@@ -82,21 +82,24 @@ const SearchModal = (props) => {
   }, [])
 
 
-  const friendFollowMe =(item)=> {
-    let relationshipFollow ={
-      follower:item._id,
-      followerfirstName:item.firstName,
-      followerlastName:item.lastName,
-      followerUserName:item.username,
-      followerEmail:item.email,
-      me:props.userState.uid,
+  const friendFollowMe = (item) => {
+    let relationshipFollow = {
+      follower: item._id,
+      followerfirstName: item.firstName,
+      followerlastName: item.lastName,
+      followerUserName: item.username,
+      followerEmail: item.email,
+      me: props.userState.uid,
       partner: props.userState.partnerId,
       relationshipid: props.userState.userRelationshipID,
       partnerFirstName: props.userState.partnerFirstName,
       partnerLastName: props.userState.partnerLastName,
       meFirstName: props.userState.firstName,
       melastName: props.userState.lastName
-      }
+    }
+    User.userRelationshipFollowing(relationshipFollow)
+      .then(newObj => {
+      })
   }
 
   const removeFriend = (item) => {
@@ -119,7 +122,7 @@ const SearchModal = (props) => {
 
 
   return (
-      <>
+    <>
       <div>
         <Modal
           aria-labelledby="simple-modal-title"
@@ -128,24 +131,24 @@ const SearchModal = (props) => {
           onClose={props.handleClose}
         >
           <div style={props.modalStyle} className={props.classes.heightModalPage}>
-            
-            <h3 id="simple-modal-title">Search Friends</h3>            
+
+            <h3 id="simple-modal-title">Search Friends</h3>
             <UserSection userState={props.userState} key="userSection"
-            handleInputChangeUser={handleInputChangeUser}
-            addFriend={addFriend}
-            handleSearch={handleSearch}
-            searchUserState={searchUserState}
+              handleInputChangeUser={handleInputChangeUser}
+              addFriend={addFriend}
+              handleSearch={handleSearch}
+              searchUserState={searchUserState}
             />
             <FriendsSection userState={props.userState} key="friendsSection"
-            friendsState={friendsState} 
-            removeFriend={removeFriend}
-            friendFollowMe={friendFollowMe}
+              friendsState={friendsState}
+              removeFriend={removeFriend}
+              friendFollowMe={friendFollowMe}
             />
           </div>
-          
+
         </Modal>
       </div>
-      </>
+    </>
   )
 }
 
