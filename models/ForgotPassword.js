@@ -9,11 +9,6 @@ module.exports = model('ForgotPassword', new Schema({
     type: String,
     required: true
   },
-  expireAt: {
-    type: Date,
-    default: Date.now,
-    index: { expires: '60m' },
-  },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'user'

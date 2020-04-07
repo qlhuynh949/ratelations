@@ -1,6 +1,7 @@
 const { model, Schema } = require('mongoose')
 
 module.exports = model('item', new Schema({
+  
   score: {
     type: Number,
     required: true,
@@ -21,7 +22,7 @@ module.exports = model('item', new Schema({
   },
   relationship: { 
     type: Schema.Types.ObjectId, 
-    ref: 'Relationship' 
+    ref: 'relationship' 
   },
   user: {
     type: Schema.Types.ObjectId,

@@ -29,19 +29,19 @@ const CommentDisplay = (props) => {
     <div className={classes.cardroot}>
       <Typography variant="h6" component="h2">
         {props.Comment.user.username}
-      </Typography>
+          </Typography>
       <div >
         <List >
-          <ListItem>
-            <Card className={classes.cardroot}>
-              <CardContent>
-                <Typography variant="body2" component="h4">
+            <ListItem>
+              <Card className={classes.cardroot}>
+                <CardContent>
+                  <Typography variant="body2" component="h4">
                   text
                   {props.Comment.text}
-                </Typography>
-              </CardContent>
-            </Card>
-          </ListItem>,
+                  </Typography>
+                </CardContent>
+              </Card>
+            </ListItem>,
         </List>
       </div>
     </div>

@@ -5,16 +5,13 @@ const UserSchema = new Schema({
   email: String,
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  follow: [{ type: Schema.Types.ObjectId, ref: 'Relationship' }],
-  relationship: [{type: Schema.Types.ObjectId, ref: 'Relationship'}],
+  friends: [{ type: Schema.Types.ObjectId, ref: 'Friends' }],
+  relationship: { type: Schema.Types.ObjectId, ref: 'Relationship' },
   items: [{
     type: Schema.Types.ObjectId,
     ref: 'item'
   }]
 })
-
-UserSchema.index({ "username": "text", "email": "text", "firstName": "text", "lastName":"text" })
 
 UserSchema.plugin(require('passport-local-mongoose'))
 

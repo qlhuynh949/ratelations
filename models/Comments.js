@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose')
 
 module.exports = model('comments', new Schema({
-
+ 
   text: {
     type: String,
     required: true
@@ -11,13 +11,13 @@ module.exports = model('comments', new Schema({
     required: true,
     default: false
   },
-  relationship: {
-    type: Schema.Types.ObjectId,
-    ref: 'Relationship'
+  relationship: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'Relationship' 
   },
-  item: {
-    type: Schema.Types.ObjectId,
-    ref: 'Item'
+  item: { 
+    type: Schema.Types.ObjectId, 
+    ref: 'Item' 
   },
   user: {
     type: Schema.Types.ObjectId,
