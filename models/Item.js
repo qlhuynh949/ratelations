@@ -1,6 +1,7 @@
 const { model, Schema } = require('mongoose')
 
 module.exports = model('item', new Schema({
+
   score: {
     type: Number,
     required: true,
@@ -19,12 +20,12 @@ module.exports = model('item', new Schema({
     required: true,
     default: false
   },
-  relationship: { 
-    type: Schema.Types.ObjectId, 
-    ref: 'Relationship' 
+  relationship: {
+    type: Schema.Types.ObjectId,
+    ref: 'relationship'
   },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   }
-}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}}))
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }))
