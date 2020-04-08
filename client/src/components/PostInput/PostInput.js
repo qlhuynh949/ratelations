@@ -65,7 +65,7 @@ const PostInput = (props) => {
     <form className={classes.root} noValidate autoComplete="off">
       <div>
         <Box component="fieldset" mb={3} borderColor="secondary">
-          <Typography component="legend">How do you feel today?</Typography>
+          <Typography component="legend">Rate the days progress</Typography>
           <Rating
             name="score"
             defaultValue={2}
@@ -78,7 +78,7 @@ const PostInput = (props) => {
         <TextField
           id="goodtext"
           name="goodtext"
-          label="Good things"
+          label="Good Comments:"
           multiline
           rows="4"
           placeholder="Something good"
@@ -90,7 +90,7 @@ const PostInput = (props) => {
         <TextField
           id="badtext"
           name="badtext"
-          label="Bad things"
+          label="Bad Comments:"
           multiline
           rows="4"
           placeholder="Something bad"

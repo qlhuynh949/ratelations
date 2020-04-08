@@ -282,34 +282,60 @@ const App = () => {
 
   //Sample Person Data
   let Person1Data = [
-    { x: new Date("2017- 01- 01"), y: 84.927 },
-    { x: new Date("2017- 02- 01"), y: 82.609 },
-    { x: new Date("2017- 03- 01"), y: 81.428 },
-    { x: new Date("2017- 04- 01"), y: 83.259 },
-    { x: new Date("2017- 05- 01"), y: 83.153 },
-    { x: new Date("2017- 06- 01"), y: 84.180 },
-    { x: new Date("2017- 07- 01"), y: 84.840 },
-    { x: new Date("2017- 08- 01"), y: 82.671 },
-    { x: new Date("2017- 09- 01"),  y: 89, indexLabel: "\u2191 Breakup Point", markerColor: "red", markerType: "triangle"  },
-    { x: new Date("2017- 10- 01"), y: 86.007 },
-    { x: new Date("2017- 11- 01"), y: 87.233 },
-    { x: new Date("2017- 12- 01"), y: 86.276 }
+    { x: new Date("2020- 03- 14"), y: 20 },
+    { x: new Date("2020- 03- 15"), y: 22 },
+    { x: new Date("2020- 03- 16"), y: 24 },
+    { x: new Date("2020- 03- 17"), y: 26 },
+    { x: new Date("2020- 03- 18"), y: 24 },
+    { x: new Date("2020- 03- 19"), y: 26 },
+    { x: new Date("2020- 03- 20"), y: 24 },
+    { x: new Date("2020- 03- 21"), y: 26 },
+    { x: new Date("2020- 03- 22"), y: 24 }, 
+    { x: new Date("2020- 03- 23"), y: 26 },
+    { x: new Date("2020- 03- 24"), y: 28 },
+    { x: new Date("2020- 03- 25"), y: 30 },
+    { x: new Date("2020- 03- 26"), y: 32 },
+    { x: new Date("2020- 03- 27"), y: 34 },
+    { x: new Date("2020- 03- 28"), y: 36 },
+    { x: new Date("2020- 03- 29"), y: 34 },
+    { x: new Date("2020- 03- 30"), y: 36 },
+    { x: new Date("2020- 03- 31"), y: 38 },
+    { x: new Date("2020- 04- 01"), y: 40 },
+    { x: new Date("2020- 04- 02"), y: 42 },
+    { x: new Date("2020- 04- 03"), y: 44 },
+    { x: new Date("2020- 04- 04"), y: 46 },
+    { x: new Date("2020- 04- 05"), y: 44 },
+    { x: new Date("2020- 04- 06"), y: 42 },
+    { x: new Date("2020- 04- 07"), y: 44 }
   ]
 
-  let Person2Data = [
-    { x: new Date("2017- 01- 01"), y: 67.515 },
-    { x: new Date("2017- 02- 01"), y: 66.725 },
-    { x: new Date("2017- 03- 01"), y: 64.86 },
-    { x: new Date("2017- 04- 01"), y: 64.29 },
-    { x: new Date("2017- 05- 01"), y: 64.51 },
-    { x: new Date("2017- 06- 01"), y: 64.62 },
-    { x: new Date("2017- 07- 01"), y: 64.2 },
-    { x: new Date("2017- 08- 01"), y: 63.935 },
-    { x: new Date("2017- 09- 01"), y: 65.31 },
-    { x: new Date("2017- 10- 01"), y: 64.75 },
-    { x: new Date("2017- 11- 01"), y: 64.49 },
-    { x: new Date("2017- 12- 01"), y: 63.84 }
-  ]
+  let Person2Data = [   
+{ x: new Date("2020- 03- 14"), y: 18 },
+{ x: new Date("2020- 03- 15"), y: 20 },
+{ x: new Date("2020- 03- 16"), y: 18 },
+{ x: new Date("2020- 03- 17"), y: 18 },
+{ x: new Date("2020- 03- 18"), y: 20 },
+{ x: new Date("2020- 03- 19"), y: 22 },
+{ x: new Date("2020- 03- 20"), y: 24 },
+{ x: new Date("2020- 03- 21"), y: 26 },
+{ x: new Date("2020- 03- 22"),  y: 26},
+{ x: new Date("2020- 03- 23"), y: 28 },
+{ x: new Date("2020- 03- 24"), y: 30 },
+{ x: new Date("2020- 03- 25"), y: 28 },
+{ x: new Date("2020- 03- 26"), y: 26 },
+{ x: new Date("2020- 03- 27"), y: 28 },
+{ x: new Date("2020- 03- 28"), y: 30 },
+{ x: new Date("2020- 03- 29"), y: 32 },
+{ x: new Date("2020- 03- 30"), y: 34 },
+{ x: new Date("2020- 03- 31"), y: 34 },
+{ x: new Date("2020- 04- 01"), y: 36 },
+{ x: new Date("2020- 04- 02"), y: 34 },
+{ x: new Date("2020- 04- 03"), y: 36 },
+{ x: new Date("2020- 04- 04"), y: 38 },
+{ x: new Date("2020- 04- 05"), y: 40 },
+{ x: new Date("2020- 04- 06"), y: 41 },
+{ x: new Date("2020- 04- 07"), y: 42 } 
+]
   
 
   return (
@@ -355,12 +381,12 @@ const App = () => {
                 handleInputChange={handleInputChangeUser} /> :
                 <>              
               <Paper className={classes.heightCenterPage}>
-              <Chart ChartTitle='Relationship' ChartSubtitles='Jack and Jane' 
-              Person1Name='Jack'
+              <Chart ChartTitle='Relationship Chart' ChartSubtitles='~ Breakup Point ~' 
+              Person1Name='Test1'
               Person1Data = {Person1Data}
               Person1xValueFormatString="MMM YYYY"
               Person1yValueFormatString="#,##0.##"
-              Person2Name='Jane'
+              Person2Name='Test2'
               Person2Data = {Person2Data}
               Person2xValueFormatString="MMM YYYY"
               Person2yValueFormatString="#,##0.##"
