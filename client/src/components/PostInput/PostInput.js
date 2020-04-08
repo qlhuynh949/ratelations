@@ -48,7 +48,7 @@ IconContainer.propTypes = {
 const useStyles = makeStyles(theme => ({
   root: {
     '& .MuiTextField-root': {
-      margin: theme.spacing(1),
+      margin: theme.spacing(0),
       width: '40ch',
     },
     '& > *': {
