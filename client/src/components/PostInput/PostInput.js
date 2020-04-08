@@ -58,7 +58,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const PostInput = (props) => {
-  
+
   const classes = useStyles();
 
   return (
@@ -100,10 +100,10 @@ const PostInput = (props) => {
           value={props.badText}
         />
         <br></br>
-        <Button 
-        variant="outlined" 
-        color="secondary"
-        onClick={props.handleCreateItem}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={props.handleCreateItem}>
           Submit
         </Button>
 
