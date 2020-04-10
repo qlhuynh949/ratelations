@@ -86,7 +86,6 @@ const SearchModal = (props) => {
 
 
   const friendFollowMe = (item) => {
-    console.log(item)
     let relationshipFollow = {
       follower: item._id,
       followerfirstName: item.firstName,
@@ -104,10 +103,8 @@ const SearchModal = (props) => {
 
     User.userRelationshipFollowing(relationshipFollow)
       .then(newObj => {
-        console.log(newObj)
         if (newObj.status == 200)
         {
-          console.log('200')
           setFriendsState({ ...friendsState, friendsSnackBar: true })
 
         }
