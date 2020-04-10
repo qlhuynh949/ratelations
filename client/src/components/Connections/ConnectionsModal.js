@@ -30,6 +30,8 @@ const ConnectionsModal = (props) => {
           }
           setFriendsFollowingState({ ...FriendsFollowingState, friends: result })
           //FriendsFollowing
+          console.log(response)
+          console.log(result)
         }
       })
   }
@@ -49,6 +51,8 @@ const ConnectionsModal = (props) => {
           }
           setRelationshipFollowedState({ ...RelationshipFollowedState, friends: result })
           //RelationshipFollowedState
+          console.log(response)
+          console.log(result)
         }
       })
   }
