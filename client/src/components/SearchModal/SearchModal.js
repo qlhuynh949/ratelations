@@ -6,9 +6,12 @@ import FriendsSection from '../FriendsSection'
 import User from '../../utils/User'
 import Friends from '../../utils/Friends'
 
+
+
 const SearchModal = (props) => {
   const [friendsState, setFriendsState] = useState({
-    friends: []
+    friends: [],
+    friendsSnackBar:false
   })
 
   const [searchUserState, setSearchUserState] = useState({
@@ -83,6 +86,7 @@ const SearchModal = (props) => {
 
 
   const friendFollowMe = (item) => {
+    console.log(item)
     let relationshipFollow = {
       follower: item._id,
       followerfirstName: item.firstName,
@@ -97,8 +101,16 @@ const SearchModal = (props) => {
       meFirstName: props.userState.firstName,
       melastName: props.userState.lastName
     }
+
     User.userRelationshipFollowing(relationshipFollow)
       .then(newObj => {
+        console.log(newObj)
+        if (newObj.status == 200)
+        {
+          console.log('200')
+          setFriendsState({ ...friendsState, friendsSnackBar: true })
+
+        }
       })
   }
 
@@ -119,6 +131,12 @@ const SearchModal = (props) => {
 
   }
 
+  const handleCloseFriendFollowSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setFriendsState({ ...friendsState, friendsSnackBar: false })
+  };
 
 
   return (
@@ -143,7 +161,11 @@ const SearchModal = (props) => {
               friendsState={friendsState}
               removeFriend={removeFriend}
               friendFollowMe={friendFollowMe}
+              handleCloseFriendFollowSnackbar={handleCloseFriendFollowSnackbar}
+
             />
+
+
           </div>
 
         </Modal>
