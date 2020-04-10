@@ -13,6 +13,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -72,6 +74,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />
+}
 const FriendsSection = (props) => {
   const classes = useStyles()
 
@@ -110,6 +115,11 @@ const FriendsSection = (props) => {
                         <Button onClick={() => props.friendFollowMe(searchItem)}>Follow Me</Button>
                     </CardActions>
                   </Card>
+                    <Snackbar open={props.friendsState.friendsSnackBar} autoHideDuration={6000} onClose={props.handleCloseFriendFollowSnackbar}>
+                      <Alert onClose={props.handleCloseFriendFollowSnackbar} severity="success">
+                        Friend is now following.
+                    </Alert>
+                    </Snackbar>
                 </Grid>
                 </Grid>
               </>
