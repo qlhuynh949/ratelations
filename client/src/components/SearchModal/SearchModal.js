@@ -105,6 +105,8 @@ const SearchModal = (props) => {
       .then(newObj => {
         if (newObj.status == 200)
         {
+          props.RefreshFriendsFollowingState()
+          props.RefreshRelationshipFollowedState()
           setFriendsState({ ...friendsState, friendsSnackBar: true })
 
         }

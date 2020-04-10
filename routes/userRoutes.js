@@ -84,7 +84,7 @@ router.get('/users/userRelationshipFollowingMe/:me', (req, res) => {
 })
 
 router.delete('/users/userRelationshipFollowingIdDetach/:id', (req, res) => {
-  RelationshipFollowing.findByIdAndDelete(req.params.id)
+  RelationshipFollowing.findByIdAndDelete(req.params.id, { useFindAndModify: false })
     .then(() => res.sendStatus(200))
     .catch(e => console.error(e))
 })

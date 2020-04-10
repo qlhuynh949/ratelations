@@ -7,61 +7,13 @@ import User from '../../utils/User'
 
 const ConnectionsModal = (props) => {
 
-  const [RelationshipFollowedState, setRelationshipFollowedState] = useState({
-    friends: []
-  })
 
-  const [FriendsFollowingState, setFriendsFollowingState] = useState({
-    friends: []
-  })
-
-  const RefreshFriendsFollowingState = () => {
-    User.userRelationshipFollowingMe(props.userState.uid)
-      .then((response) => {
-        if (response.status === 200) {
-          //setState(response)
-          let result = []
-          if (response.data !== null) {
-            if (response.data.length > 0) {
-              response.data.forEach(element => {
-                result.push(element)
-              })
-            }
-          }
-          setFriendsFollowingState({ ...FriendsFollowingState, friends: result })
-          //FriendsFollowing
-          console.log(response)
-          console.log(result)
-        }
-      })
-  }
-
-  const RefreshRelationshipFollowedState = () => {
-    User.userRelationshipFollowingFollower(props.userState.uid)
-      .then((response) => {
-        if (response.status === 200) {
-          //setState(response)
-          let result = []
-          if (response.data !== null) {
-            if (response.data.length > 0) {
-              response.data.forEach(element => {
-                result.push(element)
-              })
-            }
-          }
-          setRelationshipFollowedState({ ...RelationshipFollowedState, friends: result })
-          //RelationshipFollowedState
-          console.log(response)
-          console.log(result)
-        }
-      })
-  }
 
 
 
   useEffect(() => {
-    RefreshFriendsFollowingState()
-    RefreshRelationshipFollowedState()
+    props.RefreshFriendsFollowingState()
+    props.RefreshRelationshipFollowedState()
   }, [])
 
 
@@ -71,9 +23,9 @@ const ConnectionsModal = (props) => {
       item._id
     )
       .then(({ data: friends }) => {
-        RelationshipFollowedState.friends.pop(item)
-        RefreshFriendsFollowingState()
-        RefreshRelationshipFollowedState()
+        props.RelationshipFollowedState.friends.pop(item)
+        props.RefreshFriendsFollowingState()
+        props.RefreshRelationshipFollowedState()
     })
   }
 
@@ -83,9 +35,9 @@ const ConnectionsModal = (props) => {
       item._id
     )
       .then(({ data: friends }) => {
-        RelationshipFollowedState.friends.pop(item)
-        RefreshFriendsFollowingState()
-        RefreshRelationshipFollowedState()
+        props.RelationshipFollowedState.friends.pop(item)
+        props.RefreshFriendsFollowingState()
+        props.RefreshRelationshipFollowedState()
       })
   }
 
@@ -109,12 +61,12 @@ const ConnectionsModal = (props) => {
 
             </p>
             <RelationshipFollowed 
-              RelationshipFollowedState={RelationshipFollowedState}
+              RelationshipFollowedState={props.RelationshipFollowedState}
               removeRelationshipFollowed={removeRelationshipFollowed}
               viewRelationshipFollowed={viewRelationshipFollowed}
             />
             <FriendsFollowing 
-              friendsFollowingState={FriendsFollowingState}
+              friendsFollowingState={props.FriendsFollowingState}
               removeFriendFollowing={removeFriendFollowing}
             />
           </div>

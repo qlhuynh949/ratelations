@@ -65,6 +65,14 @@ const useStyles = makeStyles(theme => ({
 
 const App = () => {
 
+  const [RelationshipFollowedState, setRelationshipFollowedState] = useState({
+    friends: []
+  })
+
+  const [FriendsFollowingState, setFriendsFollowingState] = useState({
+    friends: []
+  })
+
 
   const [userState, setUserState] = useState({
     users: [],
@@ -267,6 +275,45 @@ const App = () => {
     })
   }
 
+  const RefreshFriendsFollowingState = () => {
+    User.userRelationshipFollowingMe(userState.uid)
+      .then((response) => {
+        if (response.status === 200) {
+          //setState(response)
+          let result = []
+          if (response.data !== null) {
+            if (response.data.length > 0) {
+              response.data.forEach(element => {
+                result.push(element)
+              })
+            }
+          }
+          setFriendsFollowingState({ ...FriendsFollowingState, friends: result })
+          //FriendsFollowing
+        }
+      })
+  }
+
+  const RefreshRelationshipFollowedState = () => {
+    User.userRelationshipFollowingFollower(userState.uid)
+      .then((response) => {
+        if (response.status === 200) {
+          //setState(response)
+          let result = []
+          if (response.data !== null) {
+            if (response.data.length > 0) {
+              response.data.forEach(element => {
+                result.push(element)
+              })
+            }
+          }
+          setRelationshipFollowedState({ ...RelationshipFollowedState, friends: result })
+          //RelationshipFollowedState
+        }
+      })
+  }
+
+
   const handleForgotPassword =(event)=>{
     event.preventDefault()
     let curUserEmail = {
@@ -401,6 +448,10 @@ const App = () => {
               classes={classes}
               modalStyle={modalStyle}
               userState={userState}
+              RelationshipFollowedState={RelationshipFollowedState}
+              FriendsFollowingState={FriendsFollowingState}
+              RefreshFriendsFollowingState={RefreshFriendsFollowingState}
+              RefreshRelationshipFollowedState={RefreshRelationshipFollowedState}
               />
               <RelationshipModal 
               open={openRelationshipModal} 
@@ -414,6 +465,10 @@ const App = () => {
               modalStyle={modalStyle}
               changeCurrentViewRelationshipId={changeCurrentViewRelationshipId}
               userState={userState}
+              RelationshipFollowedState={RelationshipFollowedState}
+              FriendsFollowingState={FriendsFollowingState}          
+              RefreshFriendsFollowingState={RefreshFriendsFollowingState}
+              RefreshRelationshipFollowedState={RefreshRelationshipFollowedState}
 
                   />
               <BottomNavBar searchOpen={handleOpenSearchModal}
