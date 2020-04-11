@@ -13,7 +13,9 @@ router.post('/users/login', (req, res) => {
     if (err) throw err
     res.json({
       isLoggedIn: !!user,
-      items: user.items,
+      friends: user.friends,
+      follow: user.follow,
+      relationship: user.relationship,
       user: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
