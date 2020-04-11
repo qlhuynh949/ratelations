@@ -220,11 +220,15 @@ const App = () => {
       .then((response) => {
         if (response.status === 200) {
 
+
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("currentUser",response.data.user)
           localStorage.setItem("isLoggedIn", response.data.isLoggedIn)
           localStorage.setItem("uid", response.data.uid)
-          
+          let inRelationship = false
+          if (response.data.relationship) {
+            inRelationship = true
+          }
           let headers
             headers = {
               "Content-Type": "application/json",
@@ -237,6 +241,9 @@ const App = () => {
               , firstName: response.data.firstName
               , lastName: response.data.lastName
               , email: response.data.email
+              , inRelationship: inRelationship
+              , currentViewRelationshipID: response.data.relationship
+              , userRelationshipID: response.data.relationship
               , headers: headers })
             
           
