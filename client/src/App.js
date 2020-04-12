@@ -427,7 +427,45 @@ const App = () => {
             </Route>
             <Route path="/viewFriendRelationship">
               {!userState.isLoggedIn ? <LoginPage handleLogin={handleLogin}
-                handleInputChange={handleInputChangeUser} /> :<RelationshipView />
+                handleInputChange={handleInputChangeUser} /> :
+              <>
+                  <SearchModal
+                    open={openSearchModal}
+                    handleClose={handleCloseSearchModal}
+                    classes={classes}
+                    modalStyle={modalStyle}
+                    userState={userState}
+                    RelationshipFollowedState={RelationshipFollowedState}
+                    FriendsFollowingState={FriendsFollowingState}
+                    RefreshFriendsFollowingState={RefreshFriendsFollowingState}
+                    RefreshRelationshipFollowedState={RefreshRelationshipFollowedState}
+                  />
+                  <RelationshipModal
+                    open={openRelationshipModal}
+                    handleClose={handleCloseRelationshipModal}
+                    classes={classes}
+                    modalStyle={modalStyle}
+                    userState={userState}
+                    getRelationshipUserInfo={getRelationshipUserInfo}
+                  />
+                  <ConnectionsModal open={openConnectionsModal} handleClose={handleCloseConnectionsModal} classes={classes}
+                    modalStyle={modalStyle}
+                    changeCurrentViewRelationshipId={changeCurrentViewRelationshipId}
+                    userState={userState}
+                    RelationshipFollowedState={RelationshipFollowedState}
+                    FriendsFollowingState={FriendsFollowingState}
+                    RefreshFriendsFollowingState={RefreshFriendsFollowingState}
+                    RefreshRelationshipFollowedState={RefreshRelationshipFollowedState}
+
+                  />
+              <RelationshipView userState={userState}
+              getRelationshipUserInfo={getRelationshipUserInfo}
+
+              handleOpenSearchModal={handleOpenSearchModal}
+              handleOpenRelationshipModal={handleOpenRelationshipModal}
+              handleOpenConnectionsModal={handleOpenConnectionsModal}
+              />
+              </>
               }
             </Route>
             <Route path="/homepage">
