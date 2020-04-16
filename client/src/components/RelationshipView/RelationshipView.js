@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import Chart from '../../components/Chart'
 import HomePage from '../../components/HomePage'
+import PostingWall from '../../components/PostingWall'
 
 //Styling
 const useStyles = makeStyles(theme => ({
@@ -114,6 +115,9 @@ const RelationshipView = (props) => {
           Person2yValueFormatString="#,##0.##"
         />
         <HomePage
+            userState={props.userState}
+        />
+        <PostingWall
             userState={props.userState}
         />
       </Paper>:
