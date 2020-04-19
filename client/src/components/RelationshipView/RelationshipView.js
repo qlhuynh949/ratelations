@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import { makeStyles } from '@material-ui/core/styles'
 import Chart from '../../components/Chart'
 import HomePage from '../../components/HomePage'
+import Item from '../../utils/Item'
 import PostingWall from '../../components/PostingWall'
 
 //Styling
@@ -34,9 +35,23 @@ const RelationshipView = (props) => {
 
   const classes = useStyles();
 
+  const [chartState, setChartState] = useState({
+    items: [],
+    
+  })
 
   useEffect(() => {
     props.getRelationshipUserInfo()
+    Item.readRelationship(props.userState.currentViewRelationshipID)
+      .then(({ data: items }) => {
+        let userID = props.userState.uid 
+        let partnerID = props.userState.partnerId
+        let requestingPartnerID = props.userState.requestingPartnerId 
+        console.log(partnerID)
+        console.log(userID)
+        setChartState({ items })
+        console.log(items)
+      })
   }, [])
 
   //Sample Person Data

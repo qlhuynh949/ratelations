@@ -7,6 +7,24 @@ router.get('/items/relationship/:relationship', (req, res) => {
     .catch(e => console.error(e))
 })
 
+router.get('/items/scoreByDay/:relationship', (req, res) => {
+  Item.aggregate([
+    {
+      $match: { 'relationship': req.params.relationship} 
+    },
+    {
+      $group: {
+        _id: {
+          date: { $substr: ["$created_at", 0, 10] }
+        },
+        totalScore: { $sum: "score" },
+      }
+    }
+  ])
+    .then(items => res.json(items))
+    .catch(e => console.error(e))
+})
+
 router.get('/items', (req, res) => {
   Item.find()
     .then(items => res.json(items))
